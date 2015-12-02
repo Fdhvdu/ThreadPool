@@ -24,7 +24,7 @@ namespace nTool
 		void loop_();
 		inline void running_()
 		{
-			exec_.execute();
+			exec_();
 		}
 		inline void waiting_()
 		{
