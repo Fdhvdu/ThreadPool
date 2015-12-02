@@ -1,35 +1,17 @@
 #ifndef __CCAsyncExecutor
 #define __CCAsyncExecutor
-#include<functional>
 #include<future>
+#include<utility>
 
 namespace nTool
 {
-	namespace CAsyncExecutorImpl
-	{
-		template<class Ret,class Func>
-		inline void execute(std::promise<Ret> &prom,const Func &func)
-		{
-			prom.set_value(func());
-		}
-
-		template<class Func>
-		void execute(std::promise<void> &,const Func &);
-	}
-
 	template<class Func>
 	class CAsyncExecutor
 	{
-		typedef typename std::function<Func>::result_type result_type;
-		std::function<Func> func_;
-		std::promise<result_type> prom_;
-		std::future<result_type> fut_;
+		std::packaged_task<Func> task_;
+		decltype(std::declval<decltype(task_)>().get_future()) fut_;
 	public:
-		inline void execute()
-		{
-			nTool::CAsyncExecutorImpl::execute<result_type>(prom_,func_);
-		}
-		inline typename CAsyncExecutor<Func>::result_type get()
+		inline decltype(std::declval<decltype(fut_)>().get()) get()
 		{
 			return fut_.get();
 		}
@@ -43,6 +25,10 @@ namespace nTool
 		inline void wait() const
 		{
 			fut_.wait();
+		}
+		inline void operator()()
+		{
+			task_();
 		}
 	};
 }
