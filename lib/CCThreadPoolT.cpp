@@ -5,7 +5,7 @@ namespace nTool
 {
 	template<class Func>
 	CThreadPool<Func>::CThreadPool(const std::size_t &count)
-		:id_(0),size_(count),thr_(new CThreadPoolItem<Func>[count])
+		:size_(count),thr_(new CThreadPoolItem<Func>[count])
 	{
 		for(auto p(thr_);p!=thr_+count;++p)
 		{
