@@ -1,4 +1,5 @@
 #include"CCThreadPool_Ret.h"
+#include<memory>	//unique_ptr
 
 namespace nTool
 {
