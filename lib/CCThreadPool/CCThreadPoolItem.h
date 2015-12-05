@@ -51,6 +51,10 @@ namespace nTool
 		{
 			commun_=std::move(commun);
 		}
+		inline bool valid() const noexcept
+		{
+			return exec_.valid();
+		}
 		inline void wait() const
 		{
 			exec_.wait();

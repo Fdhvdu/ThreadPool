@@ -34,7 +34,7 @@ namespace nTool
 		}
 		inline bool valid(const std::size_t &id) const noexcept
 		{
-			return thr_[id].joinable();
+			return thr_[id].valid();
 		}
 		inline void wait(const std::size_t &id) const	//block until ready
 		{
