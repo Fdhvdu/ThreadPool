@@ -8,12 +8,12 @@ namespace nTool
 	{
 		std::thread thr_;
 	public:
-		CSmartThread();
+		CSmartThread() noexcept=default;
 		template<class Func,class ... Args>
 		explicit CSmartThread(Func &&,Args &&...);
 		CSmartThread(const CSmartThread &)=delete;
 		CSmartThread& operator=(const CSmartThread &)=delete;
-		CSmartThread& operator=(CSmartThread &&) noexcept;
+		CSmartThread& operator=(CSmartThread &&) noexcept=default;
 		~CSmartThread();
 	};
 }
