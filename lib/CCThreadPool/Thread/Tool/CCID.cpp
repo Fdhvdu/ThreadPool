@@ -2,6 +2,6 @@
 
 namespace nTool
 {
-	CID::CID(const std::size_t &init)
+	CID::CID(const std::size_t &init) noexcept
 		:id_(init){}
 }
