@@ -16,7 +16,7 @@ namespace nTool
 		std::unique_ptr<ThreadPoolCommunBase<Func>> commun_;	//communicate with CThreadPool
 		bool destructor_;
 		CSemaphore detach_;
-		CAsyncExecutor<Func> exec_;
+		CAsyncExecutor<Func> asyncExec_;
 		bool joinable_;
 		CSemaphore wait_;
 		CSmartThread thr_;	//first destroying, no other data member could put under this one
@@ -24,7 +24,7 @@ namespace nTool
 		void loop_();
 		inline void running_()
 		{
-			exec_();
+			asyncExec_();
 		}
 		inline void waiting_()
 		{
@@ -53,11 +53,11 @@ namespace nTool
 		}
 		inline bool valid() const noexcept
 		{
-			return exec_.valid();
+			return asyncExec_.valid();
 		}
 		inline void wait() const
 		{
-			exec_.wait();
+			asyncExec_.wait();
 		}
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
 		~CThreadPoolItem();

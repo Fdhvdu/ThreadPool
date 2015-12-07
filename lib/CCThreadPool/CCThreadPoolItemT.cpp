@@ -36,7 +36,7 @@ namespace nTool
 	void CThreadPoolItem<Func>::assign(Args &&...args)
 	{
 		assign_.wait();
-		exec_.init(std::forward<Args>(args)...);	//must prior to joinable_=true
+		asyncExec_.init(std::forward<Args>(args)...);	//must prior to joinable_=true
 		joinable_=true;	//if you use CAsyncExecutor::valid as joinable
 						//when user call detach, it also becomes valid and joinable
 						//so, you cannot combine joinable_ and CAsyncExecutor::valid
@@ -48,7 +48,7 @@ namespace nTool
 	void CThreadPoolItem<Func>::assign_and_detach(Args &&...args)
 	{
 		detach_.wait();
-		exec_.init(std::forward<Args>(args)...);
+		asyncExec_.init(std::forward<Args>(args)...);
 		wake_();
 	}
 
@@ -58,7 +58,7 @@ namespace nTool
 		wait();
 		joinable_=false;
 		commun_->communPoolJoin();
-		return exec_.get();
+		return asyncExec_.get();
 	}
 
 	template<class Func>
