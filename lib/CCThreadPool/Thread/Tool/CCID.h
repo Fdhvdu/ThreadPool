@@ -8,7 +8,7 @@ namespace nTool
 	{
 		std::size_t id_;
 	public:
-		CID(const std::size_t &init=0) noexcept;
+		CID(const std::size_t init=0) noexcept;
 		CID(const CID &)=delete;
 		inline std::size_t get() const noexcept
 		{

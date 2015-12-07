@@ -21,7 +21,7 @@ namespace nTool
 	ThreadPoolCommunBase<Func>::~ThreadPoolCommunBase(){}
 
 	template<class Func>
-	CThreadPoolCommun<Func>::CThreadPoolCommun(CThreadPoolItem<Func> *item,CThreadList<pair> &join_anyList,CThreadQueue<pair> &waitingQue,const std::size_t &id)
+	CThreadPoolCommun<Func>::CThreadPoolCommun(CThreadPoolItem<Func> *item,CThreadList<pair> &join_anyList,CThreadQueue<pair> &waitingQue,const std::size_t id)
 		:item_(item),join_anyList_(join_anyList),waitingQue_(waitingQue),id_(id){}
 
 	template<class Func>
@@ -46,7 +46,7 @@ namespace nTool
 	}
 
 	template<class Func>
-	CThreadPoolCommun_Ret<Func>::CThreadPoolCommun_Ret(CThreadPoolItem<Func> *item,CThreadQueue<pair> &waitingQue,const std::size_t &id)
+	CThreadPoolCommun_Ret<Func>::CThreadPoolCommun_Ret(CThreadPoolItem<Func> *item,CThreadQueue<pair> &waitingQue,const std::size_t id)
 		:item_(item),waitingQue_(waitingQue),id_(id){}
 
 	template<class Func>

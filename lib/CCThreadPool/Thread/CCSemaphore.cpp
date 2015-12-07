@@ -11,12 +11,12 @@ namespace nTool
 		size_t count;
 		condition_variable cv;
 		mutex mut;
-		CSemaphoreImpl(const size_t &);
+		CSemaphoreImpl(const size_t);
 		void signal();
 		void wait();
 	};
 
-	CSemaphore::CSemaphoreImpl::CSemaphoreImpl(const size_t &count_)
+	CSemaphore::CSemaphoreImpl::CSemaphoreImpl(const size_t count_)
 		:count(count_){}
 
 	void CSemaphore::CSemaphoreImpl::signal()
@@ -33,7 +33,7 @@ namespace nTool
 		--count;
 	}
 
-	CSemaphore::CSemaphore(const size_t &count)
+	CSemaphore::CSemaphore(const size_t count)
 		:p_(new CSemaphoreImpl(count)){}
 
 	size_t CSemaphore::count() const noexcept

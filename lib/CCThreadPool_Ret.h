@@ -16,7 +16,7 @@ namespace nTool
 		CThreadQueue<typename CThreadPoolCommun_Ret<Func>::pair> waitingQue_;	//enough
 		CThreadPoolItem<Func> *thr_;
 	public:
-		explicit CThreadPool_Ret(const std::size_t &);
+		explicit CThreadPool_Ret(const std::size_t);
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
 		template<class ... Args>
 		std::size_t add(Args &&...);
@@ -28,15 +28,15 @@ namespace nTool
 		{
 			return size_;
 		}
-		inline decltype(std::declval<CThreadPoolItem<Func>>().join()) get(const std::size_t &id)
+		inline decltype(std::declval<CThreadPoolItem<Func>>().join()) get(const std::size_t id)
 		{
 			return thr_[id].join();
 		}
-		inline bool valid(const std::size_t &id) const noexcept
+		inline bool valid(const std::size_t id) const noexcept
 		{
 			return thr_[id].valid();
 		}
-		inline void wait(const std::size_t &id) const	//block until ready
+		inline void wait(const std::size_t id) const	//block until ready
 		{
 			thr_[id].wait();
 		}

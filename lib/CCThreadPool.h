@@ -21,7 +21,7 @@ namespace nTool
 		const std::size_t size_;
 		CThreadPoolItem<Func> *thr_;
 	public:
-		explicit CThreadPool(const std::size_t &);
+		explicit CThreadPool(const std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
 		template<class ... Args>
 		std::size_t add(Args &&...);
@@ -38,12 +38,12 @@ namespace nTool
 		{
 			return size_;
 		}
-		inline void join(const std::size_t &id)	//do not combine join and join_any together in your code
+		inline void join(const std::size_t id)	//do not combine join and join_any together in your code
 												//it will make some join_any cannot get notification
 		{
 			thr_[id].join();
 		}
-		inline bool joinable(const std::size_t &id) const noexcept
+		inline bool joinable(const std::size_t id) const noexcept
 		{
 			return thr_[id].joinable();
 		}
