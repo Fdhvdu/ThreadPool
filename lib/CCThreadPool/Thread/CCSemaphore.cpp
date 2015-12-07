@@ -8,8 +8,7 @@ namespace nTool
 {
 	struct CSemaphore::CSemaphoreImpl
 	{
-		size_t notActivity;
-		const size_t count;
+		size_t count;
 		condition_variable cv;
 		mutex mut;
 		CSemaphoreImpl(const size_t &);
@@ -18,29 +17,24 @@ namespace nTool
 	};
 
 	CSemaphore::CSemaphoreImpl::CSemaphoreImpl(const size_t &count_)
-		:notActivity(count_),count(count_){}
+		:count(count_){}
 
 	void CSemaphore::CSemaphoreImpl::signal()
 	{
 		lock_guard<mutex> lock(mut);
-		++notActivity;
+		++count;
 		cv.notify_one();
 	}
 
 	void CSemaphore::CSemaphoreImpl::wait()
 	{
 		unique_lock<mutex> lock(mut);
-		cv.wait(lock,[&](){return notActivity;});
-		--notActivity;
+		cv.wait(lock,[&]{return count;});
+		--count;
 	}
 
 	CSemaphore::CSemaphore(const size_t &count)
 		:p_(new CSemaphoreImpl(count)){}
-	
-	size_t CSemaphore::available() const noexcept
-	{
-		return p_->notActivity;
-	}
 
 	size_t CSemaphore::count() const noexcept
 	{
@@ -73,7 +67,7 @@ namespace nTool
 	};
 
 	CReaders_Writers_Problem::CReaders_Writers_ProblemImpl::CReaders_Writers_ProblemImpl()
-		:count(0){}
+		:count(0),use(1),wait(1){}
 
 	void CReaders_Writers_Problem::CReaders_Writers_ProblemImpl::readBegin()
 	{

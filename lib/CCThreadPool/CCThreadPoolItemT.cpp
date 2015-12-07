@@ -5,7 +5,7 @@ namespace nTool
 	template<class Func>
 	void CThreadPoolItem<Func>::finishing_()
 	{
-		if(assign_.available())	//it means detach_
+		if(assign_.count())	//it means detach_
 		{
 			commun_->communPoolDetach();
 			detach_.signal();
@@ -20,7 +20,6 @@ namespace nTool
 	template<class Func>
 	void CThreadPoolItem<Func>::loop_()
 	{
-		wait_.wait();	//make waiting_() block
 		while(waiting_(),!destructor_)
 		{
 			running_();
@@ -30,7 +29,7 @@ namespace nTool
 
 	template<class Func>
 	CThreadPoolItem<Func>::CThreadPoolItem()
-		:destructor_(false),joinable_(false),thr_(&CThreadPoolItem<Func>::loop_,this){}
+		:assign_(1),destructor_(false),detach_(1),joinable_(false),wait_(0),thr_(&CThreadPoolItem<Func>::loop_,this){}
 
 	template<class Func>
 	template<class ... Args>
@@ -67,7 +66,7 @@ namespace nTool
 	{
 		if(joinable())
 			join();
-		if(!detach_.available())
+		if(!detach_.count())
 			detach_.wait();
 		destructor_=true;
 		wake_();

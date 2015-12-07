@@ -9,9 +9,8 @@ namespace nTool
 		struct CSemaphoreImpl;
 		CSemaphoreImpl *p_;
 	public:
-		CSemaphore(const std::size_t &count=1);
+		CSemaphore(const std::size_t &);
 		CSemaphore(const CSemaphore &)=delete;
-		std::size_t available() const noexcept;
 		std::size_t count() const noexcept;
 		void signal();
 		void wait();
