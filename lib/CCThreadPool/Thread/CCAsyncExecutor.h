@@ -11,6 +11,9 @@ namespace nTool
 		std::packaged_task<Func> task_;
 		decltype(std::declval<decltype(task_)>().get_future()) fut_;
 	public:
+		CAsyncExecutor() noexcept=default;
+		CAsyncExecutor(const CAsyncExecutor &)=delete;
+		CAsyncExecutor(CAsyncExecutor &&) noexcept;
 		inline decltype(std::declval<decltype(fut_)>().get()) get()
 		{
 			return fut_.get();
@@ -30,6 +33,8 @@ namespace nTool
 		{
 			task_();
 		}
+		CAsyncExecutor& operator=(const CAsyncExecutor &)=delete;
+		CAsyncExecutor& operator=(CAsyncExecutor &&) noexcept;
 	};
 }
 
