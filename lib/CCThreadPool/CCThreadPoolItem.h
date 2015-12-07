@@ -2,10 +2,10 @@
 #define __CCThreadPoolItem
 #include<memory>	//unique_ptr
 #include<utility>	//move
+#include"CCThreadPoolCommun.h"
 #include"./Thread/CCAsyncExecutor.h"
 #include"./Thread/CCSemaphore.h"
 #include"./Thread/CCSmartThread.h"
-#include"CCThreadPoolCommun.h"
 
 namespace nTool
 {
