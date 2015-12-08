@@ -26,5 +26,5 @@ To make thread pool powerful, beautiful and maintainable, I discard some perform
 The compiler I use is VC++ 2015 and gcc 5.2.0.<br/>
 To use example.cpp:<br/>
 g++ -std=c++11 tutorial/example.cpp lib/CCThreadPool.h lib/CCThreadPool/CCThreadPoolCommun.h lib/CCThreadPool/CCThreadPoolItem.h lib/CCThreadPool/Thread/CCAsyncExecutor.h lib/CCThreadPool/Thread/CCSemaphore.cpp lib/CCThreadPool/Thread/CCSmartThread.h lib/CCThreadPool/Thread/CCSmartThread.cpp lib/CCThreadPool/Thread/CCThreadList.h lib/CCThreadPool/Thread/CCThreadQueue.h lib/CCThreadPool/Thread/Tool/CCID.cpp<br/>
-To use example.cpp:<br/>
+To use example_ret.cpp:<br/>
 g++ -std=c++11 tutorial/example_ret.cpp lib/CCThreadPool_Ret.h lib/CCThreadPool/CCThreadPoolCommun.h lib/CCThreadPool/CCThreadPoolItem.h lib/CCThreadPool/Thread/CCAsyncExecutor.h lib/CCThreadPool/Thread/CCSemaphore.cpp lib/CCThreadPool/Thread/CCSmartThread.h lib/CCThreadPool/Thread/CCSmartThread.cpp lib/CCThreadPool/Thread/CCThreadList.h lib/CCThreadPool/Thread/CCThreadQueue.h lib/CCThreadPool/Thread/Tool/CCID.cpp
