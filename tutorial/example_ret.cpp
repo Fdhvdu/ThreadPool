@@ -19,7 +19,7 @@ namespace
 int main()
 {
 	using namespace std;
-	nTool::CThreadPool_Ret<int()> tp(4);
+	nTool::CThreadPool_Ret<size_t()> tp(4);
 	for(int i(0);i!=tp.count();++i)
 		tp.add([&,i]{
 			using namespace std;
