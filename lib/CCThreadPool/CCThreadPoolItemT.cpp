@@ -55,7 +55,7 @@ namespace nTool
 	template<class Func_t>
 	template<class ... Args>
 	CThreadPoolItemExecutorDetach<Func_t>::CThreadPoolItemExecutorDetach(ThreadPoolCommunBase<Func_t> *commun,Args &&...args)
-		:commun_(commun),complete_(0),func_(std::bind(std::forward<Args>(args)...)),running_(true){}
+		:commun_(commun),complete_(0),func_(std::bind(std::forward<Args>(args)...)){}
 
 	template<class Func_t>
 	void CThreadPoolItemExecutorDetach<Func_t>::exec()
@@ -63,7 +63,6 @@ namespace nTool
 		func_();
 		commun_->communPoolDetach();
 		complete_.signal();
-		running_=false;
 	}
 
 	template<class Func_t>

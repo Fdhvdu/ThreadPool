@@ -98,7 +98,6 @@ namespace nTool
 		ThreadPoolCommunBase<Func_t> *commun_;
 		CSemaphore complete_;
 		std::function<Func_t> func_;
-		std::atomic<bool> running_;
 	public:
 		template<class ... Args>
 		CThreadPoolItemExecutorDetach(ThreadPoolCommunBase<Func_t> *,Args &&...);
@@ -106,7 +105,7 @@ namespace nTool
 		void exec() override;
 		bool is_running() const noexcept override	//only the destructor of CThreadPoolItem will call this
 		{
-			return running_;
+			return !complete_.count();
 		}
 		void wait() override	//only the destructor of CThreadPoolItem will call this
 		{
