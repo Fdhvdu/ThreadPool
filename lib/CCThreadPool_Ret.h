@@ -28,15 +28,15 @@ namespace nTool
 		{
 			return size_;
 		}
-		inline decltype(std::declval<CThreadPoolItem<Func>>().join()) get(const std::size_t id)
+		inline decltype(std::declval<CThreadPoolItem<Func>>().get()) get(const std::size_t id)
 		{
-			return thr_[id].join();
+			return thr_[id].get();
 		}
 		inline bool valid(const std::size_t id) const noexcept
 		{
 			return thr_[id].valid();
 		}
-		inline void wait(const std::size_t id) const	//block until ready
+		inline void wait(const std::size_t id)	//block until ready
 		{
 			thr_[id].wait();
 		}

@@ -1,7 +1,7 @@
 #ifndef __CCAsyncExecutor
 #define __CCAsyncExecutor
 #include<future>
-#include<utility>
+#include<utility>	//declval
 
 namespace nTool
 {
