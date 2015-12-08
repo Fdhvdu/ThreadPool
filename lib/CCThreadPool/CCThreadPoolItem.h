@@ -40,7 +40,9 @@ namespace nTool
 		template<class ... Args>
 		void assign(Args &&...);
 		template<class ... Args>
-		inline void assign_and_detach(Args &&...);
+		void assign_and_detach(Args &&...);
+		template<class ... Args>
+		void assign_ret(Args &&...);
 		decltype(std::declval<CAsyncExecutor<Func>>().get()) join();	//after calling this, CThreadPoolItem will be pushed into waitingQue_
 																		//it also means assign will be called in the subsequent (if has)
 		inline bool joinable() const noexcept	//return true after calling assign, return false after calling join

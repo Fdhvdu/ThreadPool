@@ -53,6 +53,13 @@ namespace nTool
 	}
 
 	template<class Func>
+	template<class ... Args>
+	void CThreadPoolItem<Func>::assign_ret(Args &&...args)
+	{
+		assign(std::forward<Args>(args)...);
+	}
+
+	template<class Func>
 	decltype(std::declval<CAsyncExecutor<Func>>().get()) CThreadPoolItem<Func>::join()
 	{
 		wait();
