@@ -20,7 +20,7 @@ namespace nTool
 	{
 		auto temp(waitingQue_.wait_and_pop());
 		const std::size_t id(temp.first);
-		temp.second->assign(std::forward<Args>(args)...);
+		temp.second->assign_ret(std::forward<Args>(args)...);
 		return id;
 	}
 
