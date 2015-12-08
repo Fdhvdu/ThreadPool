@@ -21,6 +21,6 @@ I provide 2 example files (example.cpp and example_ret.cpp) to help you understa
 <br/>
 If you want to get the return value from function, then you should use CThreadPool_Ret<br/>
 If you don't care the return value, then use CThreadPool is better<br/>
-Becides, CThreadPool provides more functions then CThreadPool_Ret<br/>
-(Actually, they use same components)<br/><br/><br/>
+To make thread pool powerful, beautiful and maintainable, I discard some performance.
+<br/><br/>
 The compiler I use is VC++ 2015 and gcc 5.2.0.
