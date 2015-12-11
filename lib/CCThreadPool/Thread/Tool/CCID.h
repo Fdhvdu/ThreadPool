@@ -14,7 +14,7 @@ namespace nTool
 		{
 			return id_;
 		}
-		inline const std::size_t& operator++()
+		inline std::size_t& operator++()
 		{
 			return ++id_;
 		}

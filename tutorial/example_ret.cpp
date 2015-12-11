@@ -11,7 +11,7 @@ namespace
 	size_t get()
 	{
 		using namespace std;
-		static mt19937 mu(static_cast<mt19937::result_type>(chrono::high_resolution_clock::now().time_since_epoch().count()));
+		static mt19937 mu{static_cast<mt19937::result_type>(chrono::high_resolution_clock::now().time_since_epoch().count())};
 		return mu()%4+1;
 	}
 }
@@ -19,13 +19,13 @@ namespace
 int main()
 {
 	using namespace std;
-	nTool::CThreadPool_Ret<size_t()> tp(4);
-	for(int i(0);i!=tp.count();++i)
+	nTool::CThreadPool_Ret<size_t()> tp{4};
+	for(auto i(0);i!=tp.count();++i)
 		tp.add([&,i]{
 			using namespace std;
-			const auto sec(get());
-			this_thread::sleep_for(chrono::seconds(sec));
-			lock_guard<mutex> lock(mut);
+			const auto sec{get()};
+			this_thread::sleep_for(chrono::seconds{sec});
+			lock_guard<mutex> lock{mut};
 			cout<<"thread "<<i<<" wait "<<sec<<" sec"<<endl;
 			return i;
 		;});

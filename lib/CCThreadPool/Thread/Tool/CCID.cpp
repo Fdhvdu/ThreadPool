@@ -3,5 +3,5 @@
 namespace nTool
 {
 	CID::CID(const std::size_t init) noexcept
-		:id_(init){}
+		:id_{init}{}
 }

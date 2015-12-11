@@ -5,12 +5,12 @@ namespace nTool
 {
 	template<class Func>
 	CThreadPool<Func>::CThreadPool(const std::size_t count)
-		:size_(count),thr_(new CThreadPoolItem<Func>[count])
+		:size_{count},thr_{new CThreadPoolItem<Func>[count]}
 	{
-		for(auto p(thr_);p!=thr_+count;++p)
+		for(auto p{thr_};p!=thr_+count;++p)
 		{
-			p->setCommun(std::unique_ptr<ThreadPoolCommunBase<Func>>(new CThreadPoolCommun<Func>(p,join_anyList_,waitingQue_,id_++)));
-			waitingQue_.push(typename CThreadPoolCommun<Func>::pair(id_.get(),p));
+			p->setCommun(std::unique_ptr<ThreadPoolCommunBase<Func>>{new CThreadPoolCommun<Func>{p,join_anyList_,waitingQue_,id_++}});
+			waitingQue_.push(typename CThreadPoolCommun<Func>::pair{id_.get(),p});
 		}
 	}
 
@@ -18,8 +18,8 @@ namespace nTool
 	template<class ... Args>
 	std::size_t CThreadPool<Func>::add(Args &&...args)
 	{
-		auto temp(waitingQue_.wait_and_pop());
-		const std::size_t id(temp.first);
+		auto temp{waitingQue_.wait_and_pop()};
+		const auto id{temp.first};
 		temp.second->assign(std::forward<Args>(args)...);
 		return id;
 	}
@@ -27,7 +27,7 @@ namespace nTool
 	template<class Func>
 	void CThreadPool<Func>::join_all()
 	{
-		for(auto i(0);i!=count();++i)
+		for(auto i{0};i!=count();++i)
 			if(joinable(i))
 				join(i);
 	}
@@ -35,8 +35,8 @@ namespace nTool
 	template<class Func>
 	std::size_t CThreadPool<Func>::join_any()
 	{
-		auto temp(join_anyList_.wait_and_pop());
-		const std::size_t id(temp.first);
+		auto temp{join_anyList_.wait_and_pop()};
+		const auto id{temp.first};
 		temp.second->join();
 		return id;
 	}

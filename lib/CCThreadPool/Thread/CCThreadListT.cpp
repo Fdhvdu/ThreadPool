@@ -8,8 +8,8 @@ namespace nTool
 	template<class UnaryPred>
 	void CThreadList<T>::erase(UnaryPred pred)
 	{
-		std::lock_guard<std::mutex> lock(insertMut_);
-		auto iter(std::find_if(list_.begin(),list_.end(),pred));
+		std::lock_guard<std::mutex> lock{insertMut_};
+		const auto iter{std::find_if(list_.begin(),list_.end(),pred)};
 		if(iter!=list_.end())
 			list_.erase(iter);
 	}
@@ -17,7 +17,7 @@ namespace nTool
 	template<class T>
 	void CThreadList<T>::push_back(const T &val)
 	{
-		std::lock_guard<std::mutex> lock(insertMut_);
+		std::lock_guard<std::mutex> lock{insertMut_};
 		list_.push_back(val);
 		insert_.notify_all();
 	}
@@ -25,7 +25,7 @@ namespace nTool
 	template<class T>
 	void CThreadList<T>::push_back(T &&rVal)
 	{
-		std::lock_guard<std::mutex> lock(insertMut_);
+		std::lock_guard<std::mutex> lock{insertMut_};
 		list_.push_back(std::move(rVal));
 		insert_.notify_all();
 	}
@@ -33,9 +33,9 @@ namespace nTool
 	template<class T>
 	T CThreadList<T>::wait_and_pop()
 	{
-		std::unique_lock<std::mutex> lock(insertMut_);
+		std::unique_lock<std::mutex> lock{insertMut_};
 		insert_.wait(lock,[&]{return size();});
-		auto temp(list_.front());
+		const auto temp{list_.front()};
 		list_.pop_front();
 		lock.unlock();
 		return temp;

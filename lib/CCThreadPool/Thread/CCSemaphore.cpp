@@ -17,24 +17,24 @@ namespace nTool
 	};
 
 	CSemaphore::CSemaphoreImpl::CSemaphoreImpl(const size_t count_)
-		:count(count_){}
+		:count{count_}{}
 
 	void CSemaphore::CSemaphoreImpl::signal()
 	{
-		lock_guard<mutex> lock(mut);
+		lock_guard<mutex> lock{mut};
 		++count;
 		cv.notify_one();
 	}
 
 	void CSemaphore::CSemaphoreImpl::wait()
 	{
-		unique_lock<mutex> lock(mut);
+		unique_lock<mutex> lock{mut};
 		cv.wait(lock,[&]{return count;});
 		--count;
 	}
 
 	CSemaphore::CSemaphore(const size_t count)
-		:p_(new CSemaphoreImpl(count)){}
+		:p_{new CSemaphoreImpl(count)}{}
 
 	size_t CSemaphore::count() const noexcept
 	{
@@ -67,7 +67,7 @@ namespace nTool
 	};
 
 	CReaders_Writers_Problem::CReaders_Writers_ProblemImpl::CReaders_Writers_ProblemImpl()
-		:count(0),use(1),wait(1){}
+		:count{0},use{1},wait{1}{}
 
 	void CReaders_Writers_Problem::CReaders_Writers_ProblemImpl::readBegin()
 	{
@@ -91,7 +91,7 @@ namespace nTool
 	}
 
 	CReaders_Writers_Problem::CReaders_Writers_Problem()
-		:p_(new CReaders_Writers_ProblemImpl()){}
+		:p_{new CReaders_Writers_ProblemImpl()}{}
 
 	void CReaders_Writers_Problem::readBegin()
 	{
