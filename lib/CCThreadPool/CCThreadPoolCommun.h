@@ -11,7 +11,7 @@ namespace nTool
 	template<class Func>
 	struct ThreadPoolCommunBase
 	{
-		ThreadPoolCommunBase();
+		ThreadPoolCommunBase()=default;
 		ThreadPoolCommunBase(const ThreadPoolCommunBase &)=delete;
 		virtual void communPoolFinish();
 		virtual void communPoolDetach();
@@ -60,7 +60,7 @@ namespace nTool
 	public:
 		CThreadPoolCommun_Ret(CThreadPoolItem<Func> *,CThreadQueue<pair> &,std::size_t);
 		CThreadPoolCommun_Ret(const CThreadPoolCommun_Ret &)=delete;
-		void communPoolJoin() override;	//push CThreadPoolItem into waitingQue_
+		void communPoolDetach() override;	//push CThreadPoolItem into waitingQue_
 		inline std::size_t id() const noexcept
 		{
 			return id_;

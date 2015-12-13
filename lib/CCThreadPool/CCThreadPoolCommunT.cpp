@@ -6,9 +6,6 @@
 namespace nTool
 {
 	template<class Func>
-	ThreadPoolCommunBase<Func>::ThreadPoolCommunBase(){}
-
-	template<class Func>
 	void ThreadPoolCommunBase<Func>::communPoolFinish(){}
 
 	template<class Func>
@@ -50,7 +47,7 @@ namespace nTool
 		:item_{item},waitingQue_{waitingQue},id_{id}{}
 
 	template<class Func>
-	void CThreadPoolCommun_Ret<Func>::communPoolJoin()
+	void CThreadPoolCommun_Ret<Func>::communPoolDetach()
 	{
 		waitingQue_.push(pair{id(),item_});
 	}
