@@ -16,7 +16,7 @@ namespace nTool
 		CThreadQueue<typename CThreadPoolCommun_Ret<Func>::pair> waitingQue_;	//enough
 		CThreadPoolItem<Func> *thr_;
 	public:
-		explicit CThreadPool_Ret(const std::size_t);
+		explicit CThreadPool_Ret(std::size_t);
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
 		template<class ... Args>
 		std::size_t add(Args &&...);

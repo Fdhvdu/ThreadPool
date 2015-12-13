@@ -58,7 +58,7 @@ namespace nTool
 		CThreadQueue<pair> &waitingQue_;
 		const std::size_t id_;
 	public:
-		CThreadPoolCommun_Ret(CThreadPoolItem<Func> *,CThreadQueue<pair> &,const std::size_t);
+		CThreadPoolCommun_Ret(CThreadPoolItem<Func> *,CThreadQueue<pair> &,std::size_t);
 		CThreadPoolCommun_Ret(const CThreadPoolCommun_Ret &)=delete;
 		void communPoolJoin() override;	//push CThreadPoolItem into waitingQue_
 		inline std::size_t id() const noexcept

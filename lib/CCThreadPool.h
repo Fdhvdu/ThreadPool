@@ -21,7 +21,7 @@ namespace nTool
 		const std::size_t size_;
 		CThreadPoolItem<Func> *thr_;
 	public:
-		explicit CThreadPool(const std::size_t);
+		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
 		template<class ... Args>
 		std::size_t add(Args &&...);
