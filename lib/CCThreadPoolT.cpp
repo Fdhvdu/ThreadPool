@@ -9,7 +9,7 @@ namespace nTool
 	{
 		for(auto p{thr_};p!=thr_+count;++p)
 		{
-			p->setCommun(std::unique_ptr<ThreadPoolCommunBase<Func>>{new CThreadPoolCommun<Func>{p,join_anyList_,waitingQue_,id_++}});
+			p->setCommun(std::make_unique<CThreadPoolCommun<Func>>(p,join_anyList_,waitingQue_,id_++));
 			waitingQue_.push(typename CThreadPoolCommun<Func>::pair{id_.get(),p});
 		}
 	}
