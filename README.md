@@ -1,5 +1,5 @@
-# C++11 thread pool
-This is a C++11 thread pool<br/>
+# C++11 and C++14 thread pool
+This is a C++11 and C++14 thread pool<br/>
 I provide 2 example files (example.cpp and example_ret.cpp) to help you understand how to use
 
 	CThreadPool, including the function
@@ -25,6 +25,6 @@ To make thread pool powerful, beautiful and maintainable, I discard some perform
 <br/><br/>
 The compiler I use is VC++ 2015 and gcc 5.2.0.<br/>
 To use example.cpp:<br/>
-g++ -std=c++11 tutorial/example.cpp lib/CCThreadPool.h lib/CCThreadPool/CCThreadPoolCommun.h lib/CCThreadPool/CCThreadPoolItem.h lib/CCThreadPool/Thread/CCSemaphore.cpp lib/CCThreadPool/Thread/CCSmartThread.h lib/CCThreadPool/Thread/CCSmartThread.cpp lib/CCThreadPool/Thread/CCTask.h lib/CCThreadPool/Thread/CCThreadList.h lib/CCThreadPool/Thread/CCThreadQueue.h lib/CCThreadPool/Thread/Tool/CCID.cpp<br/>
+g++ -std=c++14 tutorial/example.cpp lib/CCThreadPool.h lib/CCThreadPool/CCThreadPoolCommun.h lib/CCThreadPool/CCThreadPoolItem.h lib/CCThreadPool/Thread/CCSemaphore.cpp lib/CCThreadPool/Thread/CCSmartThread.h lib/CCThreadPool/Thread/CCSmartThread.cpp lib/CCThreadPool/Thread/CCTask.h lib/CCThreadPool/Thread/CCThreadList.h lib/CCThreadPool/Thread/CCThreadQueue.h lib/CCThreadPool/Thread/Tool/CCID.cpp<br/>
 To use example_ret.cpp:<br/>
-g++ -std=c++11 tutorial/example_ret.cpp lib/CCThreadPool_Ret.h lib/CCThreadPool/CCThreadPoolCommun.h lib/CCThreadPool/CCThreadPoolItem.h lib/CCThreadPool/Thread/CCSemaphore.cpp lib/CCThreadPool/Thread/CCSmartThread.h lib/CCThreadPool/Thread/CCSmartThread.cpp lib/CCThreadPool/Thread/CCTask.h lib/CCThreadPool/Thread/CCThreadList.h lib/CCThreadPool/Thread/CCThreadQueue.h lib/CCThreadPool/Thread/Tool/CCID.cpp
+g++ -std=c++14 tutorial/example_ret.cpp lib/CCThreadPool_Ret.h lib/CCThreadPool/CCThreadPoolCommun.h lib/CCThreadPool/CCThreadPoolItem.h lib/CCThreadPool/Thread/CCSemaphore.cpp lib/CCThreadPool/Thread/CCSmartThread.h lib/CCThreadPool/Thread/CCSmartThread.cpp lib/CCThreadPool/Thread/CCTask.h lib/CCThreadPool/Thread/CCThreadList.h lib/CCThreadPool/Thread/CCThreadQueue.h lib/CCThreadPool/Thread/Tool/CCID.cpp
