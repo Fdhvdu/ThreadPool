@@ -17,7 +17,7 @@ namespace nTool
 	template<class ... Args>
 	void CThreadPoolItem<Func_t>::assign(Args &&...args)
 	{
-		exec_=std::unique_ptr<CThreadPoolItemExecutorBase<Func_t>>{new CThreadPoolItemExecutorJoin<Func_t>{commun_.get(),std::forward<Args>(args)...}};
+		exec_=std::make_unique<CThreadPoolItemExecutorJoin<Func_t>>(commun_.get(),std::forward<Args>(args)...);
 		joinable_=true;
 		wake_();
 	}
@@ -26,7 +26,7 @@ namespace nTool
 	template<class ... Args>
 	void CThreadPoolItem<Func_t>::assign_and_detach(Args &&...args)
 	{
-		exec_=std::unique_ptr<CThreadPoolItemExecutorBase<Func_t>>{new CThreadPoolItemExecutorDetach<Func_t>{commun_.get(),std::forward<Args>(args)...}};
+		exec_=std::make_unique<CThreadPoolItemExecutorDetach<Func_t>>(commun_.get(),std::forward<Args>(args)...);
 		joinable_=false;
 		wake_();
 	}
@@ -35,7 +35,7 @@ namespace nTool
 	template<class ... Args>
 	void CThreadPoolItem<Func_t>::assign_and_ret(Args &&...args)
 	{
-		exec_=std::unique_ptr<CThreadPoolItemExecutorBase<Func_t>>{new CThreadPoolItemExecutorRet<Func_t>{commun_.get(),std::forward<Args>(args)...}};
+		exec_=std::make_unique<CThreadPoolItemExecutorRet<Func_t>(commun_.get(),std::forward<Args>(args)...);
 		joinable_=false;
 		wake_();
 	}
