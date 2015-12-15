@@ -1,5 +1,5 @@
-# C++11 and C++14 thread pool
-This is a C++11 and C++14 thread pool<br/>
+# C++14 thread pool
+This is a C++14 thread pool<br/>
 I provide 2 example files (example.cpp and example_ret.cpp) to help you understand how to use
 
 	CThreadPool, including the function
