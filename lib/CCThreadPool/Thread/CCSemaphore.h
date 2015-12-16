@@ -1,13 +1,14 @@
 #ifndef __CCSemaphore
 #define __CCSemaphore
 #include<cstddef>
+#include"./Tool/CCPimpl.h"
 
 namespace nTool
 {
 	class CSemaphore
 	{
-		struct CSemaphoreImpl;
-		CSemaphoreImpl *p_;
+		class Impl;
+		CPimpl<Impl> impl_;
 	public:
 		CSemaphore(std::size_t);
 		CSemaphore(const CSemaphore &)=delete;
@@ -18,10 +19,10 @@ namespace nTool
 		~CSemaphore();
 	};
 
-	class CReaders_Writers_Problem
+	class CReaders_Writers_Problem	//same as std::shared_mutex
 	{
-		struct CReaders_Writers_ProblemImpl;
-		CReaders_Writers_ProblemImpl *p_;
+		class Impl;
+		CPimpl<Impl> impl_;
 	public:
 		CReaders_Writers_Problem();
 		CReaders_Writers_Problem(const CReaders_Writers_Problem &)=delete;

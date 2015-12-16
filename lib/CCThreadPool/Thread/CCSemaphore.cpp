@@ -6,115 +6,118 @@ using namespace std;
 
 namespace nTool
 {
-	struct CSemaphore::CSemaphoreImpl
+	class CSemaphore::Impl
 	{
-		size_t count;
-		condition_variable cv;
-		mutex mut;
-		CSemaphoreImpl(const size_t);
+		size_t count_;
+		condition_variable cv_;
+		mutex mut_;
+	public:
+		Impl(size_t);
+		inline size_t count() const noexcept
+		{
+			return count_;
+		}
 		void signal();
 		void wait();
 	};
 
-	CSemaphore::CSemaphoreImpl::CSemaphoreImpl(const size_t count_)
-		:count{count_}{}
+	CSemaphore::Impl::Impl(const size_t count)
+		:count_{count}{}
 
-	void CSemaphore::CSemaphoreImpl::signal()
+	void CSemaphore::Impl::signal()
 	{
-		lock_guard<mutex> lock{mut};
-		++count;
-		cv.notify_one();
+		lock_guard<mutex> lock{mut_};
+		++count_;
+		cv_.notify_one();
 	}
 
-	void CSemaphore::CSemaphoreImpl::wait()
+	void CSemaphore::Impl::wait()
 	{
-		unique_lock<mutex> lock{mut};
-		cv.wait(lock,[&]{return count;});
-		--count;
+		unique_lock<mutex> lock{mut_};
+		cv_.wait(lock,[&]{return count();});
+		--count_;
 	}
 
 	CSemaphore::CSemaphore(const size_t count)
-		:p_{new CSemaphoreImpl(count)}{}
+		:impl_{count}{}
 
 	size_t CSemaphore::count() const noexcept
 	{
-		return p_->count;
+		return impl_.get().count();
 	}
 
 	void CSemaphore::signal()
 	{
-		p_->signal();
+		impl_.get().signal();
 	}
 
 	void CSemaphore::wait()
 	{
-		p_->wait();
+		impl_.get().wait();
 	}
 
-	CSemaphore::~CSemaphore()
-	{
-		delete p_;
-	}
+	CSemaphore::~CSemaphore(){}
 
-	struct CReaders_Writers_Problem::CReaders_Writers_ProblemImpl
+	class CReaders_Writers_Problem::Impl
 	{
-		atomic<size_t> count;
-		CSemaphore use,wait;
-		CReaders_Writers_ProblemImpl();
+		atomic<size_t> count_;
+		CSemaphore use_,wait_;
+	public:
+		Impl();
 		void readBegin();
 		void readEnd();
 		void writeBegin();
+		inline void writeEnd()
+		{
+			use_.signal();
+		}
 	};
 
-	CReaders_Writers_Problem::CReaders_Writers_ProblemImpl::CReaders_Writers_ProblemImpl()
-		:count{0},use{1},wait{1}{}
+	CReaders_Writers_Problem::Impl::Impl()
+		:count_{0},use_{1},wait_{1}{}
 
-	void CReaders_Writers_Problem::CReaders_Writers_ProblemImpl::readBegin()
+	void CReaders_Writers_Problem::Impl::readBegin()
 	{
-		wait.wait();
-		if(++count==1)
-			use.wait();
-		wait.signal();
+		wait_.wait();
+		if(++count_==1)
+			use_.wait();
+		wait_.signal();
 	}
 
-	void CReaders_Writers_Problem::CReaders_Writers_ProblemImpl::readEnd()
+	void CReaders_Writers_Problem::Impl::readEnd()
 	{
-		if(!--count)
-			use.signal();
+		if(!--count_)
+			use_.signal();
 	}
 
-	void CReaders_Writers_Problem::CReaders_Writers_ProblemImpl::writeBegin()
+	void CReaders_Writers_Problem::Impl::writeBegin()
 	{
-		wait.wait();
-		use.wait();
-		wait.signal();
+		wait_.wait();
+		use_.wait();
+		wait_.signal();
 	}
 
-	CReaders_Writers_Problem::CReaders_Writers_Problem()
-		:p_{new CReaders_Writers_ProblemImpl()}{}
+	CReaders_Writers_Problem::CReaders_Writers_Problem(){}
 
 	void CReaders_Writers_Problem::readBegin()
 	{
-		p_->readBegin();
+		impl_.get().readBegin();
 	}
 
 	void CReaders_Writers_Problem::readEnd()
 	{
-		p_->readEnd();
+		impl_.get().readEnd();
 	}
 
 	void CReaders_Writers_Problem::writeBegin()
 	{
-		p_->writeBegin();
+		impl_.get().writeBegin();
 	}
 
 	void CReaders_Writers_Problem::writeEnd()
 	{
-		p_->use.signal();
+		impl_.get().writeEnd();
 	}
 
-	CReaders_Writers_Problem::~CReaders_Writers_Problem()
-	{
-		delete p_;
-	}
+	CReaders_Writers_Problem::~CReaders_Writers_Problem(){}
 }
