@@ -35,7 +35,7 @@ namespace nTool
 	template<class ... Args>
 	void CThreadPoolItem<Func_t>::assign_and_ret(Args &&...args)
 	{
-		exec_=std::make_unique<CThreadPoolItemExecutorRet<Func_t>(commun_.get(),std::forward<Args>(args)...);
+		exec_=std::make_unique<CThreadPoolItemExecutorRet<Func_t>>(commun_.get(),std::forward<Args>(args)...);
 		joinable_=false;
 		wake_();
 	}
@@ -50,7 +50,7 @@ namespace nTool
 	}
 
 	template<class Func_t>
-	CThreadPoolItemExecutorBase<Func_t>::~CThreadPoolItemExecutorBase(){}
+	IThreadPoolItemExecutorBase<Func_t>::~IThreadPoolItemExecutorBase(){}
 
 	template<class Func_t>
 	template<class ... Args>
@@ -58,7 +58,7 @@ namespace nTool
 		:commun_{commun},complete_{0},func_{std::bind(std::forward<Args>(args)...)}{}
 
 	template<class Func_t>
-	void CThreadPoolItemExecutorDetach<Func_t>::exec_()
+	void CThreadPoolItemExecutorDetach<Func_t>::exec()
 	{
 		func_();
 		commun_->communPoolDetach();
@@ -71,7 +71,7 @@ namespace nTool
 		:commun_{commun},complete_{0},func_{std::bind(std::forward<Args>(args)...)},running_{true}{}
 
 	template<class Func_t>
-	void CThreadPoolItemExecutorJoin<Func_t>::exec_()
+	void CThreadPoolItemExecutorJoin<Func_t>::exec()
 	{
 		func_();
 		commun_->communPoolFinish();
@@ -79,7 +79,7 @@ namespace nTool
 	}
 
 	template<class Func_t>
-	void CThreadPoolItemExecutorJoin<Func_t>::wait_()
+	void CThreadPoolItemExecutorJoin<Func_t>::wait()
 	{
 		complete_.wait();
 		running_=false;
@@ -92,7 +92,7 @@ namespace nTool
 		:commun_{commun},task_{std::forward<Args>(args)...}{}
 
 	template<class Func_t>
-	decltype(std::declval<CTask<Func_t>>().get()) CThreadPoolItemExecutorRet<Func_t>::get_()
+	decltype(std::declval<CTask<Func_t>>().get()) CThreadPoolItemExecutorRet<Func_t>::get()
 	{
 		const auto temp{task_.get()};
 		commun_->communPoolDetach();
