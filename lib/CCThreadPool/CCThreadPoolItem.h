@@ -41,12 +41,12 @@ namespace nTool
 	public:
 		CThreadPoolItem();
 		CThreadPoolItem(const CThreadPoolItem &)=delete;
-		template<class ... Args>
-		void assign(Args &&...);
-		template<class ... Args>
-		void assign_and_detach(Args &&...);
-		template<class ... Args>
-		void assign_and_ret(Args &&...);
+		template<class Func,class ... Args>
+		void assign(Func &&,Args &&...);
+		template<class Func,class ... Args>
+		void assign_and_detach(Func &&,Args &&...);
+		template<class Func,class ... Args>
+		void assign_and_ret(Func &&,Args &&...);
 		inline decltype(std::declval<IThreadPoolItemExecutorBase<Func_t>>().get()) get()
 		{
 			return exec_->get();
@@ -98,8 +98,8 @@ namespace nTool
 		CSemaphore complete_;
 		std::function<Func_t> func_;
 	public:
-		template<class ... Args>
-		CThreadPoolItemExecutorDetach(ThreadPoolCommunBase<Func_t> *,Args &&...);
+		template<class Func,class ... Args>
+		CThreadPoolItemExecutorDetach(ThreadPoolCommunBase<Func_t> *,Func &&,Args &&...);
 		CThreadPoolItemExecutorDetach(const CThreadPoolItemExecutorDetach &)=delete;
 		void exec() override;
 		bool is_running() const noexcept override	//only the destructor of CThreadPoolItem will call this
@@ -121,8 +121,8 @@ namespace nTool
 		std::function<Func_t> func_;
 		std::atomic<bool> running_;
 	public:
-		template<class ... Args>
-		CThreadPoolItemExecutorJoin(ThreadPoolCommunBase<Func_t> *,Args &&...);
+		template<class Func,class ... Args>
+		CThreadPoolItemExecutorJoin(ThreadPoolCommunBase<Func_t> *,Func &&,Args &&...);
 		CThreadPoolItemExecutorJoin(const CThreadPoolItemExecutorJoin &)=delete;
 		void exec() override;
 		bool is_running() const noexcept override
@@ -139,8 +139,8 @@ namespace nTool
 		ThreadPoolCommunBase<Func_t> *commun_;
 		CTask<Func_t> task_;
 	public:
-		template<class ... Args>
-		CThreadPoolItemExecutorRet(ThreadPoolCommunBase<Func_t> *,Args &&...);
+		template<class Func,class ... Args>
+		CThreadPoolItemExecutorRet(ThreadPoolCommunBase<Func_t> *,Func &&,Args &&...);
 		CThreadPoolItemExecutorRet(const CThreadPoolItemExecutorRet &)=delete;
 		void exec() override
 		{
