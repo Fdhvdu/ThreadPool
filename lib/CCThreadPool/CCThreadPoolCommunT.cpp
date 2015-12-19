@@ -24,7 +24,7 @@ namespace nTool
 	template<class Func>
 	void CThreadPoolCommun<Func>::communPoolFinish()
 	{
-		join_anyList_.push_back(pair{id(),item_});
+		join_anyList_.emplace_back(id(),item_);
 	}
 
 	template<class Func>
@@ -36,7 +36,7 @@ namespace nTool
 	template<class Func>
 	void CThreadPoolCommun<Func>::communPoolJoin()
 	{
-		join_anyList_.erase([&](const pair &val){return val.first==id();});	//CThreadPoolItem::communPoolFinishing_ call CThreadPoolCommun::finishing
+		join_anyList_.remove_if([&](const pair &val){return val.first==id();});	//CThreadPoolItem::communPoolFinishing_ call CThreadPoolCommun::finishing
 																			//CThreadPoolCommun::finishing notify CThreadPool::join_any
 																			//if CThreadPool::join_any run first, this would not erase anything
 		waitingQue_.push(pair{id(),item_});

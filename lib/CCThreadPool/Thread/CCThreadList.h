@@ -14,10 +14,10 @@ namespace nTool
 		std::mutex insertMut_;
 		std::list<T> list_;
 	public:
+		template<class ... Args>
+		void emplace_back(Args &&...);
 		template<class UnaryPred>
-		void erase(UnaryPred);
-		void push_back(const T &);
-		void push_back(T &&);
+		void remove_if(UnaryPred);
 		inline std::size_t size() const noexcept
 		{
 			return list_.size();

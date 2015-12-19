@@ -1,33 +1,23 @@
 #include"CCThreadList.h"
-#include<algorithm>
 #include<utility>
 
 namespace nTool
 {
 	template<class T>
+	template<class ... Args>
+	void CThreadList<T>::emplace_back(Args &&...args)
+	{
+		std::lock_guard<std::mutex> lock{insertMut_};
+		list_.emplace_back(std::forward<Args>(args)...);
+		insert_.notify_all();
+	}
+
+	template<class T>
 	template<class UnaryPred>
-	void CThreadList<T>::erase(UnaryPred pred)
+	void CThreadList<T>::remove_if(UnaryPred pred)
 	{
 		std::lock_guard<std::mutex> lock{insertMut_};
-		const auto iter{std::find_if(list_.begin(),list_.end(),pred)};
-		if(iter!=list_.end())
-			list_.erase(iter);
-	}
-
-	template<class T>
-	void CThreadList<T>::push_back(const T &val)
-	{
-		std::lock_guard<std::mutex> lock{insertMut_};
-		list_.push_back(val);
-		insert_.notify_all();
-	}
-
-	template<class T>
-	void CThreadList<T>::push_back(T &&rVal)
-	{
-		std::lock_guard<std::mutex> lock{insertMut_};
-		list_.push_back(std::move(rVal));
-		insert_.notify_all();
+		list_.remove_if(pred);
 	}
 
 	template<class T>
