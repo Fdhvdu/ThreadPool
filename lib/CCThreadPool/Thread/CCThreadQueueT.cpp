@@ -4,18 +4,11 @@
 namespace nTool
 {
 	template<class T>
-	void CThreadQueue<T>::push(const T &val)
+	template<class ... Args>
+	void CThreadQueue<T>::emplace(Args &&...args)
 	{
 		std::lock_guard<std::mutex> lock{pushMut_};
-		queue_.push(val);
-		push_.notify_all();
-	}
-
-	template<class T>
-	void CThreadQueue<T>::push(T &&rVal)
-	{
-		std::lock_guard<std::mutex> lock{pushMut_};
-		queue_.push(std::move(rVal));
+		queue_.emplace(std::forward<Args>(args)...);
 		push_.notify_all();
 	}
 

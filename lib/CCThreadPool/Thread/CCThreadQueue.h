@@ -14,8 +14,8 @@ namespace nTool
 		std::mutex pushMut_;
 		std::queue<T> queue_;
 	public:
-		void push(const T &);
-		void push(T &&);
+		template<class ... Args>
+		void emplace(Args &&...);
 		inline std::size_t size() const noexcept
 		{
 			return queue_.size();
