@@ -43,7 +43,7 @@ namespace nTool
 	template<class Func_t>
 	CThreadPoolItem<Func_t>::~CThreadPoolItem()
 	{
-		if(exec_->is_running())
+		if(exec_&&exec_->is_running())
 			exec_->wait();
 		destructor_=true;
 		wake_();
