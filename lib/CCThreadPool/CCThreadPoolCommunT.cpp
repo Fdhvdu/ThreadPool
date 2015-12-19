@@ -49,6 +49,6 @@ namespace nTool
 	template<class Func>
 	void CThreadPoolCommun_Ret<Func>::communPoolDetach()
 	{
-		waitingQue_.push(pair{id(),item_});
+		waitingQue_.emplace(id(),item_);
 	}
 }
