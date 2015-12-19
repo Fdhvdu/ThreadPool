@@ -40,35 +40,34 @@ namespace
 int main()
 {
 	using namespace std;
-	nTool::CThreadPool<int()> tp{4};
+	nTool::CThreadPool tp{4};
 
 	cout<<"stage 1"<<endl;
-	for(auto i(0);i!=tp.count();++i)
+	for(auto i{0};i!=tp.count();++i)
 		tp.add_and_detach(add_and_detach_func,i);
 	tp.join_all();	//this will not block, because you use add_and_detach
 
 	cout<<"stage 2"<<endl;
-	for(auto i(0);i!=tp.count();++i)
+	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);	//tp will block here until add_and_detach_func complete
-	for(auto i(0);i!=tp.count();++i)
+	for(auto i{0};i!=tp.count();++i)
 		tp.join(i);	//tp will block here until the i of thread complete
 	
 	cout<<"stage 3"<<endl;
-	for(auto i(0);i!=tp.count();++i)
+	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);	//tp will not block here, because you join all thread
 	tp.join_all();	//tp will block here until add_func complete, it is same as
 					//for(auto i(0);i!=tp.count();++i)
 					//	tp.join(i);
 
 	cout<<"stage 4"<<endl;
-	for(auto i(0);i!=tp.count();++i)
+	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
-	const auto id{tp.join_any()};	//join any thread without specify which one
-	cout<<"thread "<<id<<" complete"<<endl;
+	cout<<"thread "<<tp.join_any()<<" complete"<<endl;	//join any thread without specify which one
 	tp.join_all();
 
 	cout<<"stage 5"<<endl;
-	for(auto i(0);i!=tp.count();++i)
+	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	tp.join(0);
 	tp.join_any();	//calling join prior to join_any is ok
@@ -89,7 +88,7 @@ int main()
 	tp.join_all();	//because, this is in single thread
 
 	cout<<"stage 6"<<endl;
-	for(auto i(0);i!=tp.count();++i)
+	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	thread thr([&]{tp.join_any();});
 	tp.join_any();	//ok, no problem
@@ -101,7 +100,7 @@ int main()
 	//every threads' join can be called only once after calling assign
 
 	cout<<"stage 7"<<endl;
-	for(auto i(0);i!=tp.count();++i)
+	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	tp.join_any();
 	//you don't need to call join_all to guarantee all threads are joining

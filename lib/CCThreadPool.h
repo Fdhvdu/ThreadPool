@@ -1,25 +1,24 @@
 #ifndef __CCThreadPool
 #define __CCThreadPool
 #include<cstddef>	//size_t
-#include"./CCThreadPool/CCThreadPoolCommun.h"
-#include"./CCThreadPool/CCThreadPoolItem.h"
-#include"./CCThreadPool/Thread/CCThreadList.h"
-#include"./CCThreadPool/Thread/CCThreadQueue.h"
-#include"./CCThreadPool/Thread/Tool/CCID.h"
+#include"CCThreadPool/CCThreadPoolCommun.h"
+#include"CCThreadPool/CCThreadPoolItem.h"
+#include"CCThreadPool/Thread/CCThreadList.h"
+#include"CCThreadPool/Thread/CCThreadQueue.h"
+#include"CCThreadPool/Thread/Tool/CCID.h"
 
 namespace nTool
 {
-	template<class Func_t>
 	class CThreadPool	//same job, different argument and no return value
 						//with add, add_and_detach, join, joinable, join_all and join_any
 						//every threads must call join, join_any or join_all after calling add
 						//otherwise, there is no available thread even after threads complete their job
 	{
 		CID id_;
-		CThreadList<typename CThreadPoolCommun<Func_t>::pair> join_anyList_;
-		CThreadQueue<typename CThreadPoolCommun<Func_t>::pair> waitingQue_;
+		CThreadList<typename CThreadPoolCommun::pair> join_anyList_;
+		CThreadQueue<typename CThreadPoolCommun::pair> waitingQue_;
 		const std::size_t size_;
-		CThreadPoolItem<Func_t> *thr_;
+		CThreadPoolItem<void()> *thr_;
 	public:
 		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
@@ -54,7 +53,7 @@ namespace nTool
 		CThreadPool& operator=(const CThreadPool &)=delete;
 		~CThreadPool();
 	};
-} 
+}
 
 #include"CCThreadPoolT.cpp"
 

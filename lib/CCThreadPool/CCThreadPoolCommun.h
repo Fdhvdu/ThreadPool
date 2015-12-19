@@ -2,69 +2,62 @@
 #define __CCThreadPoolCommun
 #include<cstddef>	//size_t
 #include<utility>	//pair
+#include"Thread/Tool/CCPimpl.h"
 
 namespace nTool
 {
 	template<class Func>
-	class CThreadPoolItem;
-
-	template<class Func>
-	struct ThreadPoolCommunBase
-	{
-		ThreadPoolCommunBase()=default;
-		ThreadPoolCommunBase(const ThreadPoolCommunBase &)=delete;
-		virtual void communPoolFinish();
-		virtual void communPoolDetach();
-		virtual void communPoolJoin();
-		ThreadPoolCommunBase& operator=(const ThreadPoolCommunBase &)=delete;
-		virtual ~ThreadPoolCommunBase();
-	};
-
-	template<class Func>
 	class CThreadList;
+	template<class Func>
+	class CThreadPoolItem;
 	template<class Func>
 	class CThreadQueue;
 
-	template<class Func>
-	class CThreadPoolCommun:public ThreadPoolCommunBase<Func>
+	class CThreadPoolCommunBase
 	{
+		virtual void detach_();
+		virtual void finish_();
+		virtual void join_();
 	public:
-		typedef std::pair<std::size_t,CThreadPoolItem<Func>*> pair;
-	private:
-		CThreadPoolItem<Func> *item_;
-		CThreadList<pair> &join_anyList_;	//or use deque
-		CThreadQueue<pair> &waitingQue_;
-		const std::size_t id_;
-	public:
-		CThreadPoolCommun(CThreadPoolItem<Func> *,CThreadList<pair> &,CThreadQueue<pair> &,const std::size_t);
-		CThreadPoolCommun(const CThreadPoolCommun &)=delete;
-		void communPoolFinish() override;	//notify CThreadPool::join_any
-		void communPoolDetach() override;	//push CThreadPoolItem into waitingQue_
-		void communPoolJoin() override;	//erase join_anyList_ and push CThreadPoolItem into waitingQue_
-		inline std::size_t id() const noexcept
-		{
-			return id_;
-		}
-		CThreadPoolCommun& operator=(const CThreadPoolCommun &)=delete;
+		CThreadPoolCommunBase()=default;
+		CThreadPoolCommunBase(const CThreadPoolCommunBase &)=delete;
+		void communPoolDetach();
+		void communPoolFinish();
+		void communPoolJoin();
+		CThreadPoolCommunBase& operator=(const CThreadPoolCommunBase &)=delete;
+		virtual ~CThreadPoolCommunBase();
 	};
 
-	template<class Func>
-	class CThreadPoolCommun_Ret:public ThreadPoolCommunBase<Func>
+	class CThreadPoolCommun:public CThreadPoolCommunBase
 	{
 	public:
-		typedef std::pair<std::size_t,CThreadPoolItem<Func>*> pair;
+		typedef std::pair<std::size_t,CThreadPoolItem<void()>*> pair;
 	private:
-		CThreadPoolItem<Func> *item_;
+		struct Impl;
+		CPimpl<Impl> impl_;
+		void detach_() override;	//notify CThreadPool::join_any
+		void finish_() override;	//push CThreadPoolItem into waitingQue_
+		void join_() override;	//erase join_anyList_ and push CThreadPoolItem into waitingQue_
+	public:
+		CThreadPoolCommun(CThreadPoolItem<void()> *,CThreadList<pair> &,CThreadQueue<pair> &,std::size_t);
+		CThreadPoolCommun(const CThreadPoolCommun &)=delete;
+		CThreadPoolCommun& operator=(const CThreadPoolCommun &)=delete;
+		~CThreadPoolCommun();
+	};
+
+	template<class Func_t>
+	class CThreadPoolCommun_Ret:public CThreadPoolCommunBase
+	{
+	public:
+		typedef std::pair<std::size_t,CThreadPoolItem<Func_t>*> pair;
+	private:
+		CThreadPoolItem<Func_t> *item_;
 		CThreadQueue<pair> &waitingQue_;
 		const std::size_t id_;
+		void detach_() override;	//push CThreadPoolItem into waitingQue_
 	public:
-		CThreadPoolCommun_Ret(CThreadPoolItem<Func> *,CThreadQueue<pair> &,std::size_t);
+		CThreadPoolCommun_Ret(CThreadPoolItem<Func_t> *,CThreadQueue<pair> &,std::size_t);
 		CThreadPoolCommun_Ret(const CThreadPoolCommun_Ret &)=delete;
-		void communPoolDetach() override;	//push CThreadPoolItem into waitingQue_
-		inline std::size_t id() const noexcept
-		{
-			return id_;
-		}
 		CThreadPoolCommun_Ret& operator=(const CThreadPoolCommun_Ret &)=delete;
 	};
 }

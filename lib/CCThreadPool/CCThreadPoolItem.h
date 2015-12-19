@@ -5,25 +5,21 @@
 #include<memory>	//unique_ptr
 #include<utility>	//move
 #include"CCThreadPoolCommun.h"
-#include"./Thread/CCTask.h"
-#include"./Thread/CCSemaphore.h"
-#include"./Thread/CCSmartThread.h"
+#include"Thread/CCTask.h"
+#include"Thread/CCSemaphore.h"
+#include"Thread/CCSmartThread.h"
 
 namespace nTool
 {
 	template<class T>
 	struct IThreadPoolItemExecutorBase;
 	template<class T>
-	class CThreadPoolItemExecutorDetach;
-	template<class T>
-	class CThreadPoolItemExecutorJoin;
-	template<class T>
 	class CThreadPoolItemExecutorRet;
 
 	template<class Func_t>
 	class CThreadPoolItem
 	{
-		std::unique_ptr<ThreadPoolCommunBase<Func_t>> commun_;	//communicate with CThreadPool
+		std::unique_ptr<CThreadPoolCommunBase> commun_;	//communicate with CThreadPool
 		bool destructor_;
 		std::unique_ptr<IThreadPoolItemExecutorBase<Func_t>> exec_;
 		bool joinable_;
@@ -61,7 +57,7 @@ namespace nTool
 		{
 			return joinable_&&exec_->is_running();
 		}
-		void setCommun(std::unique_ptr<ThreadPoolCommunBase<Func_t>> &&commun)
+		void setCommun(std::unique_ptr<CThreadPoolCommunBase> &&commun)
 		{
 			commun_=std::move(commun);
 		}
@@ -91,15 +87,14 @@ namespace nTool
 		virtual ~IThreadPoolItemExecutorBase()=0;
 	};
 
-	template<class Func_t>
-	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase<Func_t>
+	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase<void()>
 	{
-		ThreadPoolCommunBase<Func_t> *commun_;
+		CThreadPoolCommunBase *commun_;
 		CSemaphore complete_;
-		std::function<Func_t> func_;
+		std::function<void()> func_;
 	public:
 		template<class Func,class ... Args>
-		CThreadPoolItemExecutorDetach(ThreadPoolCommunBase<Func_t> *,Func &&,Args &&...);
+		CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *,Func &&,Args &&...);
 		CThreadPoolItemExecutorDetach(const CThreadPoolItemExecutorDetach &)=delete;
 		void exec() override;
 		bool is_running() const noexcept override	//only the destructor of CThreadPoolItem will call this
@@ -113,16 +108,15 @@ namespace nTool
 		CThreadPoolItemExecutorDetach& operator=(const CThreadPoolItemExecutorDetach &)=delete;
 	};
 
-	template<class Func_t>
-	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase<Func_t>
+	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase<void()>
 	{
-		ThreadPoolCommunBase<Func_t> *commun_;
+		CThreadPoolCommunBase *commun_;
 		CSemaphore complete_;
-		std::function<Func_t> func_;
+		std::function<void()> func_;
 		std::atomic<bool> running_;
 	public:
 		template<class Func,class ... Args>
-		CThreadPoolItemExecutorJoin(ThreadPoolCommunBase<Func_t> *,Func &&,Args &&...);
+		CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *,Func &&,Args &&...);
 		CThreadPoolItemExecutorJoin(const CThreadPoolItemExecutorJoin &)=delete;
 		void exec() override;
 		bool is_running() const noexcept override
@@ -136,11 +130,11 @@ namespace nTool
 	template<class Func_t>
 	class CThreadPoolItemExecutorRet:public IThreadPoolItemExecutorBase<Func_t>
 	{
-		ThreadPoolCommunBase<Func_t> *commun_;
+		CThreadPoolCommunBase *commun_;
 		CTask<Func_t> task_;
 	public:
 		template<class Func,class ... Args>
-		CThreadPoolItemExecutorRet(ThreadPoolCommunBase<Func_t> *,Func &&,Args &&...);
+		CThreadPoolItemExecutorRet(CThreadPoolCommunBase *,Func &&,Args &&...);
 		CThreadPoolItemExecutorRet(const CThreadPoolItemExecutorRet &)=delete;
 		void exec() override
 		{

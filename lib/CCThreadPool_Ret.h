@@ -1,10 +1,10 @@
 #ifndef __CCThreadPool_Ret
 #define __CCThreadPool_Ret
 #include<cstddef>	//size_t
-#include"./CCThreadPool/CCThreadPoolCommun.h"
-#include"./CCThreadPool/CCThreadPoolItem.h"
-#include"./CCThreadPool/Thread/CCThreadQueue.h"
-#include"./CCThreadPool/Thread/Tool/CCID.h"
+#include"CCThreadPool/CCThreadPoolCommun.h"
+#include"CCThreadPool/CCThreadPoolItem.h"
+#include"CCThreadPool/Thread/CCThreadQueue.h"
+#include"CCThreadPool/Thread/Tool/CCID.h"
 
 namespace nTool
 {

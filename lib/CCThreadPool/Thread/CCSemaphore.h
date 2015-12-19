@@ -1,7 +1,7 @@
 #ifndef __CCSemaphore
 #define __CCSemaphore
 #include<cstddef>
-#include"./Tool/CCPimpl.h"
+#include"Tool/CCPimpl.h"
 
 namespace nTool
 {
