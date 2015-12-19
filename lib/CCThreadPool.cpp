@@ -5,7 +5,7 @@ using namespace std;
 namespace nTool
 {
 	CThreadPool::CThreadPool(const size_t count)
-		:size_{count},thr_{new CThreadPoolItem<void()>[count]}
+		:size_{count},thr_{new CThreadPoolItem<void>[count]}
 	{
 		for(auto p{thr_};p!=thr_+count;++p)
 		{

@@ -18,7 +18,7 @@ namespace nTool
 		CThreadList<typename CThreadPoolCommun::pair> join_anyList_;
 		CThreadQueue<typename CThreadPoolCommun::pair> waitingQue_;
 		const std::size_t size_;
-		CThreadPoolItem<void()> *thr_;
+		CThreadPoolItem<void> *thr_;
 	public:
 		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;

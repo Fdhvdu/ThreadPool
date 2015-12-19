@@ -3,20 +3,20 @@
 
 namespace nTool
 {
-	template<class Func_t>
-	CThreadPool_Ret<Func_t>::CThreadPool_Ret(const std::size_t count)
-		:size_{count},thr_{new CThreadPoolItem<Func_t>[count]}
+	template<class Ret>
+	CThreadPool_Ret<Ret>::CThreadPool_Ret(const std::size_t count)
+		:size_{count},thr_{new CThreadPoolItem<Ret>[count]}
 	{
 		for(auto p{thr_};p!=thr_+count;++p)
 		{
-			p->setCommun(std::make_unique<CThreadPoolCommun_Ret<Func_t>>(p,waitingQue_,id_++));
+			p->setCommun(std::make_unique<CThreadPoolCommun_Ret<Ret>>(p,waitingQue_,id_++));
 			waitingQue_.emplace(id_.get(),p);
 		}
 	}
 
-	template<class Func_t>
+	template<class Ret>
 	template<class Func,class ... Args>
-	std::size_t CThreadPool_Ret<Func_t>::add(Func &&func,Args &&...args)
+	std::size_t CThreadPool_Ret<Ret>::add(Func &&func,Args &&...args)
 	{
 		auto temp{waitingQue_.wait_and_pop()};
 		const auto id{temp.first};
@@ -24,8 +24,8 @@ namespace nTool
 		return id;
 	}
 
-	template<class Func_t>
-	CThreadPool_Ret<Func_t>::~CThreadPool_Ret()
+	template<class Ret>
+	CThreadPool_Ret<Ret>::~CThreadPool_Ret()
 	{
 		delete []thr_;
 	}

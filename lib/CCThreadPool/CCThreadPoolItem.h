@@ -16,12 +16,12 @@ namespace nTool
 	template<class T>
 	class CThreadPoolItemExecutorRet;
 
-	template<class Func_t>
+	template<class Ret>
 	class CThreadPoolItem
 	{
 		std::unique_ptr<CThreadPoolCommunBase> commun_;	//communicate with CThreadPool
 		bool destructor_;
-		std::unique_ptr<IThreadPoolItemExecutorBase<Func_t>> exec_;
+		std::unique_ptr<IThreadPoolItemExecutorBase<Ret>> exec_;
 		bool joinable_;
 		CSemaphore wait_;
 		CSmartThread thr_;	//first destroying, no other data member could put under this one
@@ -43,7 +43,7 @@ namespace nTool
 		void assign_and_detach(Func &&,Args &&...);
 		template<class Func,class ... Args>
 		void assign_and_ret(Func &&,Args &&...);
-		inline decltype(std::declval<IThreadPoolItemExecutorBase<Func_t>>().get()) get()
+		inline decltype(std::declval<IThreadPoolItemExecutorBase<Ret>>().get()) get()
 		{
 			return exec_->get();
 		}
@@ -73,21 +73,21 @@ namespace nTool
 		~CThreadPoolItem();
 	};
 
-	template<class Func_t>
+	template<class Ret>
 	struct IThreadPoolItemExecutorBase	//I give up to use Non-Virtual Interface Idiom here
 										//because this is a abstract base struct
 	{
 		virtual void exec()=0;
 		virtual bool is_running() const noexcept=0;
-		virtual decltype(std::declval<CTask<Func_t>>().get()) get()	//detach and join will not call this
+		virtual decltype(std::declval<CTask<Ret>>().get()) get()	//detach and join will not call this
 		{
-			return CTask<Func_t>().get();
+			return CTask<Ret>().get();
 		}
 		virtual void wait()=0;
 		virtual ~IThreadPoolItemExecutorBase()=0;
 	};
 
-	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase<void()>
+	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase<void>
 	{
 		CThreadPoolCommunBase *commun_;
 		CSemaphore complete_;
@@ -108,7 +108,7 @@ namespace nTool
 		CThreadPoolItemExecutorDetach& operator=(const CThreadPoolItemExecutorDetach &)=delete;
 	};
 
-	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase<void()>
+	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase<void>
 	{
 		CThreadPoolCommunBase *commun_;
 		CSemaphore complete_;
@@ -127,11 +127,11 @@ namespace nTool
 		CThreadPoolItemExecutorJoin& operator=(const CThreadPoolItemExecutorJoin &)=delete;
 	};
 
-	template<class Func_t>
-	class CThreadPoolItemExecutorRet:public IThreadPoolItemExecutorBase<Func_t>
+	template<class Ret>
+	class CThreadPoolItemExecutorRet:public IThreadPoolItemExecutorBase<Ret>
 	{
 		CThreadPoolCommunBase *commun_;
-		CTask<Func_t> task_;
+		CTask<Ret> task_;
 	public:
 		template<class Func,class ... Args>
 		CThreadPoolItemExecutorRet(CThreadPoolCommunBase *,Func &&,Args &&...);
@@ -140,7 +140,7 @@ namespace nTool
 		{
 			task_();
 		}
-		decltype(std::declval<CTask<Func_t>>().get()) get() override;
+		decltype(std::declval<CTask<Ret>>().get()) get() override;
 		bool is_running() const noexcept override
 		{
 			return task_.valid();

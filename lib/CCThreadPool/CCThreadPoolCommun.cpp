@@ -31,11 +31,11 @@ namespace nTool
 
 	struct CThreadPoolCommun::Impl
 	{
-		CThreadPoolItem<void()> *item;
+		CThreadPoolItem<void> *item;
 		CThreadList<CThreadPoolCommun::pair> &join_anyList;	//or use deque
 		CThreadQueue<CThreadPoolCommun::pair> &waitingQue;
 		const size_t id;
-		Impl(CThreadPoolItem<void()> *,CThreadList<pair> &,CThreadQueue<pair> &,size_t id);
+		Impl(CThreadPoolItem<void> *,CThreadList<pair> &,CThreadQueue<pair> &,size_t id);
 		inline void communPoolDetach()
 		{
 			waitingQue.emplace(id,item);
@@ -47,7 +47,7 @@ namespace nTool
 		void communPoolJoin();
 	};
 
-	CThreadPoolCommun::Impl::Impl(CThreadPoolItem<void()> *item_,CThreadList<pair> &join_anyList_,CThreadQueue<pair> &waitingQue_,const size_t id_)
+	CThreadPoolCommun::Impl::Impl(CThreadPoolItem<void> *item_,CThreadList<pair> &join_anyList_,CThreadQueue<pair> &waitingQue_,const size_t id_)
 		:item{item_},join_anyList{join_anyList_},waitingQue{waitingQue_},id{id_}{}
 
 	void CThreadPoolCommun::Impl::communPoolJoin()
@@ -59,7 +59,7 @@ namespace nTool
 		waitingQue.emplace(id,item);
 	}
 
-	CThreadPoolCommun::CThreadPoolCommun(CThreadPoolItem<void()> *item,CThreadList<pair> &join_anyList,CThreadQueue<pair> &waitingQue,const size_t id)
+	CThreadPoolCommun::CThreadPoolCommun(CThreadPoolItem<void> *item,CThreadList<pair> &join_anyList,CThreadQueue<pair> &waitingQue,const size_t id)
 		:impl_{item,join_anyList,waitingQue,id}{}
 
 	void CThreadPoolCommun::detach_()

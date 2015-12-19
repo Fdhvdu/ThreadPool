@@ -5,18 +5,21 @@
 
 namespace nTool
 {
-	template<class Func_t>
+	template<class Ret>
+	Ret make_function();
+
+	template<class Ret>
 	class CTask
 	{
-		std::packaged_task<Func_t> task_;
-		decltype(std::declval<decltype(task_)>().get_future()) fut_;
+		std::packaged_task<decltype(make_function<Ret>)> task_;
+		std::future<Ret> fut_;
 	public:
 		CTask() noexcept=default;
 		template<class Func,class ... Args>
 		explicit CTask(Func &&,Args &&...);
 		CTask(const CTask &)=delete;
 		CTask(CTask &&) noexcept=default;
-		inline decltype(std::declval<decltype(fut_)>().get()) get()
+		inline Ret get()
 		{
 			return fut_.get();
 		}

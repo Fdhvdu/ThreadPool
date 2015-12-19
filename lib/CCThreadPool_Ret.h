@@ -8,13 +8,13 @@
 
 namespace nTool
 {
-	template<class Func_t>
+	template<class Ret>
 	class CThreadPool_Ret	//same job, different argument and return value
 	{
 		CID id_;
 		const std::size_t size_;
-		CThreadQueue<typename CThreadPoolCommun_Ret<Func_t>::pair> waitingQue_;	//enough
-		CThreadPoolItem<Func_t> *thr_;
+		CThreadQueue<typename CThreadPoolCommun_Ret<Ret>::pair> waitingQue_;	//enough
+		CThreadPoolItem<Ret> *thr_;
 	public:
 		explicit CThreadPool_Ret(std::size_t);
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
@@ -28,7 +28,7 @@ namespace nTool
 		{
 			return size_;
 		}
-		inline decltype(std::declval<CThreadPoolItem<Func_t>>().get()) get(const std::size_t id)
+		inline decltype(std::declval<CThreadPoolItem<Ret>>().get()) get(const std::size_t id)
 		{
 			return thr_[id].get();
 		}

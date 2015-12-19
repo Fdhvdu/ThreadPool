@@ -19,8 +19,8 @@ namespace
 int main()
 {
 	using namespace std;
-	nTool::CThreadPool_Ret<size_t()> tp{4};
-	for(auto i(0);i!=tp.count();++i)
+	nTool::CThreadPool_Ret<size_t> tp{4};	//merely size_t, not size_t()
+	for(auto i{0};i!=tp.count();++i)
 		tp.add([&,i]{
 			using namespace std;
 			const auto sec{get()};
