@@ -19,7 +19,7 @@ namespace nTool
 		~CSemaphore();
 	};
 
-	class CReaders_Writers_Problem	//same as std::shared_mutex
+	class CReaders_Writers_Problem	//no as powerful as std::shared_mutex
 	{
 		class Impl;
 		CPimpl<Impl> impl_;
