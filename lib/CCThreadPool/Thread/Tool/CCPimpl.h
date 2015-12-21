@@ -20,6 +20,10 @@ namespace nTool
 		}
 		CPimpl& operator=(const CPimpl &);
 		CPimpl& operator=(CPimpl &&) noexcept;
+		explicit operator bool() const noexcept
+		{
+			return p_.operator bool();
+		}
 		~CPimpl();
 	};
 }
