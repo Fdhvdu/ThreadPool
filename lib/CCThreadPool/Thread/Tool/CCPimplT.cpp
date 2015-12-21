@@ -23,7 +23,7 @@ namespace nTool
 	template<class T>
 	CPimpl<T>& CPimpl<T>::operator=(const CPimpl &val)
 	{
-		p_=std::make_unique<T>(val.get());
+		get()=val.get();
 		return *this;
 	}
 
