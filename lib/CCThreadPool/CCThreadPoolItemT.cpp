@@ -69,7 +69,9 @@ namespace nTool
 	decltype(std::declval<CTask<Ret>>().get()) CThreadPoolItemExecutorRet<Ret>::get()
 	{
 		const auto temp{task_.get()};
-		commun_->communPoolDetach();
+		commun_->communPoolDetach();	//oops, it may cause problem
+										//you should call detach after temp pass out
+										//but how to do this?
 		return temp;
 	}
 }
