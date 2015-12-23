@@ -5,8 +5,8 @@ namespace nTool
 	void CThreadPoolItemExecutorDetach::exec()
 	{
 		func_();
-		commun_->communPoolDetach();
 		complete_.signal();
+		commun_->communPoolDetach();
 	}
 	
 	void CThreadPoolItemExecutorJoin::exec()
