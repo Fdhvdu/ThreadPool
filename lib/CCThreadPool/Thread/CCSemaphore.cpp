@@ -61,7 +61,7 @@ namespace nTool
 	class CReaders_Writers_Problem::Impl
 	{
 		atomic<size_t> count_;
-		CSemaphore use_,wait_;
+		CSemaphore use_,wait_,writing_;
 	public:
 		Impl();
 		void readBegin();
@@ -74,20 +74,24 @@ namespace nTool
 	};
 
 	CReaders_Writers_Problem::Impl::Impl()
-		:count_{0},use_{1},wait_{1}{}
+		:count_{0},use_{1},wait_{1},writing_{1}{}
 
 	void CReaders_Writers_Problem::Impl::readBegin()
 	{
 		wait_.wait();
+		writing_.wait();	//must
 		if(++count_==1)
 			use_.wait();
 		wait_.signal();
+		writing_.signal();	//can this line put prior to wait_.signal()?
 	}
 
 	void CReaders_Writers_Problem::Impl::readEnd()
 	{
+		//writing_.wait();	//atomic is enough, I think
 		if(!--count_)
 			use_.signal();
+		//writing_.signal();	//atomic is enough, I think
 	}
 
 	void CReaders_Writers_Problem::Impl::writeBegin()
