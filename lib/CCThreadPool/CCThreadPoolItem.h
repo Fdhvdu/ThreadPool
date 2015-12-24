@@ -45,9 +45,7 @@ namespace nTool
 		void assign_and_ret(Func &&,Args &&...);
 		inline decltype(std::declval<IThreadPoolItemExecutorBase<Ret>>().get()) get()
 		{
-			const auto temp{exec_->get()};
-			commun_->communPoolDetach();
-			return temp;
+			return exec_->get();
 		}
 		inline void join()	//for CThreadPool::join
 							//after calling this, CThreadPoolItem will be pushed into waitingQue_
@@ -132,19 +130,17 @@ namespace nTool
 	template<class Ret>
 	class CThreadPoolItemExecutorRet:public IThreadPoolItemExecutorBase<Ret>
 	{
+		CThreadPoolCommunBase *commun_;
 		CTask<Ret> task_;
 	public:
 		template<class Func,class ... Args>
-		CThreadPoolItemExecutorRet(Func &&,Args &&...);
+		CThreadPoolItemExecutorRet(CThreadPoolCommunBase *,Func &&,Args &&...);
 		CThreadPoolItemExecutorRet(const CThreadPoolItemExecutorRet &)=delete;
 		void exec() override
 		{
 			task_();
 		}
-		decltype(std::declval<CTask<Ret>>().get()) get() override
-		{
-			return task_.get();
-		}
+		decltype(std::declval<CTask<Ret>>().get()) get() override;
 		bool is_running() const noexcept override
 		{
 			return task_.valid();

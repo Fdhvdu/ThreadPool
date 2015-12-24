@@ -1,4 +1,5 @@
 #include"CCThreadPoolItem.h"
+#include"Thread/Tool/Tool.h"
 
 namespace nTool
 {
@@ -35,7 +36,7 @@ namespace nTool
 	template<class Func,class ... Args>
 	void CThreadPoolItem<Ret>::assign_and_ret(Func &&func,Args &&...args)
 	{
-		exec_=std::make_unique<CThreadPoolItemExecutorRet<Ret>>(std::forward<Func>(func),std::forward<Args>(args)...);
+		exec_=std::make_unique<CThreadPoolItemExecutorRet<Ret>>(commun_.get(),std::forward<Func>(func),std::forward<Args>(args)...);
 		joinable_=false;
 		wake_();
 	}
@@ -62,6 +63,13 @@ namespace nTool
 
 	template<class Ret>
 	template<class Func,class ... Args>
-	CThreadPoolItemExecutorRet<Ret>::CThreadPoolItemExecutorRet(Func &&func,Args &&...args)
-		:task_{std::forward<Func>(func),std::forward<Args>(args)...}{}
+	CThreadPoolItemExecutorRet<Ret>::CThreadPoolItemExecutorRet(CThreadPoolCommunBase *commun,Func &&func,Args &&...args)
+		:commun_{commun},task_{std::forward<Func>(func),std::forward<Args>(args)...}{}
+
+	template<class Ret>
+	decltype(std::declval<CTask<Ret>>().get()) CThreadPoolItemExecutorRet<Ret>::get()
+	{
+		const CScopeGuard<void()> sg{[=]{commun_->communPoolDetach();}};
+		return task_.get();
+	}
 }
