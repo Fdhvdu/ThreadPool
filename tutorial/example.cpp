@@ -52,21 +52,26 @@ int main()
 		tp.add(add_func,i);	//tp will block here until add_and_detach_func complete
 	for(auto i{0};i!=tp.count();++i)
 		tp.join(i);	//tp will block here until the i of thread complete
-	
+
 	cout<<"stage 3"<<endl;
+	for(auto i{0};i!=tp.count();++i)
+		tp.add_and_detach(add_and_detach_func,i);
+	tp.wait_until_all_available();	//this will block until all detach threads complete add_and_detach_func
+
+	cout<<"stage 4"<<endl;
 	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);	//tp will not block here, because you join all thread
 	tp.join_all();	//tp will block here until add_func complete, it is same as
 					//for(auto i(0);i!=tp.count();++i)
 					//	tp.join(i);
 
-	cout<<"stage 4"<<endl;
+	cout<<"stage 5"<<endl;
 	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	cout<<"thread "<<tp.join_any()<<" complete"<<endl;	//join any thread without specify which one
 	tp.join_all();
 
-	cout<<"stage 5"<<endl;
+	cout<<"stage 6"<<endl;
 	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	tp.join(0);
@@ -87,7 +92,7 @@ int main()
 	tp.join_any();
 	tp.join_all();	//because, this is in single thread
 
-	cout<<"stage 6"<<endl;
+	cout<<"stage 7"<<endl;
 	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	thread thr([&]{tp.join_any();});
@@ -99,7 +104,7 @@ int main()
 	//the user has to guarantee that
 	//every threads' join can be called only once after calling assign
 
-	cout<<"stage 7"<<endl;
+	cout<<"stage 8"<<endl;
 	for(auto i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	tp.join_any();
