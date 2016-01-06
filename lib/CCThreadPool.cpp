@@ -19,7 +19,7 @@ namespace nTool
 
 	void CThreadPool::join_all()
 	{
-		for(auto i{0};i!=count();++i)
+		for(size_t i{0};i!=count();++i)
 			if(joinable(i))
 				join(i);
 	}
@@ -37,7 +37,7 @@ namespace nTool
 		lock_guard<mutex> lock{*mut_};
 		vector<typename CThreadPoolCommun::pair> vec;
 		vec.reserve(count());
-		for(auto i{0};i!=count();++i)
+		for(size_t i{0};i!=count();++i)
 			vec.emplace_back(waitingQue_.wait_and_pop());
 		for(auto &val:vec)
 			waitingQue_.emplace(move(val));

@@ -43,43 +43,43 @@ int main()
 	nTool::CThreadPool tp{4};
 
 	cout<<"stage 1"<<endl;
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.add_and_detach(add_and_detach_func,i);
 	tp.join_all();	//this will not block, because you use add_and_detach
 
 	cout<<"stage 2"<<endl;
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.add(add_func,i);	//tp will block here until add_and_detach_func complete
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.join(i);	//tp will block here until the i of thread complete
 
 	cout<<"stage 3"<<endl;
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.add_and_detach(add_and_detach_func,i);
 	tp.wait_until_all_available();	//this will block until all detach threads complete add_and_detach_func
 
 	cout<<"stage 4"<<endl;
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.add(add_func,i);	//tp will not block here, because you join all thread
 	tp.join_all();	//tp will block here until add_func complete, it is same as
-					//for(auto i(0);i!=tp.count();++i)
+					//for(size_t i(0);i!=tp.count();++i)
 					//	tp.join(i);
 
 	cout<<"stage 5"<<endl;
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	cout<<"thread "<<tp.join_any()<<" complete"<<endl;	//join any thread without specify which one
 	tp.join_all();
 
 	cout<<"stage 6"<<endl;
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	tp.join(0);
 	tp.join_any();	//calling join prior to join_any is ok
 					//but calling join_any with join (or join_all) is not ok when using multi-thread, such as the code below
 
 	//here is an incorrect example
-	//for(auto i(0);i!=tp.count();++i)
+	//for(size_t i(0);i!=tp.count();++i)
 	//	tp.add(add_func,i);
 	//thread thr([&]{tp.join(0);});
 	//tp.join_any();	//please, don't do this
@@ -93,7 +93,7 @@ int main()
 	tp.join_all();	//because, this is in single thread
 
 	cout<<"stage 7"<<endl;
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	thread thr([&]{tp.join_any();});
 	tp.join_any();	//ok, no problem
@@ -105,7 +105,7 @@ int main()
 	//every threads' join can be called only once after calling assign
 
 	cout<<"stage 8"<<endl;
-	for(auto i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.count();++i)
 		tp.add(add_func,i);
 	tp.join_any();
 	//you don't need to call join_all to guarantee all threads are joining
