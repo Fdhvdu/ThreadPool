@@ -7,6 +7,11 @@
 #include"CCThreadPool/Thread/CCThreadQueue.h"
 #include"CCThreadPool/Thread/Tool/CCID.h"
 
+namespace std
+{
+	class mutex;
+}
+
 namespace nTool
 {
 	class CThreadPool	//same job, different argument and no return value
@@ -16,9 +21,10 @@ namespace nTool
 	{
 		CID id_;
 		CThreadList<typename CThreadPoolCommun::pair> join_anyList_;
-		CThreadQueue<typename CThreadPoolCommun::pair> waitingQue_;
+		std::mutex *mut_;	//only for wait_until_all_available
 		const std::size_t size_;
 		CThreadPoolItem<void> *thr_;
+		mutable CThreadQueue<typename CThreadPoolCommun::pair> waitingQue_;
 	public:
 		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
@@ -50,6 +56,7 @@ namespace nTool
 		std::size_t join_any();	//do not combine join and join_any together in your code
 								//it will make some join_any cannot get notification
 								//join_any must return value, because I have implemented add_and_detach already
+		void wait_until_all_available() const;
 		CThreadPool& operator=(const CThreadPool &)=delete;
 		~CThreadPool();
 	};
