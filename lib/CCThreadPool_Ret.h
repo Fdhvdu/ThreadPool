@@ -36,7 +36,7 @@ namespace nTool
 		{
 			return thr_[id].valid();
 		}
-		inline void wait(const std::size_t id)	//block until ready
+		inline void wait(const std::size_t id) const	//block until ready
 		{
 			thr_[id].wait();
 		}

@@ -65,7 +65,7 @@ namespace nTool
 		{
 			return exec_->is_running();
 		}
-		inline void wait()	//for CThreadPool_Ret::wait
+		inline void wait() const	//only for CThreadPool_Ret::wait
 		{
 			exec_->wait();
 		}
