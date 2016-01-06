@@ -11,6 +11,7 @@ I provide 2 example files (example.cpp and example_ret.cpp) to help you understa
 		joinable
 		join_all
 		join_any
+		wait_until_all_available
 	CThreadPool_Ret, including the function
 		add
 		available
