@@ -1,10 +1,10 @@
-#include"CThreadPoolCommun.h"
-#include"CThreadPoolItem.h"
-#include"Thread/CThreadList.h"
-#include"Thread/CThreadQueue.h"
+#include"../header/CThreadPoolCommun.h"
+#include"../../lib/header/thread/CThreadList.h"
+#include"../../lib/header/thread/CThreadQueue.h"
+#include"../header/CThreadPoolItem.h"
 using namespace std;
 
-namespace nTool
+namespace nThread
 {
 	void CThreadPoolCommunBase::detach_(){}
 	

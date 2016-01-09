@@ -1,11 +1,11 @@
-#include"CThreadPool.h"
+#include"../header/CThreadPool.h"
 #include<memory>	//make_unique
 #include<mutex>
 #include<utility>	//move
 #include<vector>
 using namespace std;
 
-namespace nTool
+namespace nThread
 {
 	CThreadPool::CThreadPool(const size_t count)
 		:mut_{new mutex()},size_{count},thr_{new CThreadPoolItem<void>[count]()}

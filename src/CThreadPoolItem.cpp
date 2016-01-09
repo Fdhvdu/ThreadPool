@@ -1,6 +1,6 @@
-#include"CThreadPoolItem.h"
+#include"../header/CThreadPoolItem.h"
 
-namespace nTool
+namespace nThread
 {
 	void CThreadPoolItemExecutorDetach::exec()
 	{
