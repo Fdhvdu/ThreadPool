@@ -2,9 +2,9 @@
 #define CTHREADPOOLCOMMUN
 #include<cstddef>	//size_t
 #include<utility>	//pair
-#include"Thread/Tool/CPimpl.h"
+#include"../../lib/header/tool/CPimpl.h"
 
-namespace nTool
+namespace nThread
 {
 	template<class Func>
 	class CThreadList;
@@ -34,7 +34,7 @@ namespace nTool
 		typedef std::pair<std::size_t,CThreadPoolItem<void>*> pair;
 	private:
 		struct Impl;
-		CPimpl<Impl> impl_;
+		nTool::CPimpl<Impl> impl_;
 		void detach_() override;	//notify CThreadPool::join_any
 		void finish_() override;	//push CThreadPoolItem into waitingQue_
 		void join_() override;	//erase join_anyList_ and push CThreadPoolItem into waitingQue_
@@ -62,6 +62,6 @@ namespace nTool
 	};
 }
 
-#include"CThreadPoolCommunT.cpp"
+#include"CThreadPoolCommun.cpp"
 
 #endif

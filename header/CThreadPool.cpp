@@ -1,7 +1,7 @@
 #include"CThreadPool.h"
 #include<utility>
 
-namespace nTool
+namespace nThread
 {
 	template<class Func,class ... Args>
 	std::size_t CThreadPool::add(Func &&func,Args &&...args)

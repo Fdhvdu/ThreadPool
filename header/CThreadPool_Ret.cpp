@@ -1,7 +1,7 @@
 #include"CThreadPool_Ret.h"
 #include<memory>	//make_unique
 
-namespace nTool
+namespace nThread
 {
 	template<class Ret>
 	CThreadPool_Ret<Ret>::CThreadPool_Ret(const std::size_t count)

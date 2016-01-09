@@ -1,17 +1,17 @@
 #ifndef CTHREADPOOL_RET
 #define CTHREADPOOL_RET
 #include<cstddef>	//size_t
-#include"CThreadPool/CThreadPoolCommun.h"
-#include"CThreadPool/CThreadPoolItem.h"
-#include"CThreadPool/Thread/CThreadQueue.h"
-#include"CThreadPool/Thread/Tool/CId.h"
+#include"../../lib/header/thread/CThreadQueue.h"
+#include"../../lib/header/tool/CId.h"
+#include"CThreadPoolCommun.h"
+#include"CThreadPoolItem.h"
 
-namespace nTool
+namespace nThread
 {
 	template<class Ret>
 	class CThreadPool_Ret	//same job, different argument and return value
 	{
-		CId id_;
+		nTool::CId id_;
 		const std::size_t size_;
 		CThreadQueue<typename CThreadPoolCommun_Ret<Ret>::pair> waitingQue_;	//enough
 		CThreadPoolItem<Ret> *thr_;
@@ -45,6 +45,6 @@ namespace nTool
 	};
 }
 
-#include"CThreadPool_RetT.cpp"
+#include"CThreadPool_Ret.cpp"
 
 #endif

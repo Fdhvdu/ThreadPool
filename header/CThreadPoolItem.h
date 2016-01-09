@@ -4,12 +4,12 @@
 #include<functional>	//function
 #include<memory>	//unique_ptr
 #include<utility>	//move
+#include"../../lib/header/thread/CSemaphore.h"
+#include"../../lib/header/thread/CSmartThread.h"
+#include"../../lib/header/thread/CTask.h"
 #include"CThreadPoolCommun.h"
-#include"Thread/CTask.h"
-#include"Thread/CSemaphore.h"
-#include"Thread/CSmartThread.h"
 
-namespace nTool
+namespace nThread
 {
 	template<class T>
 	struct IThreadPoolItemExecutorBase;
@@ -153,6 +153,6 @@ namespace nTool
 	};
 }
 
-#include"CThreadPoolItemT.cpp"
+#include"CThreadPoolItem.cpp"
 
 #endif

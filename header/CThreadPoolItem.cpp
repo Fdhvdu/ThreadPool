@@ -1,7 +1,7 @@
 #include"CThreadPoolItem.h"
-#include"Thread/Tool/CScopeGuard.h"
+#include"../../lib/header/tool/CScopeGuard.h"
 
-namespace nTool
+namespace nThread
 {
 	template<class Ret>
 	void CThreadPoolItem<Ret>::loop_()
@@ -69,7 +69,7 @@ namespace nTool
 	template<class Ret>
 	decltype(std::declval<CTask<Ret>>().get()) CThreadPoolItemExecutorRet<Ret>::get()
 	{
-		const CScopeGuard<void()> sg{[=]{commun_->communPoolDetach();}};
+		const nTool::CScopeGuard<void()> sg{[=]{commun_->communPoolDetach();}};
 		return task_.get();
 	}
 }

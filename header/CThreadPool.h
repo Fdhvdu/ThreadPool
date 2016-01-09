@@ -1,25 +1,25 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
 #include<cstddef>	//size_t
-#include"CThreadPool/CThreadPoolCommun.h"
-#include"CThreadPool/CThreadPoolItem.h"
-#include"CThreadPool/Thread/CThreadList.h"
-#include"CThreadPool/Thread/CThreadQueue.h"
-#include"CThreadPool/Thread/Tool/CId.h"
+#include"../../lib/header/thread/CThreadList.h"
+#include"../../lib/header/thread/CThreadQueue.h"
+#include"../../lib/header/tool/CId.h"
+#include"CThreadPoolCommun.h"
+#include"CThreadPoolItem.h"
 
 namespace std
 {
 	class mutex;
 }
 
-namespace nTool
+namespace nThread
 {
 	class CThreadPool	//same job, different argument and no return value
 						//with add, add_and_detach, join, joinable, join_all and join_any
 						//every threads must call join, join_any or join_all after calling add
 						//otherwise, there is no available thread even after threads complete their job
 	{
-		CId id_;
+		nTool::CId id_;
 		CThreadList<typename CThreadPoolCommun::pair> join_anyList_;
 		std::mutex *mut_;	//only for wait_until_all_available
 		const std::size_t size_;
@@ -62,6 +62,6 @@ namespace nTool
 	};
 }
 
-#include"CThreadPoolT.cpp"
+#include"CThreadPool.cpp"
 
 #endif

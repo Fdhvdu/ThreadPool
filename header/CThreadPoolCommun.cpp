@@ -1,8 +1,8 @@
 #include"CThreadPoolCommun.h"
+#include"../../lib/header/thread/CThreadQueue.h"
 #include"CThreadPoolItem.h"
-#include"Thread/CThreadQueue.h"
 
-namespace nTool
+namespace nThread
 {
 	template<class Ret>
 	void CThreadPoolCommun_Ret<Ret>::detach_()
