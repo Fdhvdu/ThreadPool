@@ -2,7 +2,7 @@
 #include<iostream>
 #include<mutex>
 #include<random>
-#include"../lib/CThreadPool_Ret.h"
+#include"../header/CThreadPool_Ret.h"
 
 namespace
 {
@@ -19,7 +19,7 @@ namespace
 int main()
 {
 	using namespace std;
-	nTool::CThreadPool_Ret<size_t> tp{4};	//merely size_t, not size_t()
+	nThread::CThreadPool_Ret<size_t> tp{4};	//merely size_t, not size_t()
 	for(size_t i{0};i!=tp.count();++i)
 		tp.add([&,i]{
 			using namespace std;
