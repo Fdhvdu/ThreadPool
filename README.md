@@ -24,17 +24,17 @@ If you don't care the return value, use CThreadPool is better<br/>
 To use threadpool, you also have to download my lib (https://github.com/Fdhvdu/lib)<br/>
 The directory should look like
 
-	-lib-------------header
-	|               -src
-	|               -tutorial
-	|               -LICENSE
+	-lib----------header
+	|            -src
+	|            -tutorial
+	|            -LICENSE
 	|
-	-ThreadPool------header
-	                -src
-	                -tutorial
-	                -LICENSE
-	                -README.md
-<br/>The compiler I use is VC++ 2015 and gcc 5.2.0<br/><br/><br/>
+	-ThreadPool---header
+	             -src
+	             -tutorial
+	             -LICENSE
+	             -README.md
+<br/><br/>The compiler I use is VC++ 2015 and gcc 5.2.0<br/><br/><br/>
 Tutorial:<br/>
 To use example.cpp:<br/>
 g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CId.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
