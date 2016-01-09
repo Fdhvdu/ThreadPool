@@ -3,7 +3,7 @@
 #include<mutex>
 #include<random>
 #include<thread>
-#include"../lib/CThreadPool.h"
+#include"../header/CThreadPool.h"
 
 namespace
 {
@@ -16,7 +16,7 @@ namespace
 		return mu()%4+1;
 	}
 
-	int add_func(int i)
+	std::size_t add_func(const std::size_t i)
 	{
 		using namespace std;
 		const auto sec{get()};
@@ -26,7 +26,7 @@ namespace
 		return i;
 	}
 
-	int add_and_detach_func(int i)
+	std::size_t add_and_detach_func(const std::size_t i)
 	{
 		using namespace std;
 		const auto sec{get()};
@@ -40,7 +40,7 @@ namespace
 int main()
 {
 	using namespace std;
-	nTool::CThreadPool tp{4};
+	nThread::CThreadPool tp{4};
 
 	cout<<"stage 1"<<endl;
 	for(size_t i{0};i!=tp.count();++i)
