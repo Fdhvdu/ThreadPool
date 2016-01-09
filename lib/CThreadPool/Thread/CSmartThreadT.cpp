@@ -1,4 +1,4 @@
-#include"CCSmartThread.h"
+#include"CSmartThread.h"
 #include<utility>
 
 namespace nTool

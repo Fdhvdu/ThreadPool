@@ -1,4 +1,4 @@
-#include"Tool.h"
+#include"CScopeGuard.h"
 #include<utility>
 
 namespace nTool

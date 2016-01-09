@@ -1,7 +1,7 @@
-#include"CCThreadPoolCommun.h"
-#include"CCThreadPoolItem.h"
-#include"Thread/CCThreadList.h"
-#include"Thread/CCThreadQueue.h"
+#include"CThreadPoolCommun.h"
+#include"CThreadPoolItem.h"
+#include"Thread/CThreadList.h"
+#include"Thread/CThreadQueue.h"
 using namespace std;
 
 namespace nTool

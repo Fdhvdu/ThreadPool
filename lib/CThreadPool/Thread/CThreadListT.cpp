@@ -1,4 +1,4 @@
-#include"CCThreadList.h"
+#include"CThreadList.h"
 #include<utility>
 
 namespace nTool

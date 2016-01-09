@@ -1,4 +1,4 @@
-#include"CCPimpl.h"
+#include"CPimpl.h"
 #include<utility>	//std::forward
 
 namespace nTool

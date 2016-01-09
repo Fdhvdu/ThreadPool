@@ -20,12 +20,11 @@ I provide 2 example files (example.cpp and example_ret.cpp) to help you understa
 		valid
 		wait
 <br/>
-If you want to get the return value from function, then you should use CThreadPool_Ret<br/>
-If you don't care the return value, then use CThreadPool is better<br/>
-To make thread pool powerful, beautiful and maintainable, I discard some performance.
+If you want to get the return value from function, you should use CThreadPool_Ret<br/>
+If you don't care the return value, use CThreadPool is better
 <br/><br/>
-The compiler I use is VC++ 2015 and gcc 5.2.0.<br/>
+The compiler I use is VC++ 2015 and gcc 5.2.0<br/>
 To use example.cpp:<br/>
-g++ -std=c++14 tutorial/example.cpp lib/CCThreadPool.cpp lib/CCThreadPool/CCThreadPoolCommun.cpp lib/CCThreadPool/CCThreadPoolItem.cpp lib/CCThreadPool/Thread/CCSemaphore.cpp lib/CCThreadPool/Thread/CCSmartThread.cpp lib/CCThreadPool/Thread/Tool/CCID.cpp<br/>
+g++ -std=c++14 tutorial/example.cpp lib/CThreadPool.cpp lib/CThreadPool/CThreadPoolCommun.cpp lib/CThreadPool/CThreadPoolItem.cpp lib/CThreadPool/Thread/CSemaphore.cpp lib/CThreadPool/Thread/CSmartThread.cpp lib/CThreadPool/Thread/Tool/CId.cpp<br/>
 To use example_ret.cpp:<br/>
-g++ -std=c++14 tutorial/example_ret.cpp lib/CCThreadPool/CCThreadPoolCommun.cpp lib/CCThreadPool/Thread/CCSemaphore.cpp lib/CCThreadPool/Thread/CCSmartThread.cpp lib/CCThreadPool/Thread/Tool/CCID.cpp
+g++ -std=c++14 tutorial/example_ret.cpp lib/CThreadPool/CThreadPoolCommun.cpp lib/CThreadPool/Thread/CSemaphore.cpp lib/CThreadPool/Thread/CSmartThread.cpp lib/CThreadPool/Thread/Tool/CId.cpp

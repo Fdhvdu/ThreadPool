@@ -1,5 +1,5 @@
-#include"CCThreadPoolItem.h"
-#include"Thread/Tool/Tool.h"
+#include"CThreadPoolItem.h"
+#include"Thread/Tool/CScopeGuard.h"
 
 namespace nTool
 {

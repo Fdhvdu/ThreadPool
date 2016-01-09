@@ -1,5 +1,5 @@
-#ifndef __CCSmartThread
-#define __CCSmartThread
+#ifndef CSMARTTHREAD
+#define CSMARTTHREAD
 #include<thread>
 
 namespace nTool
@@ -19,6 +19,6 @@ namespace nTool
 	};
 }
 
-#include"CCSmartThreadT.cpp"
+#include"CSmartThreadT.cpp"
 
 #endif

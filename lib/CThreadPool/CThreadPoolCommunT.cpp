@@ -1,6 +1,6 @@
-#include"CCThreadPoolCommun.h"
-#include"CCThreadPoolItem.h"
-#include"Thread/CCThreadQueue.h"
+#include"CThreadPoolCommun.h"
+#include"CThreadPoolItem.h"
+#include"Thread/CThreadQueue.h"
 
 namespace nTool
 {

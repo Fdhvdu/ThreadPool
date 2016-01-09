@@ -1,8 +1,8 @@
-#ifndef __CCThreadPoolCommun
-#define __CCThreadPoolCommun
+#ifndef CTHREADPOOLCOMMUN
+#define CTHREADPOOLCOMMUN
 #include<cstddef>	//size_t
 #include<utility>	//pair
-#include"Thread/Tool/CCPimpl.h"
+#include"Thread/Tool/CPimpl.h"
 
 namespace nTool
 {
@@ -62,6 +62,6 @@ namespace nTool
 	};
 }
 
-#include"CCThreadPoolCommunT.cpp"
+#include"CThreadPoolCommunT.cpp"
 
 #endif

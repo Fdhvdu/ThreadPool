@@ -1,5 +1,5 @@
-#ifndef __Tool
-#define __Tool
+#ifndef CSCOPEGUARD
+#define CSCOPEGUARD
 #include<functional>
 
 namespace nTool
@@ -20,6 +20,6 @@ namespace nTool
 	};
 }
 
-#include"ToolT.cpp"
+#include"CScopeGuardT.cpp"
 
 #endif

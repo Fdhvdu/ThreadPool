@@ -1,16 +1,16 @@
-#ifndef __CCID
-#define __CCID
+#ifndef CID
+#define CID
 #include<atomic>
 #include<cstddef>
 
 namespace nTool
 {
-	class CID
+	class CId
 	{
 		std::atomic<std::size_t> id_;
 	public:
-		CID(std::size_t init=0) noexcept;
-		CID(const CID &)=delete;
+		CId(std::size_t init=0) noexcept;
+		CId(const CId &)=delete;
 		inline std::size_t get() const noexcept
 		{
 			return id_;
@@ -23,7 +23,7 @@ namespace nTool
 		{
 			return id_++;
 		}
-		CID& operator=(const CID &)=delete;
+		CId& operator=(const CId &)=delete;
 	};
 }
 

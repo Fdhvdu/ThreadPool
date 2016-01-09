@@ -1,11 +1,11 @@
-#ifndef __CCThreadPool
-#define __CCThreadPool
+#ifndef CTHREADPOOL
+#define CTHREADPOOL
 #include<cstddef>	//size_t
-#include"CCThreadPool/CCThreadPoolCommun.h"
-#include"CCThreadPool/CCThreadPoolItem.h"
-#include"CCThreadPool/Thread/CCThreadList.h"
-#include"CCThreadPool/Thread/CCThreadQueue.h"
-#include"CCThreadPool/Thread/Tool/CCID.h"
+#include"CThreadPool/CThreadPoolCommun.h"
+#include"CThreadPool/CThreadPoolItem.h"
+#include"CThreadPool/Thread/CThreadList.h"
+#include"CThreadPool/Thread/CThreadQueue.h"
+#include"CThreadPool/Thread/Tool/CId.h"
 
 namespace std
 {
@@ -19,7 +19,7 @@ namespace nTool
 						//every threads must call join, join_any or join_all after calling add
 						//otherwise, there is no available thread even after threads complete their job
 	{
-		CID id_;
+		CId id_;
 		CThreadList<typename CThreadPoolCommun::pair> join_anyList_;
 		std::mutex *mut_;	//only for wait_until_all_available
 		const std::size_t size_;
@@ -62,6 +62,6 @@ namespace nTool
 	};
 }
 
-#include"CCThreadPoolT.cpp"
+#include"CThreadPoolT.cpp"
 
 #endif

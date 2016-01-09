@@ -1,13 +1,13 @@
-#ifndef __CCThreadPoolItem
-#define __CCThreadPoolItem
+#ifndef CTHREADPOOLITEM
+#define CTHREADPOOLITEM
 #include<atomic>	//atomic<bool>
 #include<functional>	//function
 #include<memory>	//unique_ptr
 #include<utility>	//move
-#include"CCThreadPoolCommun.h"
-#include"Thread/CCTask.h"
-#include"Thread/CCSemaphore.h"
-#include"Thread/CCSmartThread.h"
+#include"CThreadPoolCommun.h"
+#include"Thread/CTask.h"
+#include"Thread/CSemaphore.h"
+#include"Thread/CSmartThread.h"
 
 namespace nTool
 {
@@ -153,6 +153,6 @@ namespace nTool
 	};
 }
 
-#include"CCThreadPoolItemT.cpp"
+#include"CThreadPoolItemT.cpp"
 
 #endif

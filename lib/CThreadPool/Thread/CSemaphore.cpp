@@ -1,4 +1,4 @@
-#include"CCSemaphore.h"
+#include"CSemaphore.h"
 #include<atomic>
 #include<condition_variable>
 #include<mutex>

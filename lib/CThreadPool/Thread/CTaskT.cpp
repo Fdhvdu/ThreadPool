@@ -1,4 +1,4 @@
-#include"CCTask.h"
+#include"CTask.h"
 #include<functional>	//bind
 
 namespace nTool

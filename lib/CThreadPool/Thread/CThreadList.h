@@ -1,5 +1,5 @@
-#ifndef __CCThreadList
-#define __CCThreadList
+#ifndef CTHREADLIST
+#define CTHREADLIST
 #include<condition_variable>
 #include<cstddef>
 #include<list>
@@ -26,6 +26,6 @@ namespace nTool
 	};
 }
 
-#include"CCThreadListT.cpp"
+#include"CThreadListT.cpp"
 
 #endif

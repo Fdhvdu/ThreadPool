@@ -1,5 +1,5 @@
-#ifndef __CCThreadQueue
-#define __CCThreadQueue
+#ifndef CTHREADQUEUE
+#define CTHREADQUEUE
 #include<condition_variable>
 #include<cstddef>
 #include<queue>
@@ -24,6 +24,6 @@ namespace nTool
 	};
 }
 
-#include"CCThreadQueueT.cpp"
+#include"CThreadQueueT.cpp"
 
 #endif

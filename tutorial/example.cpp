@@ -3,7 +3,7 @@
 #include<mutex>
 #include<random>
 #include<thread>
-#include"../lib/CCThreadPool.h"
+#include"../lib/CThreadPool.h"
 
 namespace
 {

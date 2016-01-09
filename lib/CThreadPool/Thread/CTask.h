@@ -1,5 +1,5 @@
-#ifndef __CCTask
-#define __CCTask
+#ifndef CTASK
+#define CTASK
 #include<future>
 #include<utility>	//declval
 
@@ -41,6 +41,6 @@ namespace nTool
 	};
 }
 
-#include"CCTaskT.cpp"
+#include"CTaskT.cpp"
 
 #endif

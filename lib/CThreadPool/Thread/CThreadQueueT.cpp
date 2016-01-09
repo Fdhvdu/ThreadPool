@@ -1,4 +1,4 @@
-#include"CCThreadQueue.h"
+#include"CThreadQueue.h"
 #include<utility>
 
 namespace nTool

@@ -1,5 +1,5 @@
-#ifndef __CCPimpl
-#define __CCPimpl
+#ifndef CPIMPL
+#define CPIMPL
 #include<memory>	//std::unique_ptr
 
 namespace nTool
@@ -28,6 +28,6 @@ namespace nTool
 	};
 }
 
-#include"CCPimplT.cpp"
+#include"CPimplT.cpp"
 
 #endif
