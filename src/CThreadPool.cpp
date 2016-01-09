@@ -3,6 +3,7 @@
 #include<mutex>
 #include<utility>	//move
 #include<vector>
+#include"../../lib/header/algorithm/algorithm.h"
 using namespace std;
 
 namespace nThread
@@ -10,11 +11,10 @@ namespace nThread
 	CThreadPool::CThreadPool(const size_t count)
 		:mut_{new mutex()},size_{count},thr_{new CThreadPoolItem<void>[count]()}
 	{
-		for(auto p{thr_};p!=thr_+count;++p)
-		{
+		nAlgorithm::for_each(thr_,thr_+count,[&](const auto p){
 			p->setCommun(make_unique<CThreadPoolCommun>(p,join_anyList_,waitingQue_,id_++));
 			waitingQue_.emplace(id_.get(),p);
-		}
+		});
 	}
 
 	void CThreadPool::join_all()

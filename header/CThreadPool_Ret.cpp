@@ -1,5 +1,6 @@
 #include"CThreadPool_Ret.h"
 #include<memory>	//make_unique
+#include"../../lib/header/algorithm/algorithm.h"
 
 namespace nThread
 {
@@ -7,11 +8,10 @@ namespace nThread
 	CThreadPool_Ret<Ret>::CThreadPool_Ret(const std::size_t count)
 		:size_{count},thr_{new CThreadPoolItem<Ret>[count]}
 	{
-		for(auto p{thr_};p!=thr_+count;++p)
-		{
+		nAlgorithm::for_each(thr_,thr_+count,[&](const auto p){
 			p->setCommun(std::make_unique<CThreadPoolCommun_Ret<Ret>>(p,waitingQue_,id_++));
 			waitingQue_.emplace(id_.get(),p);
-		}
+		});
 	}
 
 	template<class Ret>
