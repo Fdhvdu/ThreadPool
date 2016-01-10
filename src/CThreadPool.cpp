@@ -19,9 +19,9 @@ namespace nThread
 
 	void CThreadPool::join_all()
 	{
-		nAlgorithm::for_each<size_t>(0,count(),[&](const auto i){
-			if(joinable(i))
-				join(i);
+		nAlgorithm::for_each<size_t>(0,count(),[this](const auto i){
+			if(this->joinable(i))
+				this->join(i);
 		});
 	}
 
