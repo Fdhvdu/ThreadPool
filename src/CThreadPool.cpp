@@ -4,30 +4,60 @@
 #include<utility>	//move
 #include<vector>
 #include"../../lib/header/algorithm/algorithm.h"
+#include"../../lib/header/thread/CThreadList.h"
+#include"../../lib/header/tool/CId.h"
+#include"../header/CThreadPoolItem.h"
 using namespace std;
 
 namespace nThread
 {
-	CThreadPool::CThreadPool(const size_t count)
-		:mut_{new mutex()},size_{count},thr_{new CThreadPoolItem<void>[count]()}
+	struct CThreadPool::Impl
 	{
-		nAlgorithm::for_each(thr_,thr_+count,[&](const auto p){
-			p->setCommun(make_unique<CThreadPoolCommun>(p,join_anyList_,waitingQue_,id_++));
-			waitingQue_.emplace(id_.get(),p);
-		});
+		nTool::CId id;
+		CThreadList<typename CThreadPoolCommun::pair> join_anyList;
+		mutex mut;	//only for wait_until_all_available
+		vector<CThreadPoolItem<void>> thr;
+		Impl(size_t,CThreadQueue<typename CThreadPoolCommun::pair> &);
+	};
+
+	CThreadPool::Impl::Impl(const size_t size,CThreadQueue<typename CThreadPoolCommun::pair> &waitingQue)
+		:thr(size)
+	{
+		for(auto &val:thr)
+		{
+			val.setCommun(make_unique<CThreadPoolCommun>(&val,join_anyList,waitingQue,id++));
+			waitingQue.emplace(id.get(),&val);
+		}
+	}
+
+	CThreadPool::CThreadPool(const size_t size)
+		:impl_{size,waitingQue_}{}
+
+	std::size_t CThreadPool::count() const noexcept
+	{
+		return impl_.get().thr.size();
+	}
+
+	void CThreadPool::join(const size_t id)
+	{
+		impl_.get().thr[id].join();
+	}
+
+	bool CThreadPool::joinable(const size_t id) const noexcept
+	{
+		return impl_.get().thr[id].joinable();
 	}
 
 	void CThreadPool::join_all()
 	{
-		nAlgorithm::for_each<size_t>(0,count(),[this](const auto i){
-			if(this->joinable(i))
-				this->join(i);
-		});
+		for(auto &val:impl_.get().thr)
+			if(val.joinable())
+				val.join();
 	}
 
 	size_t CThreadPool::join_any()
 	{
-		auto temp{join_anyList_.wait_and_pop()};
+		auto temp{impl_.get().join_anyList.wait_and_pop()};
 		const auto id{temp.first};
 		temp.second->join();
 		return id;
@@ -35,18 +65,14 @@ namespace nThread
 
 	void CThreadPool::wait_until_all_available() const
 	{
-		lock_guard<mutex> lock{*mut_};
 		vector<typename CThreadPoolCommun::pair> vec;
 		vec.reserve(count());
-		for(size_t i{0};i!=count();++i)
+		lock_guard<mutex> lock{impl_.get().mut};
+		while(vec.size()!=count())
 			vec.emplace_back(waitingQue_.wait_and_pop());
 		for(auto &val:vec)
 			waitingQue_.emplace(move(val));
 	}
 
-	CThreadPool::~CThreadPool()
-	{
-		delete []thr_;	//CThreadPoolItem is RAII, you don't have to call join_all()
-		delete mut_;
-	}
+	CThreadPool::~CThreadPool(){}
 }

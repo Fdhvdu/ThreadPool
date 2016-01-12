@@ -1,16 +1,9 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
 #include<cstddef>	//size_t
-#include"../../lib/header/thread/CThreadList.h"
 #include"../../lib/header/thread/CThreadQueue.h"
-#include"../../lib/header/tool/CId.h"
+#include"../../lib/header/tool/CPimpl.h"
 #include"CThreadPoolCommun.h"
-#include"CThreadPoolItem.h"
-
-namespace std
-{
-	class mutex;
-}
 
 namespace nThread
 {
@@ -19,12 +12,9 @@ namespace nThread
 						//every threads must call join, join_any or join_all after calling add
 						//otherwise, there is no available thread even after threads complete their job
 	{
-		nTool::CId id_;
-		CThreadList<typename CThreadPoolCommun::pair> join_anyList_;
-		std::mutex *mut_;	//only for wait_until_all_available
-		const std::size_t size_;
-		CThreadPoolItem<void> *thr_;
+		struct Impl;
 		mutable CThreadQueue<typename CThreadPoolCommun::pair> waitingQue_;
+		nTool::CPimpl<Impl> impl_;
 	public:
 		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
@@ -39,19 +29,10 @@ namespace nThread
 		{
 			return waitingQue_.size();
 		}
-		inline std::size_t count() const noexcept
-		{
-			return size_;
-		}
-		inline void join(const std::size_t id)	//do not combine join and join_any together in your code
-												//it will make some join_any cannot get notification
-		{
-			thr_[id].join();
-		}
-		inline bool joinable(const std::size_t id) const noexcept
-		{
-			return thr_[id].joinable();
-		}
+		std::size_t count() const noexcept;
+		void join(std::size_t);	//do not combine join and join_any together in your code
+								//it will make some join_any cannot get notification
+		bool joinable(std::size_t) const noexcept;
 		void join_all();	//it will not block assign, you have to control by yourself
 		std::size_t join_any();	//do not combine join and join_any together in your code
 								//it will make some join_any cannot get notification
