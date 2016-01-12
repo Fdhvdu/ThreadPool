@@ -27,6 +27,7 @@ The directory should look like
 	|            -src
 	|            -tutorial
 	|            -LICENSE
+	|            -README.md
 	|
 	-ThreadPool---header
 	             -src
