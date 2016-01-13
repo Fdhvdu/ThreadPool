@@ -67,7 +67,7 @@ namespace nThread
 		:commun_{commun},task_{std::forward<Func>(func),std::forward<Args>(args)...}{}
 
 	template<class Ret>
-	decltype(std::declval<CTask<Ret>>().get()) CThreadPoolItemExecutorRet<Ret>::get()
+	decltype(std::declval<CTask<Ret>>().get()) CThreadPoolItemExecutorRet<Ret>::get_()
 	{
 		const nTool::CScopeGuard<void()> sg{[=]{commun_->communPoolDetach();}};
 		return task_.get();

@@ -79,12 +79,17 @@ namespace nThread
 	{
 		virtual void exec()=0;
 		virtual bool is_running() const noexcept=0;
-		virtual decltype(std::declval<CTask<Ret>>().get()) get()	//detach and join will not call this
+		decltype(std::declval<CTask<Ret>>().get()) get()	//detach and join will not call this
 		{
-			return CTask<Ret>().get();
+			return get_();
 		}
 		virtual void wait()=0;
 		virtual ~IThreadPoolItemExecutorBase()=0;
+	protected:
+		virtual decltype(std::declval<CTask<Ret>>().get()) get_()	//detach and join will not call this
+		{
+			return CTask<Ret>().get();
+		}
 	};
 
 	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase<void>
@@ -132,6 +137,8 @@ namespace nThread
 	{
 		CThreadPoolCommunBase *commun_;
 		CTask<Ret> task_;
+	protected:
+		decltype(std::declval<CTask<Ret>>().get()) get_() override;
 	public:
 		template<class Func,class ... Args>
 		CThreadPoolItemExecutorRet(CThreadPoolCommunBase *,Func &&,Args &&...);
@@ -140,7 +147,6 @@ namespace nThread
 		{
 			task_();
 		}
-		decltype(std::declval<CTask<Ret>>().get()) get() override;
 		bool is_running() const noexcept override
 		{
 			return task_.valid();
