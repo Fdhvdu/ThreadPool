@@ -4,6 +4,7 @@
 #include"../../lib/header/thread/CThreadQueue.h"
 #include"../../lib/header/tool/CPimpl.h"
 #include"CThreadPoolCommun.h"
+#include"CThreadPoolItem.h"
 
 namespace nThread
 {

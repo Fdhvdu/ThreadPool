@@ -44,24 +44,6 @@ namespace nThread
 		CThreadPoolCommun& operator=(const CThreadPoolCommun &)=delete;
 		~CThreadPoolCommun();
 	};
-
-	template<class Ret>
-	class CThreadPoolCommun_Ret:public CThreadPoolCommunBase
-	{
-	public:
-		typedef std::pair<std::size_t,CThreadPoolItem<Ret>*> pair;
-	private:
-		CThreadPoolItem<Ret> *item_;
-		CThreadQueue<pair> &waitingQue_;
-		const std::size_t id_;
-		void detach_() override;	//push CThreadPoolItem into waitingQue_
-	public:
-		CThreadPoolCommun_Ret(CThreadPoolItem<Ret> *,CThreadQueue<pair> &,std::size_t);
-		CThreadPoolCommun_Ret(const CThreadPoolCommun_Ret &)=delete;
-		CThreadPoolCommun_Ret& operator=(const CThreadPoolCommun_Ret &)=delete;
-	};
 }
-
-#include"CThreadPoolCommun.cpp"
 
 #endif

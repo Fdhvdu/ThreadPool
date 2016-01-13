@@ -1,6 +1,4 @@
-#include"CThreadPoolCommun.h"
-#include"../../lib/header/thread/CThreadQueue.h"
-#include"CThreadPoolItem.h"
+#include"CThreadPoolCommun_Ret.h"
 
 namespace nThread
 {
