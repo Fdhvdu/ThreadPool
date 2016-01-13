@@ -8,7 +8,7 @@ namespace nThread
 	CThreadPool_Ret<Ret>::CThreadPool_Ret(const std::size_t count)
 		:size_{count},thr_{new CThreadPoolItem<Ret>[count]}
 	{
-		nAlgorithm::for_each(thr_,thr_+count,[&](const auto p){
+		nAlgorithm::for_each_val(thr_,thr_+count,[&](const auto p){
 			p->setCommun(std::make_unique<CThreadPoolCommun_Ret<Ret>>(p,waitingQue_,id_++));
 			waitingQue_.emplace(id_.get(),p);
 		});
