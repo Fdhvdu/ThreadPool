@@ -15,6 +15,7 @@ namespace nThread
 		CThreadPoolItem<Ret> *item_;
 		CThreadQueue<pair> &waitingQue_;
 		const std::size_t id_;
+	protected:
 		void detach_() override;	//push CThreadPoolItem into waitingQue_
 	public:
 		CThreadPoolCommun_Ret(CThreadPoolItem<Ret> *,CThreadQueue<pair> &,std::size_t);

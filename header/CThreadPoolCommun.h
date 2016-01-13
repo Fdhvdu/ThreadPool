@@ -15,6 +15,7 @@ namespace nThread
 
 	class CThreadPoolCommunBase
 	{
+	protected:
 		virtual void detach_();
 		virtual void finish_();
 		virtual void join_();
@@ -35,6 +36,7 @@ namespace nThread
 	private:
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
+	protected:
 		void detach_() override;	//notify CThreadPool::join_any
 		void finish_() override;	//push CThreadPoolItem into waitingQue_
 		void join_() override;	//erase join_anyList_ and push CThreadPoolItem into waitingQue_
