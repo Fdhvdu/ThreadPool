@@ -16,7 +16,7 @@ namespace nThread
 
 	template<class Ret>
 	template<class Func,class ... Args>
-	std::size_t CThreadPool_Ret<Ret>::add(Func &&func,Args &&...args)
+	typename CThreadPool_Ret<Ret>::thread_id CThreadPool_Ret<Ret>::add(Func &&func,Args &&...args)
 	{
 		auto temp{waitingQue_.wait_and_pop()};
 		const auto id{temp.first};
