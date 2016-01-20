@@ -16,7 +16,7 @@ namespace nThread
 		{
 			return joinable_();
 		}
-		virtual void wait()=0;
+		virtual void join()=0;
 		virtual ~IThreadPoolItemExecutorBase()=0;
 	protected:
 		virtual bool joinable_() const noexcept
@@ -37,7 +37,7 @@ namespace nThread
 		{
 			return !complete_.count();
 		}
-		void wait() override	//only the destructor of CThreadPoolItem will call this
+		void join() override	//only the destructor of CThreadPoolItem will call this
 		{
 			complete_.wait();
 		}
@@ -61,7 +61,7 @@ namespace nThread
 		{
 			return running_;
 		}
-		void wait() override;
+		void join() override;
 	};
 
 	struct CThreadPoolItem::Impl
@@ -108,7 +108,7 @@ namespace nThread
 		complete_.signal();
 	}
 
-	void CThreadPoolItemExecutorJoin::wait()
+	void CThreadPoolItemExecutorJoin::join()
 	{
 		complete_.wait();
 		running_=false;
@@ -139,7 +139,7 @@ namespace nThread
 	CThreadPoolItem::Impl::~Impl()
 	{
 		if(exec&&exec->is_running())
-			exec->wait();
+			exec->join();
 		destructor=true;
 		wake();
 	}
@@ -159,7 +159,7 @@ namespace nThread
 
 	void CThreadPoolItem::join()
 	{
-		impl_.get().exec->wait();
+		impl_.get().exec->join();
 	}
 
 	bool CThreadPoolItem::joinable() const noexcept
