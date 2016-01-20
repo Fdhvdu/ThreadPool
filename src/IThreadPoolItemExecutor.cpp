@@ -74,6 +74,8 @@ namespace nThread
 		impl_.get().complete.wait();
 	}
 
+	CThreadPoolItemExecutorDetach::~CThreadPoolItemExecutorDetach(){}
+
 	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommun *commun,function<void()> &&func)
 		:impl_{commun,move(func)}{}
 
@@ -91,4 +93,6 @@ namespace nThread
 	{
 		impl_.get().join();
 	}
+
+	CThreadPoolItemExecutorJoin::~CThreadPoolItemExecutorJoin(){}
 }

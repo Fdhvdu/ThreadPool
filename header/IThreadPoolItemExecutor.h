@@ -34,6 +34,7 @@ namespace nThread
 		void exec() override;
 		bool is_running() const noexcept override;	//only the destructor of CThreadPoolItem will call this
 		void join() override;	//only the destructor of CThreadPoolItem will call this
+		~CThreadPoolItemExecutorDetach();
 	};
 
 	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase
@@ -50,6 +51,7 @@ namespace nThread
 		void exec() override;
 		bool is_running() const noexcept override;
 		void join() override;
+		~CThreadPoolItemExecutorJoin();
 	};
 }
 
