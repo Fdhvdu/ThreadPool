@@ -6,15 +6,12 @@
 #include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.h"
 #include"../../lib/header/thread/CSmartThread.h"
-#include"../../lib/header/thread/CTask.h"
 #include"CThreadPoolCommun.h"
 
 namespace nThread
 {
 	template<class T>
 	struct IThreadPoolItemExecutorBase;
-	template<class T>
-	class CThreadPoolItemExecutorRet;
 
 	template<class Ret>
 	class CThreadPoolItem
@@ -40,12 +37,6 @@ namespace nThread
 		void assign(Func &&,Args &&...);
 		template<class Func,class ... Args>
 		void assign_and_detach(Func &&,Args &&...);
-		template<class Func,class ... Args>
-		void assign_and_ret(Func &&,Args &&...);
-		inline decltype(std::declval<IThreadPoolItemExecutorBase<Ret>>().get()) get()
-		{
-			return exec_->get();
-		}
 		inline void join()	//for CThreadPool::join
 							//after calling this, CThreadPoolItem will be pushed into waitingQue_
 							//it also means assign will be called in the subsequent (if has)
@@ -60,14 +51,6 @@ namespace nThread
 		{
 			commun_=std::move(commun);
 		}
-		inline bool valid() const noexcept
-		{
-			return exec_->is_running();
-		}
-		inline void wait() const	//only for CThreadPool_Ret::wait
-		{
-			exec_->wait();
-		}
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
 		~CThreadPoolItem();
 	};
@@ -78,10 +61,6 @@ namespace nThread
 	{
 		virtual void exec()=0;
 		virtual bool is_running() const noexcept=0;
-		decltype(std::declval<CTask<Ret>>().get()) get()	//detach and join will not call this
-		{
-			return get_();
-		}
 		bool joinable() const noexcept
 		{
 			return joinable_();
@@ -89,10 +68,6 @@ namespace nThread
 		virtual void wait()=0;
 		virtual ~IThreadPoolItemExecutorBase()=0;
 	protected:
-		virtual decltype(std::declval<CTask<Ret>>().get()) get_()	//detach and join will not call this
-		{
-			return CTask<Ret>().get();
-		}
 		virtual bool joinable_() const noexcept
 		{
 			return false;
@@ -142,32 +117,6 @@ namespace nThread
 		}
 		void wait() override;
 		CThreadPoolItemExecutorJoin& operator=(const CThreadPoolItemExecutorJoin &)=delete;
-	};
-
-	template<class Ret>
-	class CThreadPoolItemExecutorRet:public IThreadPoolItemExecutorBase<Ret>
-	{
-		CThreadPoolCommunBase *commun_;
-		CTask<Ret> task_;
-	protected:
-		decltype(std::declval<CTask<Ret>>().get()) get_() override;
-	public:
-		template<class Func,class ... Args>
-		CThreadPoolItemExecutorRet(CThreadPoolCommunBase *,Func &&,Args &&...);
-		CThreadPoolItemExecutorRet(const CThreadPoolItemExecutorRet &)=delete;
-		void exec() override
-		{
-			task_();
-		}
-		bool is_running() const noexcept override
-		{
-			return task_.valid();
-		}
-		void wait() override
-		{
-			task_.wait();
-		}
-		CThreadPoolItemExecutorRet& operator=(const CThreadPoolItemExecutorRet &)=delete;
 	};
 }
 
