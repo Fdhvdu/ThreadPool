@@ -12,7 +12,7 @@ namespace
 	{
 		using namespace std;
 		static mt19937 mu{static_cast<mt19937::result_type>(chrono::high_resolution_clock::now().time_since_epoch().count())};
-		return mu()%4+1;
+		return mu()%4;
 	}
 }
 

@@ -2,6 +2,7 @@
 #include<iostream>
 #include<mutex>
 #include<random>
+#include<queue>
 #include<thread>
 #include"../header/CThreadPool.h"
 
@@ -13,7 +14,7 @@ namespace
 	{
 		using namespace std;
 		static mt19937 mu{static_cast<mt19937::result_type>(chrono::high_resolution_clock::now().time_since_epoch().count())};
-		return mu()%4+1;
+		return mu()%4;
 	}
 
 	std::size_t add_func(const std::size_t i)
@@ -41,6 +42,7 @@ int main()
 {
 	using namespace std;
 	nThread::CThreadPool tp{4};
+	queue<nThread::CThreadPool::thread_id> que;
 
 	cout<<"stage 1"<<endl;
 	for(size_t i{0};i!=tp.count();++i)
@@ -49,9 +51,12 @@ int main()
 
 	cout<<"stage 2"<<endl;
 	for(size_t i{0};i!=tp.count();++i)
-		tp.add(add_func,i);	//tp will block here until add_and_detach_func complete
+		que.push(tp.add(add_func,i));	//tp will block here until add_and_detach_func complete
 	for(size_t i{0};i!=tp.count();++i)
-		tp.join(i);	//tp will block here until the i of thread complete
+	{
+		tp.join(que.front());	//tp will block here until the i of thread complete
+		que.pop();
+	}
 
 	cout<<"stage 3"<<endl;
 	for(size_t i{0};i!=tp.count();++i)
@@ -73,8 +78,8 @@ int main()
 
 	cout<<"stage 6"<<endl;
 	for(size_t i{0};i!=tp.count();++i)
-		tp.add(add_func,i);
-	tp.join(0);
+		que.push(tp.add(add_func,i));
+	tp.join(que.front());
 	tp.join_any();	//calling join prior to join_any is ok
 					//but calling join_any with join (or join_all) is not ok when using multi-thread, such as the code below
 
