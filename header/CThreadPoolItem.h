@@ -25,10 +25,8 @@ namespace nThread
 	public:
 		CThreadPoolItem();
 		CThreadPoolItem(const CThreadPoolItem &)=delete;
-		template<class Func,class ... Args>
-		void assign(Func &&,Args &&...);
-		template<class Func,class ... Args>
-		void assign_and_detach(Func &&,Args &&...);
+		void assign(std::function<void()> &&);
+		void assign_and_detach(std::function<void()> &&);
 		void join();	//after calling this, CThreadPoolItem will be pushed into waitingQue_
 						//it also means assign will be called in the subsequent (if has)
 		bool joinable() const noexcept;
@@ -61,8 +59,7 @@ namespace nThread
 		CSemaphore complete_;
 		std::function<void()> func_;
 	public:
-		template<class Func,class ... Args>
-		CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *,Func &&,Args &&...);
+		CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *,std::function<void()> &&);
 		CThreadPoolItemExecutorDetach(const CThreadPoolItemExecutorDetach &)=delete;
 		void exec() override;
 		bool is_running() const noexcept override	//only the destructor of CThreadPoolItem will call this
@@ -88,8 +85,7 @@ namespace nThread
 			return true;
 		}
 	public:
-		template<class Func,class ... Args>
-		CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *,Func &&,Args &&...);
+		CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *,std::function<void()> &&);
 		CThreadPoolItemExecutorJoin(const CThreadPoolItemExecutorJoin &)=delete;
 		void exec() override;
 		bool is_running() const noexcept override
@@ -100,7 +96,5 @@ namespace nThread
 		CThreadPoolItemExecutorJoin& operator=(const CThreadPoolItemExecutorJoin &)=delete;
 	};
 }
-
-#include"CThreadPoolItem.cpp"
 
 #endif

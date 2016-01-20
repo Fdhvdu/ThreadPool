@@ -20,7 +20,19 @@ namespace nThread
 
 	CThreadPoolItem::CThreadPoolItem()
 		:destructor_{false},wait_{0},thr_{&CThreadPoolItem::loop_,this}{}
-	
+
+	void CThreadPoolItem::assign(std::function<void()> &&func)
+	{
+		exec_=std::make_unique<CThreadPoolItemExecutorJoin>(commun_.get(),std::move(func));
+		wake_();
+	}
+
+	void CThreadPoolItem::assign_and_detach(std::function<void()> &&func)
+	{
+		exec_=std::make_unique<CThreadPoolItemExecutorDetach>(commun_.get(),std::move(func));
+		wake_();
+	}
+
 	void CThreadPoolItem::join()
 	{
 		exec_->wait();
@@ -66,4 +78,10 @@ namespace nThread
 		running_=false;
 		commun_->communPoolJoin();
 	}
+
+	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *commun,std::function<void()> &&func)
+		:commun_{commun},complete_{0},func_{std::move(func)}{}
+
+	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *commun,std::function<void()> &&func)
+		:commun_{commun},complete_{0},func_{std::move(func)},running_{true}{}
 }

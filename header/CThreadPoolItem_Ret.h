@@ -10,8 +10,6 @@
 namespace nThread
 {
 	template<class T>
-	struct IThreadPoolItemExecutorBase;
-	template<class T>
 	class CThreadPoolItemExecutorRet;
 
 	template<class Ret>

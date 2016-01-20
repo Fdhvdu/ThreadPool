@@ -24,7 +24,7 @@ namespace nThread
 		template<class Func,class ... Args>
 		inline void add_and_detach(Func &&func,Args &&...args)
 		{
-			waitingQue_.wait_and_pop().second->assign_and_detach(std::forward<Func>(func),std::forward<Args>(args)...);
+			waitingQue_.wait_and_pop().second->assign_and_detach(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
 		}
 		inline std::size_t available() const noexcept
 		{
