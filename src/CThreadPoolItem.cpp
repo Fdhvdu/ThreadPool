@@ -76,6 +76,10 @@ namespace nThread
 		void assign(function<void()> &&);
 		void assign_and_detach(function<void()> &&);
 		void loop();
+		inline bool joinable_and_is_running() const noexcept
+		{
+			return exec->joinable()&&exec->is_running();
+		}
 		inline void waiting()
 		{
 			wait.wait();
@@ -173,7 +177,7 @@ namespace nThread
 
 	bool CThreadPoolItem::joinable() const noexcept
 	{
-		return impl_.get().exec->joinable();
+		return impl_.get().joinable_and_is_running();
 	}
 
 	void CThreadPoolItem::setCommun(unique_ptr<CThreadPoolCommun> &&commun)
