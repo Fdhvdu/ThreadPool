@@ -12,14 +12,13 @@ namespace nThread
 
 	template<class Ret>
 	CThreadPoolItem<Ret>::CThreadPoolItem()
-		:destructor_{false},joinable_{false},wait_{0},thr_{&CThreadPoolItem<Ret>::loop_,this}{}
+		:destructor_{false},wait_{0},thr_{&CThreadPoolItem<Ret>::loop_,this}{}
 
 	template<class Ret>
 	template<class Func,class ... Args>
 	void CThreadPoolItem<Ret>::assign(Func &&func,Args &&...args)
 	{
 		exec_=std::make_unique<CThreadPoolItemExecutorJoin>(commun_.get(),std::forward<Func>(func),std::forward<Args>(args)...);
-		joinable_=true;
 		wake_();
 	}
 
@@ -28,7 +27,6 @@ namespace nThread
 	void CThreadPoolItem<Ret>::assign_and_detach(Func &&func,Args &&...args)
 	{
 		exec_=std::make_unique<CThreadPoolItemExecutorDetach>(commun_.get(),std::forward<Func>(func),std::forward<Args>(args)...);
-		joinable_=false;
 		wake_();
 	}
 
@@ -37,7 +35,6 @@ namespace nThread
 	void CThreadPoolItem<Ret>::assign_and_ret(Func &&func,Args &&...args)
 	{
 		exec_=std::make_unique<CThreadPoolItemExecutorRet<Ret>>(commun_.get(),std::forward<Func>(func),std::forward<Args>(args)...);
-		joinable_=false;
 		wake_();
 	}
 

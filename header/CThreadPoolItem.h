@@ -22,7 +22,6 @@ namespace nThread
 		std::unique_ptr<CThreadPoolCommunBase> commun_;	//communicate with CThreadPool
 		bool destructor_;
 		std::unique_ptr<IThreadPoolItemExecutorBase<Ret>> exec_;
-		bool joinable_;
 		CSemaphore wait_;
 		CSmartThread thr_;	//first destroying, no other data member could put under this one
 		void loop_();
@@ -55,7 +54,7 @@ namespace nThread
 		}
 		inline bool joinable() const noexcept	//return true after calling assign, return false after calling join
 		{
-			return joinable_&&exec_->is_running();
+			return exec_->joinable();
 		}
 		void setCommun(std::unique_ptr<CThreadPoolCommunBase> &&commun)
 		{
@@ -83,12 +82,20 @@ namespace nThread
 		{
 			return get_();
 		}
+		bool joinable() const noexcept
+		{
+			return joinable_();
+		}
 		virtual void wait()=0;
 		virtual ~IThreadPoolItemExecutorBase()=0;
 	protected:
 		virtual decltype(std::declval<CTask<Ret>>().get()) get_()	//detach and join will not call this
 		{
 			return CTask<Ret>().get();
+		}
+		virtual bool joinable_() const noexcept
+		{
+			return false;
 		}
 	};
 
@@ -119,6 +126,11 @@ namespace nThread
 		CSemaphore complete_;
 		std::function<void()> func_;
 		std::atomic<bool> running_;
+	protected:
+		bool joinable_() const noexcept override
+		{
+			return true;
+		}
 	public:
 		template<class Func,class ... Args>
 		CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *,Func &&,Args &&...);
