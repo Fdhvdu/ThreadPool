@@ -6,7 +6,7 @@
 
 namespace nThread
 {
-	class CThreadPoolCommunBase;
+	class CThreadPoolCommun;
 
 	class CThreadPoolItem
 	{
@@ -20,7 +20,7 @@ namespace nThread
 		void join();	//after calling this, CThreadPoolItem will be pushed into waitingQue_
 						//it also means assign will be called in the subsequent (if has)
 		bool joinable() const noexcept;
-		void setCommun(std::unique_ptr<CThreadPoolCommunBase> &&);
+		void setCommun(std::unique_ptr<CThreadPoolCommun> &&);
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
 		~CThreadPoolItem();
 	};

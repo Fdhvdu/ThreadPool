@@ -1,9 +1,9 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
 #include<cstddef>	//size_t
+#include<utility>	//pair
 #include"../../lib/header/thread/CThreadQueue.h"
 #include"../../lib/header/tool/CPimpl.h"
-#include"CThreadPoolCommun.h"
 #include"CThreadPoolItem.h"
 
 namespace nThread
@@ -14,7 +14,7 @@ namespace nThread
 						//otherwise, there is no available thread even after threads complete their job
 	{
 		struct Impl;
-		mutable CThreadQueue<typename CThreadPoolCommun::pair> waitingQue_;
+		mutable CThreadQueue<std::pair<std::size_t,CThreadPoolItem*>> waitingQue_;
 		nTool::CPimpl<Impl> impl_;
 	public:
 		explicit CThreadPool(std::size_t);

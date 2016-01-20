@@ -6,7 +6,7 @@
 #include"../../lib/header/algorithm/algorithm.h"
 #include"../../lib/header/thread/CThreadList.h"
 #include"../../lib/header/tool/CId.h"
-#include"../header/CThreadPoolItem.h"
+#include"../header/CThreadPoolCommun.h"
 using namespace std;
 
 namespace nThread

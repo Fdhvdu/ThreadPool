@@ -28,11 +28,11 @@ namespace nThread
 
 	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase
 	{
-		CThreadPoolCommunBase *commun_;
+		CThreadPoolCommun *commun_;
 		CSemaphore complete_;
 		function<void()> func_;
 	public:
-		CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *,function<void()> &&);
+		CThreadPoolItemExecutorDetach(CThreadPoolCommun *,function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override	//only the destructor of CThreadPoolItem will call this
 		{
@@ -46,7 +46,7 @@ namespace nThread
 
 	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase
 	{
-		CThreadPoolCommunBase *commun_;
+		CThreadPoolCommun *commun_;
 		CSemaphore complete_;
 		function<void()> func_;
 		atomic<bool> running_;
@@ -56,7 +56,7 @@ namespace nThread
 			return true;
 		}
 	public:
-		CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *,function<void()> &&);
+		CThreadPoolItemExecutorJoin(CThreadPoolCommun *,function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override
 		{
@@ -67,7 +67,7 @@ namespace nThread
 
 	struct CThreadPoolItem::Impl
 	{
-		unique_ptr<CThreadPoolCommunBase> commun;	//communicate with CThreadPool
+		unique_ptr<CThreadPoolCommun> commun;	//communicate with CThreadPool
 		bool destructor;
 		unique_ptr<IThreadPoolItemExecutorBase> exec;
 		CSemaphore wait;
@@ -89,23 +89,23 @@ namespace nThread
 
 	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase(){}
 
-	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *commun,function<void()> &&func)
+	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommun *commun,function<void()> &&func)
 		:commun_{commun},complete_{0},func_{move(func)}{}
 
 	void CThreadPoolItemExecutorDetach::exec()
 	{
 		func_();
 		complete_.signal();
-		commun_->communPoolDetach();
+		commun_->detach();
 	}
 
-	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *commun,function<void()> &&func)
+	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommun *commun,function<void()> &&func)
 		:commun_{commun},complete_{0},func_{move(func)},running_{true}{}
 
 	void CThreadPoolItemExecutorJoin::exec()
 	{
 		func_();
-		commun_->communPoolFinish();
+		commun_->finish();
 		complete_.signal();
 	}
 
@@ -113,7 +113,7 @@ namespace nThread
 	{
 		complete_.wait();
 		running_=false;
-		commun_->communPoolJoin();
+		commun_->join();
 	}
 
 	CThreadPoolItem::Impl::Impl()
@@ -168,7 +168,7 @@ namespace nThread
 		return impl_.get().exec->joinable();
 	}
 
-	void CThreadPoolItem::setCommun(unique_ptr<CThreadPoolCommunBase> &&commun)
+	void CThreadPoolItem::setCommun(unique_ptr<CThreadPoolCommun> &&commun)
 	{
 		impl_.get().commun=move(commun);
 	}

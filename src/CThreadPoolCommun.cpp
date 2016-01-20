@@ -62,17 +62,17 @@ namespace nThread
 	CThreadPoolCommun::CThreadPoolCommun(CThreadPoolItem *item,CThreadList<pair> &join_anyList,CThreadQueue<pair> &waitingQue,const size_t id)
 		:impl_{item,join_anyList,waitingQue,id}{}
 
-	void CThreadPoolCommun::detach_()
+	void CThreadPoolCommun::detach()
 	{
 		impl_.get().communPoolDetach();
 	}
 
-	void CThreadPoolCommun::finish_()
+	void CThreadPoolCommun::finish()
 	{
 		impl_.get().communPoolFinish();
 	}
 
-	void CThreadPoolCommun::join_()
+	void CThreadPoolCommun::join()
 	{
 		impl_.get().communPoolJoin();
 	}

@@ -6,9 +6,9 @@
 
 namespace nThread
 {
+	class CThreadPoolItem;
 	template<class Func>
 	class CThreadList;
-	class CThreadPoolItem;
 	template<class Func>
 	class CThreadQueue;
 
@@ -28,20 +28,19 @@ namespace nThread
 		virtual ~CThreadPoolCommunBase();
 	};
 
-	class CThreadPoolCommun:public CThreadPoolCommunBase
+	class CThreadPoolCommun
 	{
 	public:
 		typedef std::pair<std::size_t,CThreadPoolItem*> pair;
 	private:
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
-	protected:
-		void detach_() override;	//notify CThreadPool::join_any
-		void finish_() override;	//push CThreadPoolItem into waitingQue_
-		void join_() override;	//erase join_anyList_ and push CThreadPoolItem into waitingQue_
 	public:
 		CThreadPoolCommun(CThreadPoolItem *,CThreadList<pair> &,CThreadQueue<pair> &,std::size_t);
 		CThreadPoolCommun(const CThreadPoolCommun &)=delete;
+		void detach();	//notify CThreadPool::join_any
+		void finish();	//push CThreadPoolItem into waitingQue_
+		void join();	//erase join_anyList_ and push CThreadPoolItem into waitingQue_
 		CThreadPoolCommun& operator=(const CThreadPoolCommun &)=delete;
 		~CThreadPoolCommun();
 	};
