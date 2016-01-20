@@ -158,6 +158,11 @@ namespace nThread
 		impl_.get().assign_and_detach(move(func));
 	}
 
+	thread::id CThreadPoolItem::get_id() const noexcept
+	{
+		return impl_.get().thr.get_id();
+	}
+
 	void CThreadPoolItem::join()
 	{
 		impl_.get().exec->join();
