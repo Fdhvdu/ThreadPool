@@ -10,14 +10,13 @@
 
 namespace nThread
 {
-	template<class T>
 	struct IThreadPoolItemExecutorBase;
 
 	class CThreadPoolItem
 	{
 		std::unique_ptr<CThreadPoolCommunBase> commun_;	//communicate with CThreadPool
 		bool destructor_;
-		std::unique_ptr<IThreadPoolItemExecutorBase<void>> exec_;
+		std::unique_ptr<IThreadPoolItemExecutorBase> exec_;
 		CSemaphore wait_;
 		CSmartThread thr_;	//first destroying, no other data member could put under this one
 		void loop_();
@@ -38,7 +37,6 @@ namespace nThread
 		~CThreadPoolItem();
 	};
 
-	template<class Ret>
 	struct IThreadPoolItemExecutorBase	//I give up to use Non-Virtual Interface Idiom here
 										//because this is a abstract base struct
 	{
@@ -57,7 +55,7 @@ namespace nThread
 		}
 	};
 
-	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase<void>
+	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase
 	{
 		CThreadPoolCommunBase *commun_;
 		CSemaphore complete_;
@@ -78,7 +76,7 @@ namespace nThread
 		CThreadPoolItemExecutorDetach& operator=(const CThreadPoolItemExecutorDetach &)=delete;
 	};
 
-	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase<void>
+	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase
 	{
 		CThreadPoolCommunBase *commun_;
 		CSemaphore complete_;

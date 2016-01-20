@@ -44,6 +44,8 @@ namespace nThread
 		commun_=std::move(commun);
 	}
 
+	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase(){}
+
 	void CThreadPoolItemExecutorDetach::exec()
 	{
 		func_();

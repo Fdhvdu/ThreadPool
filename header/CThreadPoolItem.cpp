@@ -16,9 +16,6 @@ namespace nThread
 		wake_();
 	}
 
-	template<class Ret>
-	IThreadPoolItemExecutorBase<Ret>::~IThreadPoolItemExecutorBase(){}
-
 	template<class Func,class ... Args>
 	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *commun,Func &&func,Args &&...args)
 		:commun_{commun},complete_{0},func_{std::bind(std::forward<Func>(func),std::forward<Args>(args)...)}{}
