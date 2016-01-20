@@ -4,7 +4,7 @@
 #include"../../lib/header/thread/CThreadQueue.h"
 #include"../../lib/header/tool/CId.h"
 #include"CThreadPoolCommun_Ret.h"
-#include"CThreadPoolItem.h"
+#include"CThreadPoolItem_Ret.h"
 
 namespace nThread
 {
@@ -14,7 +14,7 @@ namespace nThread
 		nTool::CId id_;
 		const std::size_t size_;
 		CThreadQueue<typename CThreadPoolCommun_Ret<Ret>::pair> waitingQue_;	//enough
-		CThreadPoolItem<Ret> *thr_;
+		CThreadPoolItem_Ret<Ret> *thr_;
 	public:
 		explicit CThreadPool_Ret(std::size_t);
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
@@ -28,7 +28,7 @@ namespace nThread
 		{
 			return size_;
 		}
-		inline decltype(std::declval<CThreadPoolItem<Ret>>().get()) get(const std::size_t id)
+		inline decltype(std::declval<CThreadPoolItem_Ret<Ret>>().get()) get(const std::size_t id)
 		{
 			return thr_[id].get();
 		}

@@ -6,7 +6,7 @@ namespace nThread
 {
 	template<class Ret>
 	CThreadPool_Ret<Ret>::CThreadPool_Ret(const std::size_t count)
-		:size_{count},thr_{new CThreadPoolItem<Ret>[count]}
+		:size_{count},thr_{new CThreadPoolItem_Ret<Ret>[count]}
 	{
 		nAlgorithm::for_each_val(thr_,thr_+count,[&](const auto p){
 			p->setCommun(std::make_unique<CThreadPoolCommun_Ret<Ret>>(p,waitingQue_,id_++));
