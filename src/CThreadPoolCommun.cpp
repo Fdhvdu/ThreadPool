@@ -32,35 +32,34 @@ namespace nThread
 	struct CThreadPoolCommun::Impl
 	{
 		CThreadPoolItem *item;
-		CThreadList<CThreadPoolCommun::pair> &join_anyList;	//or use deque
-		CThreadQueue<CThreadPoolCommun::pair> &waitingQue;
-		const size_t id;
-		Impl(CThreadPoolItem *,CThreadList<pair> &,CThreadQueue<pair> &,size_t id);
+		CThreadList<CThreadPoolItem*> &join_anyList;	//or use deque
+		CThreadQueue<CThreadPoolItem*> &waitingQue;
+		Impl(CThreadPoolItem *,CThreadList<CThreadPoolItem*> &,CThreadQueue<CThreadPoolItem*> &);
 		inline void communPoolDetach()
 		{
-			waitingQue.emplace(id,item);
+			waitingQue.emplace(item);
 		}
 		inline void communPoolFinish()
 		{
-			join_anyList.emplace_back(id,item);
+			join_anyList.emplace_back(item);
 		}
 		void communPoolJoin();
 	};
 
-	CThreadPoolCommun::Impl::Impl(CThreadPoolItem *item_,CThreadList<pair> &join_anyList_,CThreadQueue<pair> &waitingQue_,const size_t id_)
-		:item{item_},join_anyList{join_anyList_},waitingQue{waitingQue_},id{id_}{}
+	CThreadPoolCommun::Impl::Impl(CThreadPoolItem *item_,CThreadList<CThreadPoolItem*> &join_anyList_,CThreadQueue<CThreadPoolItem*> &waitingQue_)
+		:item{item_},join_anyList{join_anyList_},waitingQue{waitingQue_}{}
 
 	void CThreadPoolCommun::Impl::communPoolJoin()
 	{
-		join_anyList.remove_if([=](const pair &val){return val.first==id;});
+		join_anyList.remove_if([&](const CThreadPoolItem *val){return val->get_id()==item->get_id();});
 		//CThreadPoolItem::communPoolFinishing_ call CThreadPoolCommun::finishing
 		//CThreadPoolCommun::finishing notify CThreadPool::join_any
 		//if CThreadPool::join_any run first, this would not erase anything
-		waitingQue.emplace(id,item);
+		waitingQue.emplace(item);
 	}
 
-	CThreadPoolCommun::CThreadPoolCommun(CThreadPoolItem *item,CThreadList<pair> &join_anyList,CThreadQueue<pair> &waitingQue,const size_t id)
-		:impl_{item,join_anyList,waitingQue,id}{}
+	CThreadPoolCommun::CThreadPoolCommun(CThreadPoolItem *item,CThreadList<CThreadPoolItem*> &join_anyList,CThreadQueue<CThreadPoolItem*> &waitingQue)
+		:impl_{item,join_anyList,waitingQue}{}
 
 	void CThreadPoolCommun::detach()
 	{

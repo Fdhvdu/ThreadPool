@@ -1,9 +1,9 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
 #include<cstddef>	//size_t
-#include<utility>	//pair
-#include"../../lib/header/thread/CThreadQueue.h"
+#include<type_traits>	//declval
 #include"../../lib/header/tool/CPimpl.h"
+#include"../../lib/header/thread/CThreadQueue.h"
 #include"CThreadPoolItem.h"
 
 namespace nThread
@@ -14,28 +14,29 @@ namespace nThread
 						//otherwise, there is no available thread even after threads complete their job
 	{
 		struct Impl;
-		mutable CThreadQueue<std::pair<std::size_t,CThreadPoolItem*>> waitingQue_;
+		mutable CThreadQueue<CThreadPoolItem*> waitingQue_;	//must prior to impl_
 		nTool::CPimpl<Impl> impl_;
 	public:
+		typedef decltype(std::declval<CThreadPoolItem>().get_id()) thread_id;
 		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
 		template<class Func,class ... Args>
-		std::size_t add(Func &&,Args &&...);
+		thread_id add(Func &&,Args &&...);
 		template<class Func,class ... Args>
 		inline void add_and_detach(Func &&func,Args &&...args)
 		{
-			waitingQue_.wait_and_pop().second->assign_and_detach(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
+			waitingQue_.wait_and_pop()->assign_and_detach(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
 		}
 		inline std::size_t available() const noexcept
 		{
 			return waitingQue_.size();
 		}
 		std::size_t count() const noexcept;
-		void join(std::size_t);	//do not combine join and join_any together in your code
+		void join(thread_id);	//do not combine join and join_any together in your code
 								//it will make some join_any cannot get notification
-		bool joinable(std::size_t) const noexcept;
-		void join_all();	//it will not block assign, you have to control by yourself
-		std::size_t join_any();	//do not combine join and join_any together in your code
+		bool joinable(thread_id) const noexcept;
+		void join_all();	//it will not block add, you have to control by yourself
+		thread_id join_any();	//do not combine join and join_any together in your code
 								//it will make some join_any cannot get notification
 								//join_any must return value, because I have implemented add_and_detach already
 		void wait_until_all_available() const;

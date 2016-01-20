@@ -1,7 +1,5 @@
 #ifndef CTHREADPOOLCOMMUN
 #define CTHREADPOOLCOMMUN
-#include<cstddef>	//size_t
-#include<utility>	//pair
 #include"../../lib/header/tool/CPimpl.h"
 
 namespace nThread
@@ -30,11 +28,10 @@ namespace nThread
 
 	class CThreadPoolCommun
 	{
-		typedef std::pair<std::size_t,CThreadPoolItem*> pair;
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
-		CThreadPoolCommun(CThreadPoolItem *,CThreadList<pair> &,CThreadQueue<pair> &,std::size_t);
+		CThreadPoolCommun(CThreadPoolItem *,CThreadList<CThreadPoolItem*> &,CThreadQueue<CThreadPoolItem*> &);
 		CThreadPoolCommun(const CThreadPoolCommun &)=delete;
 		void detach();	//notify CThreadPool::join_any
 		void finish();	//push CThreadPoolItem into waitingQue_

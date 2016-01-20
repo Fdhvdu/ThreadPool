@@ -1,11 +1,12 @@
 #include"../header/CThreadPool.h"
 #include<memory>	//make_unique
 #include<mutex>
+#include<thread>
 #include<utility>	//move
 #include<vector>
+#include<unordered_map>
 #include"../../lib/header/algorithm/algorithm.h"
 #include"../../lib/header/thread/CThreadList.h"
-#include"../../lib/header/tool/CId.h"
 #include"../header/CThreadPoolCommun.h"
 using namespace std;
 
@@ -13,38 +14,37 @@ namespace nThread
 {
 	struct CThreadPool::Impl
 	{
-		typedef std::pair<std::size_t,CThreadPoolItem*> pair;
-		nTool::CId id;
-		CThreadList<pair> join_anyList;
+		CThreadList<CThreadPoolItem*> join_anyList;
 		mutex mut;	//only for wait_until_all_available
-		vector<CThreadPoolItem> thr;
-		Impl(size_t,CThreadQueue<pair> &);
+		unordered_map<thread::id,CThreadPoolItem> thr;
+		Impl(size_t,CThreadQueue<CThreadPoolItem*> &);
 	};
 
-	CThreadPool::Impl::Impl(const size_t size,CThreadQueue<pair> &waitingQue)
-		:thr(size)
+	CThreadPool::Impl::Impl(const size_t size,CThreadQueue<CThreadPoolItem*> &waitingQue)
 	{
-		for(auto &val:thr)
-		{
-			val.setCommun(make_unique<CThreadPoolCommun>(&val,join_anyList,waitingQue,id++));
-			waitingQue.emplace(id.get(),&val);
-		}
+		nAlgorithm::for_each_val<size_t>(0,size,[&](const auto){
+			CThreadPoolItem item;
+			const auto id{item.get_id()};
+			thr.emplace(id,move(item));
+			thr[id].setCommun(make_unique<CThreadPoolCommun>(&thr[id],join_anyList,waitingQue));
+			waitingQue.emplace(&thr[id]);
+		});
 	}
 
 	CThreadPool::CThreadPool(const size_t size)
 		:impl_{size,waitingQue_}{}
 
-	std::size_t CThreadPool::count() const noexcept
+	size_t CThreadPool::count() const noexcept
 	{
 		return impl_.get().thr.size();
 	}
 
-	void CThreadPool::join(const size_t id)
+	void CThreadPool::join(const thread_id id)
 	{
 		impl_.get().thr[id].join();
 	}
 
-	bool CThreadPool::joinable(const size_t id) const noexcept
+	bool CThreadPool::joinable(const thread_id id) const noexcept
 	{
 		return impl_.get().thr[id].joinable();
 	}
@@ -52,21 +52,21 @@ namespace nThread
 	void CThreadPool::join_all()
 	{
 		for(auto &val:impl_.get().thr)
-			if(val.joinable())
-				val.join();
+			if(val.second.joinable())
+				val.second.join();
 	}
 
-	size_t CThreadPool::join_any()
+	CThreadPool::thread_id CThreadPool::join_any()
 	{
 		auto temp{impl_.get().join_anyList.wait_and_pop()};
-		const auto id{temp.first};
-		temp.second->join();
+		const auto id{temp->get_id()};
+		temp->join();
 		return id;
 	}
 
 	void CThreadPool::wait_until_all_available() const
 	{
-		vector<typename CThreadPool::Impl::pair> vec;
+		vector<decltype(waitingQue_)::value_type> vec;
 		vec.reserve(count());
 		lock_guard<mutex> lock{impl_.get().mut};
 		while(vec.size()!=count())
