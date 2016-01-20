@@ -1,60 +1,90 @@
 #include"../header/CThreadPoolItem.h"
+#include<utility>	//move
+#include"../../lib/header/thread/CSmartThread.h"
+using namespace std;
 
 namespace nThread
 {
-	void CThreadPoolItem::loop_()
+	struct CThreadPoolItem::Impl
 	{
-		while(waiting_(),!destructor_)
-			exec_->exec();
+		unique_ptr<CThreadPoolCommunBase> commun;	//communicate with CThreadPool
+		bool destructor;
+		unique_ptr<IThreadPoolItemExecutorBase> exec;
+		CSemaphore wait;
+		CSmartThread thr;	//first destroying, no other data member could put under this one
+		Impl();
+		void assign(function<void()> &&);
+		void assign_and_detach(function<void()> &&);
+		void loop();
+		inline void waiting()
+		{
+			wait.wait();
+		}
+		inline void wake()
+		{
+			wait.signal();
+		}
+		~Impl();
+	};
+
+	CThreadPoolItem::Impl::Impl()
+		:destructor{false},wait{0},thr{&CThreadPoolItem::Impl::loop,this}{}
+
+	void CThreadPoolItem::Impl::assign(function<void()> &&func)
+	{
+		exec=make_unique<CThreadPoolItemExecutorJoin>(commun.get(),move(func));
+		wake();
 	}
 
-	void CThreadPoolItem::waiting_()
+	void CThreadPoolItem::Impl::assign_and_detach(function<void()> &&func)
 	{
-		wait_.wait();
+		exec=make_unique<CThreadPoolItemExecutorDetach>(commun.get(),move(func));
+		wake();
 	}
-	
-	void CThreadPoolItem::wake_()
+
+	void CThreadPoolItem::Impl::loop()
 	{
-		wait_.signal();
+		while(waiting(),!destructor)
+			exec->exec();
+	}
+
+	CThreadPoolItem::Impl::~Impl()
+	{
+		if(exec&&exec->is_running())
+			exec->wait();
+		destructor=true;
+		wake();
 	}
 
 	CThreadPoolItem::CThreadPoolItem()
-		:destructor_{false},wait_{0},thr_{&CThreadPoolItem::loop_,this}{}
+		:impl_{}{}
 
-	void CThreadPoolItem::assign(std::function<void()> &&func)
+	void CThreadPoolItem::assign(function<void()> &&func)
 	{
-		exec_=std::make_unique<CThreadPoolItemExecutorJoin>(commun_.get(),std::move(func));
-		wake_();
+		impl_.get().assign(move(func));
 	}
 
-	void CThreadPoolItem::assign_and_detach(std::function<void()> &&func)
+	void CThreadPoolItem::assign_and_detach(function<void()> &&func)
 	{
-		exec_=std::make_unique<CThreadPoolItemExecutorDetach>(commun_.get(),std::move(func));
-		wake_();
+		impl_.get().assign_and_detach(move(func));
 	}
 
 	void CThreadPoolItem::join()
 	{
-		exec_->wait();
+		impl_.get().exec->wait();
 	}
 
 	bool CThreadPoolItem::joinable() const noexcept
 	{
-		return exec_->joinable();
+		return impl_.get().exec->joinable();
 	}
 
-	CThreadPoolItem::~CThreadPoolItem()
+	void CThreadPoolItem::setCommun(unique_ptr<CThreadPoolCommunBase> &&commun)
 	{
-		if(exec_&&exec_->is_running())
-			exec_->wait();
-		destructor_=true;
-		wake_();
+		impl_.get().commun=move(commun);
 	}
 
-	void CThreadPoolItem::setCommun(std::unique_ptr<CThreadPoolCommunBase> &&commun)
-	{
-		commun_=std::move(commun);
-	}
+	CThreadPoolItem::~CThreadPoolItem(){}
 
 	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase(){}
 
@@ -79,9 +109,9 @@ namespace nThread
 		commun_->communPoolJoin();
 	}
 
-	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *commun,std::function<void()> &&func)
-		:commun_{commun},complete_{0},func_{std::move(func)}{}
+	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommunBase *commun,function<void()> &&func)
+		:commun_{commun},complete_{0},func_{move(func)}{}
 
-	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *commun,std::function<void()> &&func)
-		:commun_{commun},complete_{0},func_{std::move(func)},running_{true}{}
+	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommunBase *commun,function<void()> &&func)
+		:commun_{commun},complete_{0},func_{move(func)},running_{true}{}
 }

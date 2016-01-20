@@ -3,9 +3,8 @@
 #include<atomic>	//atomic<bool>
 #include<functional>	//function
 #include<memory>	//unique_ptr
-#include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.h"
-#include"../../lib/header/thread/CSmartThread.h"
+#include"../../lib/header/tool/CPimpl.h"
 #include"CThreadPoolCommun.h"
 
 namespace nThread
@@ -14,14 +13,8 @@ namespace nThread
 
 	class CThreadPoolItem
 	{
-		std::unique_ptr<CThreadPoolCommunBase> commun_;	//communicate with CThreadPool
-		bool destructor_;
-		std::unique_ptr<IThreadPoolItemExecutorBase> exec_;
-		CSemaphore wait_;
-		CSmartThread thr_;	//first destroying, no other data member could put under this one
-		void loop_();
-		void waiting_();
-		void wake_();
+		struct Impl;
+		nTool::CPimpl<Impl> impl_;
 	public:
 		CThreadPoolItem();
 		CThreadPoolItem(const CThreadPoolItem &)=delete;
