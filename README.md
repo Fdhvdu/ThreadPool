@@ -37,6 +37,6 @@ The directory should look like
 <br/><br/>The compiler I use is VC++ 2015 and gcc 5.2.0<br/><br/><br/>
 Tutorial:<br/>
 To use example.cpp:<br/>
-g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CId.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp<br/>
+g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp<br/>
 To use example_ret.cpp:<br/>
 g++ -std=c++14 tutorial/example_ret.cpp src/CThreadPoolCommun.cpp ../lib/src/CId.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
