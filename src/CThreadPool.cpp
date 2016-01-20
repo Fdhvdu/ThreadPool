@@ -13,14 +13,15 @@ namespace nThread
 {
 	struct CThreadPool::Impl
 	{
+		typedef std::pair<std::size_t,CThreadPoolItem*> pair;
 		nTool::CId id;
-		CThreadList<typename CThreadPoolCommun::pair> join_anyList;
+		CThreadList<pair> join_anyList;
 		mutex mut;	//only for wait_until_all_available
 		vector<CThreadPoolItem> thr;
-		Impl(size_t,CThreadQueue<typename CThreadPoolCommun::pair> &);
+		Impl(size_t,CThreadQueue<pair> &);
 	};
 
-	CThreadPool::Impl::Impl(const size_t size,CThreadQueue<typename CThreadPoolCommun::pair> &waitingQue)
+	CThreadPool::Impl::Impl(const size_t size,CThreadQueue<pair> &waitingQue)
 		:thr(size)
 	{
 		for(auto &val:thr)
@@ -65,7 +66,7 @@ namespace nThread
 
 	void CThreadPool::wait_until_all_available() const
 	{
-		vector<typename CThreadPoolCommun::pair> vec;
+		vector<typename CThreadPool::Impl::pair> vec;
 		vec.reserve(count());
 		lock_guard<mutex> lock{impl_.get().mut};
 		while(vec.size()!=count())
