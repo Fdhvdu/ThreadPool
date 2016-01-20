@@ -3,6 +3,7 @@
 #include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.h"
 #include"../../lib/header/thread/CSmartThread.h"
+#include"../header/CThreadPoolCommun.h"
 using namespace std;
 
 namespace nThread
