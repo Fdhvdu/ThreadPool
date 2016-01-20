@@ -13,23 +13,16 @@ namespace nThread
 	template<class T>
 	struct IThreadPoolItemExecutorBase;
 
-	template<class Ret>
 	class CThreadPoolItem
 	{
 		std::unique_ptr<CThreadPoolCommunBase> commun_;	//communicate with CThreadPool
 		bool destructor_;
-		std::unique_ptr<IThreadPoolItemExecutorBase<Ret>> exec_;
+		std::unique_ptr<IThreadPoolItemExecutorBase<void>> exec_;
 		CSemaphore wait_;
 		CSmartThread thr_;	//first destroying, no other data member could put under this one
 		void loop_();
-		inline void waiting_()
-		{
-			wait_.wait();
-		}
-		inline void wake_()
-		{
-			wait_.signal();
-		}
+		void waiting_();
+		void wake_();
 	public:
 		CThreadPoolItem();
 		CThreadPoolItem(const CThreadPoolItem &)=delete;
@@ -37,20 +30,10 @@ namespace nThread
 		void assign(Func &&,Args &&...);
 		template<class Func,class ... Args>
 		void assign_and_detach(Func &&,Args &&...);
-		inline void join()	//for CThreadPool::join
-							//after calling this, CThreadPoolItem will be pushed into waitingQue_
-							//it also means assign will be called in the subsequent (if has)
-		{
-			exec_->wait();
-		}
-		inline bool joinable() const noexcept	//return true after calling assign, return false after calling join
-		{
-			return exec_->joinable();
-		}
-		void setCommun(std::unique_ptr<CThreadPoolCommunBase> &&commun)
-		{
-			commun_=std::move(commun);
-		}
+		void join();	//after calling this, CThreadPoolItem will be pushed into waitingQue_
+						//it also means assign will be called in the subsequent (if has)
+		bool joinable() const noexcept;
+		void setCommun(std::unique_ptr<CThreadPoolCommunBase> &&);
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
 		~CThreadPoolItem();
 	};

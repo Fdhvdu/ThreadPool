@@ -16,7 +16,7 @@ namespace nThread
 		nTool::CId id;
 		CThreadList<typename CThreadPoolCommun::pair> join_anyList;
 		mutex mut;	//only for wait_until_all_available
-		vector<CThreadPoolItem<void>> thr;
+		vector<CThreadPoolItem> thr;
 		Impl(size_t,CThreadQueue<typename CThreadPoolCommun::pair> &);
 	};
 
