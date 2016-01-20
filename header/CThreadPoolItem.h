@@ -3,10 +3,11 @@
 #include<functional>	//function
 #include<memory>	//unique_ptr
 #include"../../lib/header/tool/CPimpl.h"
-#include"CThreadPoolCommun.h"
 
 namespace nThread
 {
+	class CThreadPoolCommunBase;
+
 	class CThreadPoolItem
 	{
 		struct Impl;
