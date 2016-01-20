@@ -30,9 +30,7 @@ namespace nThread
 
 	class CThreadPoolCommun
 	{
-	public:
 		typedef std::pair<std::size_t,CThreadPoolItem*> pair;
-	private:
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
