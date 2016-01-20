@@ -16,6 +16,7 @@ namespace nThread
 	public:
 		CThreadPoolItem();
 		CThreadPoolItem(const CThreadPoolItem &)=delete;
+		CThreadPoolItem(CThreadPoolItem &&) noexcept;
 		void assign(std::function<void()> &&);
 		void assign_and_detach(std::function<void()> &&);
 		std::thread::id get_id() const noexcept;
@@ -24,6 +25,7 @@ namespace nThread
 		bool joinable() const noexcept;
 		void setCommun(std::unique_ptr<CThreadPoolCommun> &&);
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
+		CThreadPoolItem& operator=(CThreadPoolItem &&) noexcept;
 		~CThreadPoolItem();
 	};
 }

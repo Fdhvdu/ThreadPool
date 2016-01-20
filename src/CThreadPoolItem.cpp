@@ -148,6 +148,9 @@ namespace nThread
 	CThreadPoolItem::CThreadPoolItem()
 		:impl_{}{}
 
+	CThreadPoolItem::CThreadPoolItem(CThreadPoolItem &&rVal) noexcept
+		:impl_{move(rVal.impl_)}{}
+
 	void CThreadPoolItem::assign(function<void()> &&func)
 	{
 		impl_.get().assign(move(func));
@@ -176,6 +179,12 @@ namespace nThread
 	void CThreadPoolItem::setCommun(unique_ptr<CThreadPoolCommun> &&commun)
 	{
 		impl_.get().commun=move(commun);
+	}
+
+	CThreadPoolItem& CThreadPoolItem::operator=(CThreadPoolItem &&rVal) noexcept
+	{
+		impl_=move(rVal.impl_);
+		return *this;
 	}
 
 	CThreadPoolItem::~CThreadPoolItem(){}
