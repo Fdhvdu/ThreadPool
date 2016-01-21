@@ -45,7 +45,7 @@ namespace nThread
 	CThreadPoolItem::Impl::~Impl()
 	{
 		if(exec&&exec->is_running())
-			exec->join();
+			exec->wait();
 		destructor=true;
 		wake();
 	}
@@ -66,9 +66,9 @@ namespace nThread
 		return impl_.get().thr.get_id();
 	}
 
-	void CThreadPoolItem::join()
+	void CThreadPoolItem::wait()
 	{
-		impl_.get().exec->join();
+		impl_.get().exec->wait();
 	}
 
 	bool CThreadPoolItem::joinable() const noexcept

@@ -69,7 +69,7 @@ namespace nThread
 		return !impl_.get().complete.count();
 	}
 
-	void CThreadPoolItemExecutorDetach::join()
+	void CThreadPoolItemExecutorDetach::wait()
 	{
 		impl_.get().complete.wait();
 	}
@@ -89,7 +89,7 @@ namespace nThread
 		return impl_.get().running;
 	}
 
-	void CThreadPoolItemExecutorJoin::join()
+	void CThreadPoolItemExecutorJoin::wait()
 	{
 		impl_.get().join();
 	}

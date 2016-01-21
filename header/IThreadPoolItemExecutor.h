@@ -16,7 +16,7 @@ namespace nThread
 		{
 			return joinable_();
 		}
-		virtual void join()=0;
+		virtual void wait()=0;
 		virtual ~IThreadPoolItemExecutorBase()=0;
 	protected:
 		virtual bool joinable_() const noexcept
@@ -33,7 +33,7 @@ namespace nThread
 		CThreadPoolItemExecutorDetach(CThreadPoolCommun &&,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;	//only the destructor of CThreadPoolItem will call this
-		void join() override;	//only the destructor of CThreadPoolItem will call this
+		void wait() override;	//only the destructor of CThreadPoolItem will call this
 		~CThreadPoolItemExecutorDetach();
 	};
 
@@ -50,7 +50,7 @@ namespace nThread
 		CThreadPoolItemExecutorJoin(CThreadPoolCommun &&,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;
-		void join() override;
+		void wait() override;
 		~CThreadPoolItemExecutorJoin();
 	};
 }

@@ -86,7 +86,7 @@ namespace nThread
 
 	void CThreadPool::join(const thread_id id)
 	{
-		impl_.get().thr[id].join();
+		impl_.get().thr[id].wait();
 	}
 
 	bool CThreadPool::joinable(const thread_id id) const noexcept
@@ -98,14 +98,14 @@ namespace nThread
 	{
 		for(auto &val:impl_.get().thr)
 			if(val.second.joinable())
-				val.second.join();
+				val.second.wait();
 	}
 
 	CThreadPool::thread_id CThreadPool::join_any()
 	{
 		auto temp{impl_.get().join_anyList.wait_and_pop()};
 		const auto id{temp->get_id()};
-		temp->join();
+		temp->wait();
 		return id;
 	}
 
