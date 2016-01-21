@@ -5,7 +5,7 @@
 #include"../../lib/header/thread/CSemaphore.h"
 #include"../../lib/header/thread/CSmartThread.h"
 #include"../../lib/header/thread/CTask.h"
-#include"CThreadPoolCommun.h"
+#include"IThreadPoolCommun.h"
 
 namespace nThread
 {

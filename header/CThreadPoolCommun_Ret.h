@@ -1,6 +1,6 @@
 #ifndef CTHREADPOOLCOMMUN_RET
 #define CTHREADPOOLCOMMUN_RET
-#include"CThreadPoolCommun.h"
+#include"IThreadPoolCommun.h"
 #include"../../lib/header/thread/CThreadQueue.h"
 
 namespace nThread

@@ -2,7 +2,7 @@
 #include<atomic>	//atomic<bool>
 #include<utility>
 #include"../../lib/header/thread/CSemaphore.h"
-#include"../header/CThreadPoolCommun.h"
+#include"../header/IThreadPoolCommun.h"
 using namespace std;
 
 namespace nThread

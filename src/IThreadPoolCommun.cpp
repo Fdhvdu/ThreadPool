@@ -1,4 +1,4 @@
-#include"../header/CThreadPoolCommun.h"
+#include"../header/IThreadPoolCommun.h"
 #include<utility>	//move
 #include"../../lib/header/thread/CThreadList.h"
 #include"../../lib/header/thread/CThreadQueue.h"

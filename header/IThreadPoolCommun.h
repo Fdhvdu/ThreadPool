@@ -1,5 +1,5 @@
-#ifndef CTHREADPOOLCOMMUN
-#define CTHREADPOOLCOMMUN
+#ifndef ITHREADPOOLCOMMUN
+#define ITHREADPOOLCOMMUN
 #include"../../lib/header/tool/CPimpl.h"
 
 namespace nThread
