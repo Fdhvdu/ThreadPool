@@ -19,7 +19,7 @@ namespace nThread
 		void assign(std::unique_ptr<IThreadPoolItemExecutorBase> &&);
 		std::thread::id get_id() const noexcept;
 		bool is_running() const noexcept;
-		bool joinable() const noexcept;	//I am trying to remove this
+		bool joinable() const noexcept;	//dynamic_cast inside
 		void wait();	//after calling this, CThreadPoolItem "should" be pushed into CThreadPool::Impl::waitingQue
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
 		CThreadPoolItem& operator=(CThreadPoolItem &&) noexcept;

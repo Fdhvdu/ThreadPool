@@ -13,17 +13,8 @@ namespace nThread
 	{
 		virtual void exec()=0;
 		virtual bool is_running() const noexcept=0;
-		inline bool joinable() const noexcept	//I am trying to remove this
-		{
-			return joinable_();
-		}
 		virtual void wait()=0;
 		virtual ~IThreadPoolItemExecutorBase()=0;
-	protected:
-		virtual bool joinable_() const noexcept
-		{
-			return false;
-		}
 	};
 
 	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase
@@ -42,11 +33,6 @@ namespace nThread
 	{
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
-	protected:
-		bool joinable_() const noexcept override
-		{
-			return true;
-		}
 	public:
 		CThreadPoolItemExecutorJoin(std::unique_ptr<IThreadPoolCommunBase> &&,std::function<void()> &&);
 		void exec() override;

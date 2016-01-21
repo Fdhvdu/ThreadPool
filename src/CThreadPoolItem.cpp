@@ -15,14 +15,6 @@ namespace nThread
 		CSmartThread thr;	//first destroying, no other data member could put under this one
 		Impl();
 		void assign(unique_ptr<IThreadPoolItemExecutorBase> &&);
-		inline bool joinable_and_is_running() const noexcept
-		{
-			return exec->joinable()&&exec->is_running();
-		}
-		inline void waiting()
-		{
-			wait.wait();
-		}
 		inline void wake()
 		{
 			wait.signal();
@@ -32,7 +24,7 @@ namespace nThread
 
 	CThreadPoolItem::Impl::Impl()
 		:destructor{false},wait{0},thr{[&]{
-			while(waiting(),!destructor)
+			while(wait.wait(),!destructor)
 				exec->exec();
 		}}{}
 
@@ -78,7 +70,10 @@ namespace nThread
 
 	bool CThreadPoolItem::joinable() const noexcept
 	{
-		return impl_.get().joinable_and_is_running();
+		const auto p{dynamic_cast<CThreadPoolItemExecutorJoin*>(impl_.get().exec.get())};
+		if(p)
+			return p->is_running();
+		return false;
 	}
 
 	CThreadPoolItem& CThreadPoolItem::operator=(CThreadPoolItem &&rVal) noexcept
