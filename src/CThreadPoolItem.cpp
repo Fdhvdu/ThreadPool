@@ -10,15 +10,12 @@ namespace nThread
 {
 	struct CThreadPoolItem::Impl
 	{
-		unique_ptr<CThreadPoolCommun> commun;	//communicate with CThreadPool
 		bool destructor;
 		unique_ptr<IThreadPoolItemExecutorBase> exec;
 		CSemaphore wait;
 		CSmartThread thr;	//first destroying, no other data member could put under this one
 		Impl();
-		void assign(function<void()> &&);
-		void assign_and_detach(function<void()> &&);
-		void loop();
+		void assign(unique_ptr<IThreadPoolItemExecutorBase> &&);
 		inline bool joinable_and_is_running() const noexcept
 		{
 			return exec->joinable()&&exec->is_running();
@@ -35,24 +32,15 @@ namespace nThread
 	};
 
 	CThreadPoolItem::Impl::Impl()
-		:destructor{false},wait{0},thr{&CThreadPoolItem::Impl::loop,this}{}
+		:destructor{false},wait{0},thr{[&]{
+			while(waiting(),!destructor)
+				exec->exec();
+		}}{}
 
-	void CThreadPoolItem::Impl::assign(function<void()> &&func)
+	void CThreadPoolItem::Impl::assign(unique_ptr<IThreadPoolItemExecutorBase> &&exec_)
 	{
-		exec=make_unique<CThreadPoolItemExecutorJoin>(commun.get(),move(func));
+		exec=move(exec_);
 		wake();
-	}
-
-	void CThreadPoolItem::Impl::assign_and_detach(function<void()> &&func)
-	{
-		exec=make_unique<CThreadPoolItemExecutorDetach>(commun.get(),move(func));
-		wake();
-	}
-
-	void CThreadPoolItem::Impl::loop()
-	{
-		while(waiting(),!destructor)
-			exec->exec();
 	}
 
 	CThreadPoolItem::Impl::~Impl()
@@ -68,15 +56,10 @@ namespace nThread
 
 	CThreadPoolItem::CThreadPoolItem(CThreadPoolItem &&rVal) noexcept
 		:impl_{move(rVal.impl_)}{}
-
-	void CThreadPoolItem::assign(function<void()> &&func)
+	
+	void CThreadPoolItem::assign(unique_ptr<IThreadPoolItemExecutorBase> &&exec)
 	{
-		impl_.get().assign(move(func));
-	}
-
-	void CThreadPoolItem::assign_and_detach(function<void()> &&func)
-	{
-		impl_.get().assign_and_detach(move(func));
+		impl_.get().assign(move(exec));
 	}
 
 	thread::id CThreadPoolItem::get_id() const noexcept
@@ -92,11 +75,6 @@ namespace nThread
 	bool CThreadPoolItem::joinable() const noexcept
 	{
 		return impl_.get().joinable_and_is_running();
-	}
-
-	void CThreadPoolItem::setCommun(unique_ptr<CThreadPoolCommun> &&commun)
-	{
-		impl_.get().commun=move(commun);
 	}
 
 	CThreadPoolItem& CThreadPoolItem::operator=(CThreadPoolItem &&rVal) noexcept

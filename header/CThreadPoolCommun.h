@@ -31,12 +31,12 @@ namespace nThread
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
-		CThreadPoolCommun(CThreadPoolItem *,CThreadList<CThreadPoolItem*> &,CThreadQueue<CThreadPoolItem*> &);
-		CThreadPoolCommun(const CThreadPoolCommun &)=delete;
+		CThreadPoolCommun(CThreadPoolItem *,CThreadList<CThreadPoolItem*> *,CThreadQueue<CThreadPoolItem*> *);
+		CThreadPoolCommun(CThreadPoolCommun &&) noexcept;
 		void detach();	//notify CThreadPool::join_any
 		void finish();	//push CThreadPoolItem into waitingQue_
 		void join();	//erase join_anyList_ and push CThreadPoolItem into waitingQue_
-		CThreadPoolCommun& operator=(const CThreadPoolCommun &)=delete;
+		CThreadPoolCommun& operator=(CThreadPoolCommun &&) noexcept;
 		~CThreadPoolCommun();
 	};
 }

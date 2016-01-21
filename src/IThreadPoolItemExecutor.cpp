@@ -9,55 +9,55 @@ namespace nThread
 {
 	struct CThreadPoolItemExecutorDetach::Impl
 	{
-		CThreadPoolCommun *commun;
+		CThreadPoolCommun commun;
 		CSemaphore complete;
-		std::function<void()> func;
-		Impl(CThreadPoolCommun *,std::function<void()> &&);
+		function<void()> func;
+		Impl(CThreadPoolCommun &&,function<void()> &&);
 		void exec();
 	};
 
 	struct CThreadPoolItemExecutorJoin::Impl
 	{
-		CThreadPoolCommun *commun;
+		CThreadPoolCommun commun;
 		CSemaphore complete;
-		std::function<void()> func;
-		std::atomic<bool> running;
-		Impl(CThreadPoolCommun *,std::function<void()> &&);
+		function<void()> func;
+		atomic<bool> running;
+		Impl(CThreadPoolCommun &&,function<void()> &&);
 		void exec();
 		void join();
 	};
 
-	CThreadPoolItemExecutorJoin::Impl::Impl(CThreadPoolCommun *commun_,function<void()> &&func_)
-		:commun{commun_},complete{0},func{move(func_)},running{true}{}
+	CThreadPoolItemExecutorJoin::Impl::Impl(CThreadPoolCommun &&commun_,function<void()> &&func_)
+		:commun{move(commun_)},complete{0},func{move(func_)},running{true}{}
 
 	void CThreadPoolItemExecutorJoin::Impl::exec()
 	{
 		func();
-		commun->finish();
-		complete.signal();
+		commun.finish();	//notify join_any
+		complete.signal();	//notify join
 	}
 
 	void CThreadPoolItemExecutorJoin::Impl::join()
 	{
 		complete.wait();
 		running=false;
-		commun->join();
+		commun.join();
 	}
 
-	CThreadPoolItemExecutorDetach::Impl::Impl(CThreadPoolCommun *commun_,function<void()> &&func_)
-		:commun{commun_},complete{0},func{move(func_)}{}
+	CThreadPoolItemExecutorDetach::Impl::Impl(CThreadPoolCommun &&commun_,function<void()> &&func_)
+		:commun{move(commun_)},complete{0},func{move(func_)}{}
 
 	void CThreadPoolItemExecutorDetach::Impl::exec()
 	{
 		func();
 		complete.signal();
-		commun->detach();
+		commun.detach();
 	}
 
 	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase(){}
 
-	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommun *commun,function<void()> &&func)
-		:impl_{commun,move(func)}{}
+	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommun &&commun,function<void()> &&func)
+		:impl_{move(commun),move(func)}{}
 
 	void CThreadPoolItemExecutorDetach::exec()
 	{
@@ -76,8 +76,8 @@ namespace nThread
 
 	CThreadPoolItemExecutorDetach::~CThreadPoolItemExecutorDetach(){}
 
-	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommun *commun,function<void()> &&func)
-		:impl_{commun,move(func)}{}
+	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommun &&commun,function<void()> &&func)
+		:impl_{move(commun),move(func)}{}
 
 	void CThreadPoolItemExecutorJoin::exec()
 	{

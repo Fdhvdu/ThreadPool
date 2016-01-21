@@ -8,6 +8,7 @@
 #include"../../lib/header/thread/CThreadQueue.h"
 #include"../header/CThreadPoolCommun.h"
 #include"../header/CThreadPoolItem.h"
+#include"../header/IThreadPoolItemExecutor.h"
 using namespace std;
 
 namespace nThread
@@ -19,6 +20,8 @@ namespace nThread
 		CThreadQueue<CThreadPoolItem*> waitingQue;
 		unordered_map<thread::id,CThreadPoolItem> thr;
 		Impl(size_t);
+		CThreadPool::thread_id add(function<void()> &&);
+		void add_and_detach(function<void()> &&);
 		void wait_until_all_available();
 	};
 
@@ -29,9 +32,22 @@ namespace nThread
 			CThreadPoolItem item;
 			const auto id{item.get_id()};
 			thr.emplace(id,move(item));
-			thr[id].setCommun(make_unique<CThreadPoolCommun>(&thr[id],join_anyList,waitingQue));
 			waitingQue.emplace(&thr[id]);
 		}
+	}
+
+	CThreadPool::thread_id CThreadPool::Impl::add(function<void()> &&func)
+	{
+		auto temp{waitingQue.wait_and_pop()};
+		const auto id{temp->get_id()};
+		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommun{temp,&join_anyList,&waitingQue},move(func)));
+		return id;
+	}
+
+	void CThreadPool::Impl::add_and_detach(function<void()> &&func)
+	{
+		auto temp{waitingQue.wait_and_pop()};
+		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommun{temp,&join_anyList,&waitingQue},move(func)));
 	}
 	
 	void CThreadPool::Impl::wait_until_all_available()
@@ -47,15 +63,12 @@ namespace nThread
 
 	CThreadPool::thread_id CThreadPool::add_(std::function<void()> &&func)
 	{
-		auto temp{impl_.get().waitingQue.wait_and_pop()};
-		const auto id{temp->get_id()};
-		temp->assign(move(func));
-		return id;
+		return impl_.get().add(move(func));
 	}
 
 	void CThreadPool::add_and_detach_(std::function<void()> &&func)
 	{
-		impl_.get().waitingQue.wait_and_pop()->assign_and_detach(move(func));
+		impl_.get().add_and_detach(move(func));
 	}
 
 	CThreadPool::CThreadPool(const size_t size)

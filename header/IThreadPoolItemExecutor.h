@@ -30,7 +30,7 @@ namespace nThread
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
-		CThreadPoolItemExecutorDetach(CThreadPoolCommun *,std::function<void()> &&);
+		CThreadPoolItemExecutorDetach(CThreadPoolCommun &&,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;	//only the destructor of CThreadPoolItem will call this
 		void join() override;	//only the destructor of CThreadPoolItem will call this
@@ -47,7 +47,7 @@ namespace nThread
 			return true;
 		}
 	public:
-		CThreadPoolItemExecutorJoin(CThreadPoolCommun *,std::function<void()> &&);
+		CThreadPoolItemExecutorJoin(CThreadPoolCommun &&,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;
 		void join() override;
