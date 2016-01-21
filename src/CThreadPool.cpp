@@ -2,7 +2,6 @@
 #include<memory>	//make_unique
 #include<mutex>
 #include<thread>
-#include<utility>	//move
 #include<vector>
 #include<unordered_map>
 #include"../../lib/header/thread/CThreadList.h"

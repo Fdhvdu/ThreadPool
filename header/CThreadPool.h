@@ -1,7 +1,9 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
 #include<cstddef>	//size_t
+#include<functional>	//bind
 #include<type_traits>	//declval
+#include<utility>	//forward
 #include"../../lib/header/tool/CPimpl.h"
 #include"CThreadPoolItem.h"
 

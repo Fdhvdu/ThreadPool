@@ -1,5 +1,4 @@
 #include"CThreadPool.h"
-#include<utility>
 
 namespace nThread
 {
