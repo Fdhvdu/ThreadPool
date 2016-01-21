@@ -27,6 +27,16 @@ namespace nThread
 		void join();
 	};
 
+	CThreadPoolItemExecutorDetach::Impl::Impl(CThreadPoolCommun &&commun_,function<void()> &&func_)
+		:commun{move(commun_)},complete{0},func{move(func_)}{}
+
+	void CThreadPoolItemExecutorDetach::Impl::exec()
+	{
+		func();
+		complete.signal();
+		commun.detach();
+	}
+
 	CThreadPoolItemExecutorJoin::Impl::Impl(CThreadPoolCommun &&commun_,function<void()> &&func_)
 		:commun{move(commun_)},complete{0},func{move(func_)},running{true}{}
 
@@ -42,16 +52,6 @@ namespace nThread
 		complete.wait();
 		running=false;
 		commun.join();
-	}
-
-	CThreadPoolItemExecutorDetach::Impl::Impl(CThreadPoolCommun &&commun_,function<void()> &&func_)
-		:commun{move(commun_)},complete{0},func{move(func_)}{}
-
-	void CThreadPoolItemExecutorDetach::Impl::exec()
-	{
-		func();
-		complete.signal();
-		commun.detach();
 	}
 
 	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase(){}
