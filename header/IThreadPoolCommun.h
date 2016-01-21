@@ -4,9 +4,9 @@
 namespace nThread
 {
 	class CThreadPoolItem;
-	template<class Func>
+	template<class T>
 	class CThreadList;
-	template<class Func>
+	template<class T>
 	class CThreadQueue;
 
 	struct IThreadPoolCommunBase
