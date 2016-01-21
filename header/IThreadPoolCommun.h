@@ -1,6 +1,5 @@
 #ifndef ITHREADPOOLCOMMUN
 #define ITHREADPOOLCOMMUN
-#include"../../lib/header/tool/CPimpl.h"
 
 namespace nThread
 {
@@ -19,8 +18,9 @@ namespace nThread
 
 	class CThreadPoolCommun: public IThreadPoolCommunBase
 	{
-		struct Impl;
-		nTool::CPimpl<Impl> impl_;
+		CThreadPoolItem *item_;
+		CThreadList<CThreadPoolItem*> *join_anyList_;	//or use deque
+		CThreadQueue<CThreadPoolItem*> *waitingQue_;
 	public:
 		CThreadPoolCommun(CThreadPoolItem *,CThreadList<CThreadPoolItem*> *,CThreadQueue<CThreadPoolItem*> *);
 		void destroy() override;	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waitingQue
@@ -30,8 +30,8 @@ namespace nThread
 
 	class CThreadPoolCommunDetach: public IThreadPoolCommunBase
 	{
-		struct Impl;
-		nTool::CPimpl<Impl> impl_;
+		CThreadPoolItem *item_;
+		CThreadQueue<CThreadPoolItem*> *waitingQue_;
 	public:
 		CThreadPoolCommunDetach(CThreadPoolItem *,CThreadQueue<CThreadPoolItem*> *);
 		void destroy() override{}
