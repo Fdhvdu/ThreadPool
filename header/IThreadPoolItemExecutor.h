@@ -12,7 +12,7 @@ namespace nThread
 	{
 		virtual void exec()=0;
 		virtual bool is_running() const noexcept=0;
-		inline bool joinable() const noexcept
+		inline bool joinable() const noexcept	//I am trying to remove this
 		{
 			return joinable_();
 		}

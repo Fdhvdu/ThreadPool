@@ -17,8 +17,9 @@ namespace nThread
 		CThreadPoolItem(const CThreadPoolItem &)=delete;
 		CThreadPoolItem(CThreadPoolItem &&) noexcept;
 		void assign(std::unique_ptr<IThreadPoolItemExecutorBase> &&);
+		bool is_running() const noexcept;
 		std::thread::id get_id() const noexcept;
-		bool joinable() const noexcept;
+		bool joinable() const noexcept;	//I am trying to remove this
 		void wait();	//after calling this, CThreadPoolItem "should" be pushed into CThreadPool::Impl::waitingQue
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
 		CThreadPoolItem& operator=(CThreadPoolItem &&) noexcept;
