@@ -43,7 +43,7 @@ namespace nThread
 	void CThreadPoolItemExecutorJoin::Impl::exec()
 	{
 		func();
-		commun.finish();	//notify CThreadPool::join_any
+		commun.func_is_completed();	//notify CThreadPool::join_any
 		complete.signal();	//notify CThreadPool::join
 	}
 

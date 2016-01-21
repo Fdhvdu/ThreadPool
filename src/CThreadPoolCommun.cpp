@@ -40,7 +40,7 @@ namespace nThread
 		{
 			waitingQue->emplace(item);
 		}
-		inline void finish()	//notify CThreadPool::join_any
+		inline void func_is_completed()	//notify CThreadPool::join_any
 		{
 			join_anyList->emplace_back(item);
 		}
@@ -68,9 +68,9 @@ namespace nThread
 		impl_.get().detach();
 	}
 
-	void CThreadPoolCommun::finish()
+	void CThreadPoolCommun::func_is_completed()
 	{
-		impl_.get().finish();
+		impl_.get().func_is_completed();
 	}
 
 	void CThreadPoolCommun::join()

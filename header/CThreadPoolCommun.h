@@ -34,7 +34,7 @@ namespace nThread
 		CThreadPoolCommun(CThreadPoolItem *,CThreadList<CThreadPoolItem*> *,CThreadQueue<CThreadPoolItem*> *);
 		CThreadPoolCommun(CThreadPoolCommun &&) noexcept;
 		void detach();	//notify CThreadPool::join_any
-		void finish();	//push CThreadPoolItem into CThreadPool::Impl::waitingQue
+		void func_is_completed();	//push CThreadPoolItem into CThreadPool::Impl::waitingQue
 		void join();	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waitingQue
 		CThreadPoolCommun& operator=(CThreadPoolCommun &&) noexcept;
 		~CThreadPoolCommun();
