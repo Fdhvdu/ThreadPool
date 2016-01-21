@@ -7,27 +7,6 @@ using namespace std;
 
 namespace nThread
 {
-	void CThreadPoolCommunBase::detach_(){}
-	
-	void CThreadPoolCommunBase::finish_(){}
-	
-	void CThreadPoolCommunBase::join_(){}
-
-	void CThreadPoolCommunBase::communPoolDetach()
-	{
-		detach_();
-	}
-
-	void CThreadPoolCommunBase::communPoolFinish()
-	{
-		finish_();
-	}
-
-	void CThreadPoolCommunBase::communPoolJoin()
-	{
-		join_();
-	}
-
 	CThreadPoolCommunBase::~CThreadPoolCommunBase(){}
 
 	struct CThreadPoolCommun::Impl
