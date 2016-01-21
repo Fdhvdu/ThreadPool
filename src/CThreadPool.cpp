@@ -40,7 +40,7 @@ namespace nThread
 	{
 		auto temp{waitingQue.wait_and_pop()};
 		const auto id{temp->get_id()};
-		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(make_unique<CThreadPoolCommun>(temp,join_anyList,waitingQue),move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(make_unique<CThreadPoolCommunJoin>(temp,join_anyList,waitingQue),move(func)));
 		return id;
 	}
 
