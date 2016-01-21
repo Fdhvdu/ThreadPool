@@ -5,8 +5,8 @@
 #include<utility>	//move
 #include<vector>
 #include<unordered_map>
-#include"../../lib/header/algorithm/algorithm.h"
 #include"../../lib/header/thread/CThreadList.h"
+#include"../../lib/header/thread/CThreadQueue.h"
 #include"../header/CThreadPoolCommun.h"
 using namespace std;
 
@@ -16,23 +16,47 @@ namespace nThread
 	{
 		CThreadList<CThreadPoolItem*> join_anyList;
 		mutex mut;	//only for wait_until_all_available
+		CThreadQueue<CThreadPoolItem*> waitingQue;
 		unordered_map<thread::id,CThreadPoolItem> thr;
-		Impl(size_t,CThreadQueue<CThreadPoolItem*> &);
+		Impl(size_t);
+		void wait_until_all_available();
 	};
 
-	CThreadPool::Impl::Impl(const size_t size,CThreadQueue<CThreadPoolItem*> &waitingQue)
+	CThreadPool::Impl::Impl(size_t size)
 	{
-		nAlgorithm::for_each_val<size_t>(0,size,[&](const auto){
+		while(size--)
+		{
 			CThreadPoolItem item;
 			const auto id{item.get_id()};
 			thr.emplace(id,move(item));
 			thr[id].setCommun(make_unique<CThreadPoolCommun>(&thr[id],join_anyList,waitingQue));
 			waitingQue.emplace(&thr[id]);
-		});
+		}
+	}
+	
+	void CThreadPool::Impl::wait_until_all_available()
+	{
+		vector<decltype(waitingQue)::value_type> vec;
+		vec.reserve(thr.size());
+		lock_guard<mutex> lock{mut};
+		while(vec.size()!=vec.capacity())
+			vec.emplace_back(waitingQue.wait_and_pop());
+		for(auto &val:vec)
+			waitingQue.emplace(move(val));
+	}
+
+	CThreadPoolItem* CThreadPool::wait_and_pop_()
+	{
+		return impl_.get().waitingQue.wait_and_pop();
 	}
 
 	CThreadPool::CThreadPool(const size_t size)
-		:impl_{size,waitingQue_}{}
+		:impl_{size}{}
+	
+	size_t CThreadPool::available() const noexcept
+	{
+		return impl_.get().waitingQue.size();
+	}
 
 	size_t CThreadPool::count() const noexcept
 	{
@@ -66,13 +90,7 @@ namespace nThread
 
 	void CThreadPool::wait_until_all_available() const
 	{
-		vector<decltype(waitingQue_)::value_type> vec;
-		vec.reserve(count());
-		lock_guard<mutex> lock{impl_.get().mut};
-		while(vec.size()!=count())
-			vec.emplace_back(waitingQue_.wait_and_pop());
-		for(auto &val:vec)
-			waitingQue_.emplace(move(val));
+		impl_.get().wait_until_all_available();
 	}
 
 	CThreadPool::~CThreadPool(){}

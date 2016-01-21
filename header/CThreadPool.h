@@ -3,7 +3,6 @@
 #include<cstddef>	//size_t
 #include<type_traits>	//declval
 #include"../../lib/header/tool/CPimpl.h"
-#include"../../lib/header/thread/CThreadQueue.h"
 #include"CThreadPoolItem.h"
 
 namespace nThread
@@ -14,8 +13,8 @@ namespace nThread
 						//otherwise, there is no available thread even after threads complete their job
 	{
 		struct Impl;
-		mutable CThreadQueue<CThreadPoolItem*> waitingQue_;	//must prior to impl_
 		nTool::CPimpl<Impl> impl_;
+		CThreadPoolItem* wait_and_pop_();
 	public:
 		typedef decltype(std::declval<CThreadPoolItem>().get_id()) thread_id;
 		explicit CThreadPool(std::size_t);
@@ -25,12 +24,9 @@ namespace nThread
 		template<class Func,class ... Args>
 		inline void add_and_detach(Func &&func,Args &&...args)
 		{
-			waitingQue_.wait_and_pop()->assign_and_detach(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
+			wait_and_pop_()->assign_and_detach(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
 		}
-		inline std::size_t available() const noexcept
-		{
-			return waitingQue_.size();
-		}
+		std::size_t available() const noexcept;
 		std::size_t count() const noexcept;
 		void join(thread_id);	//do not combine join and join_any together in your code
 								//it will make some join_any cannot get notification
