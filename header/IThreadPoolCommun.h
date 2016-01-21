@@ -22,8 +22,7 @@ namespace nThread
 		CThreadQueue<CThreadPoolItem*> &waitingQue_;
 	public:
 		CThreadPoolCommunDetach(CThreadPoolItem *,CThreadQueue<CThreadPoolItem*> &);
-		void destroy() override
-		{}
+		void destroy() override{}	//nothing to do
 		void func_is_completed() override;
 		~CThreadPoolCommunDetach();
 	};
