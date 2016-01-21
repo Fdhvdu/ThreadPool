@@ -36,6 +36,7 @@ namespace nThread
 		CThreadList<CThreadPoolItem*> *join_anyList;	//or use deque
 		CThreadQueue<CThreadPoolItem*> *waitingQue;
 		Impl(CThreadPoolItem *,CThreadList<CThreadPoolItem*> *,CThreadQueue<CThreadPoolItem*> *);
+		void destroy();
 		inline void detach()
 		{
 			waitingQue->emplace(item);
@@ -44,13 +45,12 @@ namespace nThread
 		{
 			join_anyList->emplace_back(item);
 		}
-		void join();
 	};
 
 	CThreadPoolCommun::Impl::Impl(CThreadPoolItem *item_,CThreadList<CThreadPoolItem*> *join_anyList_,CThreadQueue<CThreadPoolItem*> *waitingQue_)
 		:item{item_},join_anyList{join_anyList_},waitingQue{waitingQue_}{}
 
-	void CThreadPoolCommun::Impl::join()
+	void CThreadPoolCommun::Impl::destroy()
 	{
 		join_anyList->remove_if([&](const CThreadPoolItem *val){return val->get_id()==item->get_id();});
 		//if CThreadPool::join_any run first, this would not erase anything (it's ok)
@@ -63,6 +63,11 @@ namespace nThread
 	CThreadPoolCommun::CThreadPoolCommun(CThreadPoolCommun &&rVal) noexcept
 		:impl_{move(rVal.impl_)}{}
 
+	void CThreadPoolCommun::destroy()
+	{
+		impl_.get().destroy();
+	}
+
 	void CThreadPoolCommun::detach()
 	{
 		impl_.get().detach();
@@ -71,11 +76,6 @@ namespace nThread
 	void CThreadPoolCommun::func_is_completed()
 	{
 		impl_.get().func_is_completed();
-	}
-
-	void CThreadPoolCommun::join()
-	{
-		impl_.get().join();
 	}
 
 	CThreadPoolCommun& CThreadPoolCommun::operator=(CThreadPoolCommun &&rVal) noexcept

@@ -51,7 +51,7 @@ namespace nThread
 	{
 		complete.wait();
 		running=false;
-		commun.join();
+		commun.destroy();
 	}
 
 	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase(){}
