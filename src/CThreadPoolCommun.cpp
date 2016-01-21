@@ -40,7 +40,7 @@ namespace nThread
 		{
 			waitingQue->emplace(item);
 		}
-		inline void finish()
+		inline void finish()	//notify CThreadPool::join_any
 		{
 			join_anyList->emplace_back(item);
 		}
@@ -53,9 +53,7 @@ namespace nThread
 	void CThreadPoolCommun::Impl::join()
 	{
 		join_anyList->remove_if([&](const CThreadPoolItem *val){return val->get_id()==item->get_id();});
-		//CThreadPoolItem::communPoolFinishing_ call CThreadPoolCommun::finishing
-		//CThreadPoolCommun::finishing notify CThreadPool::join_any
-		//if CThreadPool::join_any run first, this would not erase anything
+		//if CThreadPool::join_any run first, this would not erase anything (it's ok)
 		waitingQue->emplace(item);
 	}
 

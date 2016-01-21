@@ -33,8 +33,8 @@ namespace nThread
 	void CThreadPoolItemExecutorJoin::Impl::exec()
 	{
 		func();
-		commun.finish();	//notify join_any
-		complete.signal();	//notify join
+		commun.finish();	//notify CThreadPool::join_any
+		complete.signal();	//notify CThreadPool::join
 	}
 
 	void CThreadPoolItemExecutorJoin::Impl::join()
