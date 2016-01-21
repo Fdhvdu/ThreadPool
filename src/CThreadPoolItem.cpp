@@ -61,14 +61,14 @@ namespace nThread
 		impl_.get().assign(move(exec));
 	}
 
-	bool CThreadPoolItem::is_running() const noexcept
-	{
-		return impl_.get().exec->is_running();
-	}
-
 	thread::id CThreadPoolItem::get_id() const noexcept
 	{
 		return impl_.get().thr.get_id();
+	}
+
+	bool CThreadPoolItem::is_running() const noexcept
+	{
+		return impl_.get().exec->is_running();
 	}
 
 	void CThreadPoolItem::wait()
