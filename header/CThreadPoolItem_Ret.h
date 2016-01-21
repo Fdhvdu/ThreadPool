@@ -15,7 +15,7 @@ namespace nThread
 	template<class Ret>
 	class CThreadPoolItem_Ret
 	{
-		std::unique_ptr<CThreadPoolCommunBase> commun_;	//communicate with CThreadPool
+		std::unique_ptr<IThreadPoolCommunBase> commun_;	//communicate with CThreadPool
 		bool destructor_;
 		std::unique_ptr<CThreadPoolItemExecutorRet<Ret>> exec_;
 		CSemaphore wait_;
@@ -38,7 +38,7 @@ namespace nThread
 		{
 			return exec_->get();
 		}
-		void setCommun(std::unique_ptr<CThreadPoolCommunBase> &&commun)
+		void setCommun(std::unique_ptr<IThreadPoolCommunBase> &&commun)
 		{
 			commun_=std::move(commun);
 		}
@@ -57,11 +57,11 @@ namespace nThread
 	template<class Ret>
 	class CThreadPoolItemExecutorRet
 	{
-		CThreadPoolCommunBase *commun_;
+		IThreadPoolCommunBase *commun_;
 		CTask<Ret> task_;
 	public:
 		template<class Func,class ... Args>
-		CThreadPoolItemExecutorRet(CThreadPoolCommunBase *,Func &&,Args &&...);
+		CThreadPoolItemExecutorRet(IThreadPoolCommunBase *,Func &&,Args &&...);
 		CThreadPoolItemExecutorRet(const CThreadPoolItemExecutorRet &)=delete;
 		void exec()
 		{

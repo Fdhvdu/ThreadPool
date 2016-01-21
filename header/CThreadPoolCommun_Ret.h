@@ -9,7 +9,7 @@ namespace nThread
 	class CThreadPoolItem_Ret;
 
 	template<class Ret>
-	class CThreadPoolCommun_Ret:public CThreadPoolCommunBase
+	class CThreadPoolCommun_Ret:public IThreadPoolCommunBase
 	{
 	public:
 		typedef std::pair<std::size_t,CThreadPoolItem_Ret<Ret>*> pair;

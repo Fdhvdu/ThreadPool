@@ -10,25 +10,33 @@ namespace nThread
 	template<class Func>
 	class CThreadQueue;
 
-	struct CThreadPoolCommunBase
+	struct IThreadPoolCommunBase
 	{
 		virtual void destroy()=0;
 		virtual void func_is_completed()=0;
-		virtual ~CThreadPoolCommunBase();
+		virtual ~IThreadPoolCommunBase();
 	};
 
-	class CThreadPoolCommun
+	class CThreadPoolCommun: public IThreadPoolCommunBase
 	{
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
 		CThreadPoolCommun(CThreadPoolItem *,CThreadList<CThreadPoolItem*> *,CThreadQueue<CThreadPoolItem*> *);
-		CThreadPoolCommun(CThreadPoolCommun &&) noexcept;
-		void destroy();	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waitingQue
-		void detach();	//notify CThreadPool::join_any
-		void func_is_completed();	//push CThreadPoolItem into CThreadPool::Impl::waitingQue
-		CThreadPoolCommun& operator=(CThreadPoolCommun &&) noexcept;
+		void destroy() override;	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waitingQue
+		void func_is_completed() override;	//push CThreadPoolItem into CThreadPool::Impl::waitingQue
 		~CThreadPoolCommun();
+	};
+
+	class CThreadPoolCommunDetach: public IThreadPoolCommunBase
+	{
+		struct Impl;
+		nTool::CPimpl<Impl> impl_;
+	public:
+		CThreadPoolCommunDetach(CThreadPoolItem *,CThreadQueue<CThreadPoolItem*> *);
+		void destroy() override{}
+		void func_is_completed() override;
+		~CThreadPoolCommunDetach();
 	};
 }
 

@@ -33,7 +33,7 @@ namespace nThread
 
 	template<class Ret>
 	template<class Func,class ... Args>
-	CThreadPoolItemExecutorRet<Ret>::CThreadPoolItemExecutorRet(CThreadPoolCommunBase *commun,Func &&func,Args &&...args)
+	CThreadPoolItemExecutorRet<Ret>::CThreadPoolItemExecutorRet(IThreadPoolCommunBase *commun,Func &&func,Args &&...args)
 		:commun_{commun},task_{std::forward<Func>(func),std::forward<Args>(args)...}{}
 
 	template<class Ret>

@@ -40,14 +40,14 @@ namespace nThread
 	{
 		auto temp{waitingQue.wait_and_pop()};
 		const auto id{temp->get_id()};
-		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommun{temp,&join_anyList,&waitingQue},move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(make_unique<CThreadPoolCommun>(temp,&join_anyList,&waitingQue),move(func)));
 		return id;
 	}
 
 	void CThreadPool::Impl::add_and_detach(function<void()> &&func)
 	{
 		auto temp{waitingQue.wait_and_pop()};
-		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommun{temp,&join_anyList,&waitingQue},move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(make_unique<CThreadPoolCommunDetach>(temp,&waitingQue),move(func)));
 	}
 	
 	void CThreadPool::Impl::wait_until_all_available()
