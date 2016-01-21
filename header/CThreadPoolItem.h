@@ -19,8 +19,7 @@ namespace nThread
 		void assign(std::unique_ptr<IThreadPoolItemExecutorBase> &&);
 		std::thread::id get_id() const noexcept;
 		bool joinable() const noexcept;
-		void wait();	//after calling this, CThreadPoolItem will be pushed into waitingQue_
-						//it also means assign will be called in the subsequent (if has)
+		void wait();	//after calling this, CThreadPoolItem "should" be pushed into CThreadPool::Impl::waitingQue
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
 		CThreadPoolItem& operator=(CThreadPoolItem &&) noexcept;
 		~CThreadPoolItem();
