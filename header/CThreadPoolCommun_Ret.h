@@ -17,11 +17,11 @@ namespace nThread
 		CThreadPoolItem_Ret<Ret> *item_;
 		CThreadQueue<pair> &waitingQue_;
 		const std::size_t id_;
-	protected:
-		void detach_() override;	//push CThreadPoolItem into waitingQue_
 	public:
 		CThreadPoolCommun_Ret(CThreadPoolItem_Ret<Ret> *,CThreadQueue<pair> &,std::size_t);
 		CThreadPoolCommun_Ret(const CThreadPoolCommun_Ret &)=delete;
+		void func_is_completed() override{}
+		void destroy() override;	//push CThreadPoolItem into waitingQue_
 		CThreadPoolCommun_Ret& operator=(const CThreadPoolCommun_Ret &)=delete;
 	};
 }

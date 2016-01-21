@@ -10,19 +10,10 @@ namespace nThread
 	template<class Func>
 	class CThreadQueue;
 
-	class CThreadPoolCommunBase
+	struct CThreadPoolCommunBase
 	{
-	protected:
-		virtual void detach_();
-		virtual void finish_();
-		virtual void join_();
-	public:
-		CThreadPoolCommunBase()=default;
-		CThreadPoolCommunBase(const CThreadPoolCommunBase &)=delete;
-		void communPoolDetach();
-		void communPoolFinish();
-		void communPoolJoin();
-		CThreadPoolCommunBase& operator=(const CThreadPoolCommunBase &)=delete;
+		virtual void destroy()=0;
+		virtual void func_is_completed()=0;
 		virtual ~CThreadPoolCommunBase();
 	};
 

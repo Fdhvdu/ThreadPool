@@ -39,7 +39,7 @@ namespace nThread
 	template<class Ret>
 	Ret CThreadPoolItemExecutorRet<Ret>::get()
 	{
-		const nTool::CScopeGuard<void()> sg{[=]{commun_->communPoolDetach();}};
+		const nTool::CScopeGuard<void()> sg{[=]{commun_->destroy();}};
 		return task_.get();
 	}
 }
