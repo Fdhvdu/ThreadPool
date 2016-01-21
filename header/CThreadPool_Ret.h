@@ -29,7 +29,7 @@ namespace nThread
 		{
 			return size_;
 		}
-		inline decltype(std::declval<CThreadPoolItem_Ret<Ret>>().get()) get(const thread_id id)
+		inline Ret get(const thread_id id)
 		{
 			return thr_[id].get();
 		}

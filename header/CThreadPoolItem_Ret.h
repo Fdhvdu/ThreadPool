@@ -34,7 +34,7 @@ namespace nThread
 		CThreadPoolItem_Ret(const CThreadPoolItem_Ret &)=delete;
 		template<class Func,class ... Args>
 		void assign_and_ret(Func &&,Args &&...);
-		inline decltype(std::declval<CThreadPoolItemExecutorRet<Ret>>().get()) get()
+		inline Ret get()
 		{
 			return exec_->get();
 		}
@@ -67,7 +67,7 @@ namespace nThread
 		{
 			task_();
 		}
-		decltype(std::declval<CTask<Ret>>().get()) get();
+		Ret get();
 		bool is_running() const noexcept
 		{
 			return task_.valid();
