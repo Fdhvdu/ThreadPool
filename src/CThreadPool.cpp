@@ -7,6 +7,7 @@
 #include"../../lib/header/thread/CThreadList.h"
 #include"../../lib/header/thread/CThreadQueue.h"
 #include"../header/CThreadPoolCommun.h"
+#include"../header/CThreadPoolItem.h"
 using namespace std;
 
 namespace nThread
@@ -44,9 +45,17 @@ namespace nThread
 			waitingQue.emplace(move(val));
 	}
 
-	CThreadPoolItem* CThreadPool::wait_and_pop_()
+	CThreadPool::thread_id CThreadPool::add_(std::function<void()> &&func)
 	{
-		return impl_.get().waitingQue.wait_and_pop();
+		auto temp{impl_.get().waitingQue.wait_and_pop()};
+		const auto id{temp->get_id()};
+		temp->assign(move(func));
+		return id;
+	}
+
+	void CThreadPool::add_and_detach_(std::function<void()> &&func)
+	{
+		impl_.get().waitingQue.wait_and_pop()->assign_and_detach(move(func));
 	}
 
 	CThreadPool::CThreadPool(const size_t size)

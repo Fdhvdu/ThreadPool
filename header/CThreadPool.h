@@ -1,11 +1,10 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
 #include<cstddef>	//size_t
-#include<functional>	//bind
-#include<type_traits>	//declval
+#include<functional>	//bind, function
+#include<thread>	//thread::id
 #include<utility>	//forward
 #include"../../lib/header/tool/CPimpl.h"
-#include"CThreadPoolItem.h"
 
 namespace nThread
 {
@@ -14,19 +13,25 @@ namespace nThread
 						//every threads must call join, join_any or join_all after calling add
 						//otherwise, there is no available thread even after threads complete their job
 	{
+	public:
+		typedef std::thread::id thread_id;
+	private:
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
-		CThreadPoolItem* wait_and_pop_();
+		thread_id add_(std::function<void()> &&);
+		void add_and_detach_(std::function<void()> &&);
 	public:
-		typedef decltype(std::declval<CThreadPoolItem>().get_id()) thread_id;
 		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
 		template<class Func,class ... Args>
-		thread_id add(Func &&,Args &&...);
+		inline thread_id add(Func &&func,Args &&...args)
+		{
+			return add_(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
+		}
 		template<class Func,class ... Args>
 		inline void add_and_detach(Func &&func,Args &&...args)
 		{
-			wait_and_pop_()->assign_and_detach(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
+			add_and_detach_(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
 		}
 		std::size_t available() const noexcept;
 		std::size_t count() const noexcept;
@@ -42,7 +47,5 @@ namespace nThread
 		~CThreadPool();
 	};
 }
-
-#include"CThreadPool.cpp"
 
 #endif
