@@ -4,18 +4,17 @@
 #include<functional>	//function
 #include<memory>	//unique_ptr
 #include"../../lib/header/thread/CTask.h"
-#include"IThreadPoolCommun.h"
 
 namespace nThread
 {
 	template<class Ret>
 	class CThreadPoolItemExecutor_Ret:public IThreadPoolItemExecutorBase
 	{
-		std::unique_ptr<IThreadPoolCommunBase> &commun_;
+		std::unique_ptr<IThreadPoolCommunBase> commun_;
 		CTask<Ret> task_;
 	public:
 		template<class Func,class ... Args>
-		CThreadPoolItemExecutor_Ret(std::unique_ptr<IThreadPoolCommunBase> &,Func &&,Args &&...);
+		CThreadPoolItemExecutor_Ret(std::unique_ptr<IThreadPoolCommunBase> &&,Func &&,Args &&...);
 		CThreadPoolItemExecutor_Ret(const CThreadPoolItemExecutor_Ret &)=delete;
 		void exec() override
 		{

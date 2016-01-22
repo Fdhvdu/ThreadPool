@@ -1,15 +1,14 @@
 #include"CThreadPoolItem_Ret.h"
 #include<functional>	//bind
-#include<utility>	//forward
+#include<utility>	//move
 
 namespace nThread
 {
 	template<class Ret>
-	template<class Func,class ... Args>
-	void CThreadPoolItem_Ret<Ret>::assign(Func &&func,Args &&...args)
+	void CThreadPoolItem_Ret<Ret>::assign(std::unique_ptr<CThreadPoolItemExecutor_Ret<Ret>> &&exec)
 	{
-		exec_=std::make_unique<CThreadPoolItemExecutor_Ret<Ret>>(commun_,std::forward<Func>(func),std::forward<Args>(args)...);
-		exec(std::bind(&IThreadPoolItemExecutorBase::exec,exec_.get()));
+		exec_=std::move(exec);
+		IThreadPoolItemBase::exec(std::bind(&IThreadPoolItemExecutorBase::exec,exec_.get()));
 	}
 
 	template<class Ret>

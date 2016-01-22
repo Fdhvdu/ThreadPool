@@ -12,7 +12,6 @@ namespace nThread
 			CThreadPoolItem_Ret<Ret> item;
 			const auto id{item.get_id()};
 			thr_.emplace(id,std::move(item));
-			thr_[id].setCommun(std::make_unique<CThreadPoolCommun_Ret<Ret>>(&thr_[id],waitingQue_));
 			waitingQue_.emplace(&thr_[id]);
 		}
 	}
@@ -22,7 +21,7 @@ namespace nThread
 	typename CThreadPool_Ret<Ret>::thread_id CThreadPool_Ret<Ret>::add(Func &&func,Args &&...args)
 	{
 		auto temp{waitingQue_.wait_and_pop()};
-		temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
+		temp->assign(std::make_unique<CThreadPoolItemExecutor_Ret<Ret>>(std::make_unique<CThreadPoolCommun_Ret<Ret>>(temp,waitingQue_),std::forward<Func>(func),std::forward<Args>(args)...));
 		return temp->get_id();
 	}
 }
