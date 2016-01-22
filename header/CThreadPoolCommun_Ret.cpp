@@ -4,12 +4,12 @@
 namespace nThread
 {
 	template<class Ret>
-	CThreadPoolCommun_Ret<Ret>::CThreadPoolCommun_Ret(CThreadPoolItem_Ret<Ret> *item,CThreadQueue<pair> &waitingQue,const std::size_t id)
-		:item_{item},waitingQue_{waitingQue},id_{id}{}
+	CThreadPoolCommun_Ret<Ret>::CThreadPoolCommun_Ret(CThreadPoolItem_Ret<Ret> *item,CThreadQueue<CThreadPoolItem_Ret<Ret>*> &waitingQue)
+		:item_{item},waitingQue_{waitingQue}{}
 
 	template<class Ret>
 	void CThreadPoolCommun_Ret<Ret>::destroy()
 	{
-		waitingQue_.emplace(id_,item_);
+		waitingQue_.emplace(item_);
 	}
 }
