@@ -17,16 +17,16 @@ namespace nThread
 		template<class Func,class ... Args>
 		CThreadPoolItemExecutor_Ret(std::unique_ptr<IThreadPoolCommunBase> &,Func &&,Args &&...);
 		CThreadPoolItemExecutor_Ret(const CThreadPoolItemExecutor_Ret &)=delete;
-		void exec()
+		void exec() override
 		{
 			task_();
 		}
 		Ret get();
-		bool is_running() const noexcept
+		bool is_running() const noexcept override
 		{
 			return task_.valid();
 		}
-		void wait()
+		void wait() override
 		{
 			task_.wait();
 		}
