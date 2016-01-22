@@ -23,7 +23,7 @@ namespace nThread
 		{
 			return exec_->is_running();
 		}
-		void wait() override
+		void wait() const override
 		{
 			exec_->wait();
 		}

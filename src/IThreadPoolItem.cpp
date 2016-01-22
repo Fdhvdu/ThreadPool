@@ -75,7 +75,7 @@ namespace nThread
 		return exec_->is_running();
 	}
 
-	void CThreadPoolItem::wait()
+	void CThreadPoolItem::wait() const
 	{
 		exec_->wait();
 	}

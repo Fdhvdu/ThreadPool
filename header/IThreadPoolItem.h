@@ -17,7 +17,7 @@ namespace nThread
 		void exec(const std::function<void()> &);
 		std::thread::id get_id() const noexcept;
 		virtual bool is_running() const noexcept=0;
-		virtual void wait()=0;
+		virtual void wait() const=0;
 		IThreadPoolItemBase& operator=(const IThreadPoolItemBase &)=delete;
 		IThreadPoolItemBase& operator=(IThreadPoolItemBase &&) noexcept;
 		virtual ~IThreadPoolItemBase();
@@ -35,7 +35,7 @@ namespace nThread
 		CThreadPoolItem(CThreadPoolItem &&) noexcept=default;
 		void assign(std::unique_ptr<IThreadPoolItemExecutorBase> &&);
 		bool is_running() const noexcept override;
-		void wait() override;	//after calling this, CThreadPoolItem "should" be pushed into CThreadPool::Impl::waitingQue
+		void wait() const override;	//after calling this, CThreadPoolItem "should" be pushed into CThreadPool::Impl::waitingQue
 		CThreadPoolItem& operator=(const CThreadPoolItem &)=delete;
 		CThreadPoolItem& operator=(CThreadPoolItem &&) noexcept=default;
 		~CThreadPoolItem();

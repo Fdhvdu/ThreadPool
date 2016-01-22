@@ -37,7 +37,7 @@ namespace nThread
 		{
 			return thr_.at(id).is_running();
 		}
-		inline void wait(const thread_id id)	//block until ready
+		inline void wait(const thread_id id) const	//block until ready
 		{
 			thr_.at(id).wait();
 		}
