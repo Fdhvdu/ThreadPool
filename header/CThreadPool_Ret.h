@@ -4,8 +4,6 @@
 #include<thread>	//thread::id
 #include<unordered_map>
 #include"../../lib/header/thread/CThreadQueue.h"
-#include"../../lib/header/tool/CId.h"
-#include"CThreadPoolCommun_Ret.h"
 #include"CThreadPoolItem_Ret.h"
 
 namespace nThread

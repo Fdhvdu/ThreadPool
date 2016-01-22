@@ -1,6 +1,7 @@
 #include"CThreadPool_Ret.h"
 #include<memory>	//make_unique
 #include<utility>
+#include"CThreadPoolCommun_Ret.h"
 
 namespace nThread
 {
