@@ -1,7 +1,6 @@
 #include"CThreadPoolItemExecutor_Ret.h"
 #include<utility>
 #include"../../lib/header/tool/CScopeGuard.h"
-#include"IThreadPoolCommun.h"
 
 namespace nThread
 {

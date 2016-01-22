@@ -4,7 +4,7 @@
 #include<functional>	//function
 #include<memory>	//unique_ptr
 #include"../../lib/header/thread/CTask.h"
-#include"IThreadPoolItemExecutor.h"
+#include"IThreadPoolCommun.h"
 
 namespace nThread
 {
