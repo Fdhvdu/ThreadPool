@@ -1,5 +1,4 @@
 #include"../header/IThreadPoolItemExecutor.h"
-#include<atomic>	//atomic<bool>
 #include<utility>
 #include"../../lib/header/thread/CSemaphore.h"
 #include"../header/IThreadPoolCommun.h"
@@ -12,14 +11,13 @@ namespace nThread
 		unique_ptr<IThreadPoolCommunBase> commun;
 		CSemaphore complete;
 		function<void()> func;
-		atomic<bool> running;
 		Impl(unique_ptr<IThreadPoolCommunBase> &&,function<void()> &&);
 		void exec();
 		void wait();
 	};
 
 	CThreadPoolItemExecutor::Impl::Impl(unique_ptr<IThreadPoolCommunBase> &&commun_,function<void()> &&func_)
-		:commun{move(commun_)},complete{0},func{move(func_)},running{true}{}
+		:commun{move(commun_)},complete{0},func{move(func_)}{}
 
 	void CThreadPoolItemExecutor::Impl::exec()
 	{
@@ -31,7 +29,6 @@ namespace nThread
 	void CThreadPoolItemExecutor::Impl::wait()
 	{
 		complete.wait();
-		running=false;
 		commun->destroy();
 	}
 
@@ -47,7 +44,7 @@ namespace nThread
 	
 	bool CThreadPoolItemExecutor::is_running() const noexcept
 	{
-		return impl_.get().running;
+		return !impl_.get().complete.count();
 	}
 
 	void CThreadPoolItemExecutor::wait()
