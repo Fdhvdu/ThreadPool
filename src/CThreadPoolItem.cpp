@@ -68,14 +68,6 @@ namespace nThread
 		impl_.get().exec->wait();
 	}
 
-	bool CThreadPoolItem::joinable() const noexcept
-	{
-		const auto p{dynamic_cast<CThreadPoolItemExecutorJoin*>(impl_.get().exec.get())};
-		if(p)
-			return p->is_running();
-		return false;
-	}
-
 	CThreadPoolItem& CThreadPoolItem::operator=(CThreadPoolItem &&rVal) noexcept
 	{
 		impl_=move(rVal.impl_);
