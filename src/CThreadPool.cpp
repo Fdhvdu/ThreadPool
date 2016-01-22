@@ -43,7 +43,7 @@ namespace nThread
 	{
 		auto temp{waitingQue.wait_and_pop()};
 		is_joinable[temp->get_id()]=true;
-		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(make_unique<CThreadPoolCommunJoin>(temp,join_anyList,waitingQue),move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutor>(make_unique<CThreadPoolCommunJoin>(temp,join_anyList,waitingQue),move(func)));
 		return temp->get_id();
 	}
 
@@ -51,7 +51,7 @@ namespace nThread
 	{
 		auto temp{waitingQue.wait_and_pop()};
 		is_joinable[temp->get_id()]=false;
-		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(make_unique<CThreadPoolCommunDetach>(temp,waitingQue),move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutor>(make_unique<CThreadPoolCommunDetach>(temp,waitingQue),move(func)));
 	}
 
 	bool CThreadPool::Impl::joinable(const thread::id id) const noexcept

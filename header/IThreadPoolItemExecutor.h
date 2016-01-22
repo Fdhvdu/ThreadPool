@@ -17,28 +17,16 @@ namespace nThread
 		virtual ~IThreadPoolItemExecutorBase()=0;
 	};
 
-	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase
+	class CThreadPoolItemExecutor:public IThreadPoolItemExecutorBase
 	{
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
-		CThreadPoolItemExecutorDetach(std::unique_ptr<IThreadPoolCommunBase> &&,std::function<void()> &&);
-		void exec() override;
-		bool is_running() const noexcept override;	//only the destructor of CThreadPoolItem will call this
-		void wait() override;	//only the destructor of CThreadPoolItem will call this
-		~CThreadPoolItemExecutorDetach();
-	};
-
-	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase
-	{
-		struct Impl;
-		nTool::CPimpl<Impl> impl_;
-	public:
-		CThreadPoolItemExecutorJoin(std::unique_ptr<IThreadPoolCommunBase> &&,std::function<void()> &&);
+		CThreadPoolItemExecutor(std::unique_ptr<IThreadPoolCommunBase> &&,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;
 		void wait() override;
-		~CThreadPoolItemExecutorJoin();
+		~CThreadPoolItemExecutor();
 	};
 }
 
