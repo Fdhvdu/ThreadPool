@@ -5,7 +5,7 @@
 
 namespace nThread
 {
-	template<class Func>
+	template<class Ret>
 	class CThreadPoolItem_Ret;
 
 	template<class Ret>
@@ -15,8 +15,11 @@ namespace nThread
 		CThreadQueue<CThreadPoolItem_Ret<Ret>*> &waitingQue_;
 	public:
 		CThreadPoolCommun_Ret(CThreadPoolItem_Ret<Ret> *,CThreadQueue<CThreadPoolItem_Ret<Ret>*> &);
-		void func_is_completed() override{}
-		void destroy() override;	//push CThreadPoolItem into waitingQue_
+		void destroy() override	//push CThreadPoolItem into waitingQue_
+		{
+			waitingQue_.emplace(item_);
+		}
+		void func_is_completed() override{}	//nothing to do
 	};
 }
 
