@@ -9,9 +9,6 @@
 
 namespace nThread
 {
-	template<class T>
-	class CThreadPoolItemExecutorRet;
-
 	template<class Ret>
 	class CThreadPoolItem_Ret
 	{
@@ -21,22 +18,21 @@ namespace nThread
 		CSemaphore wait_;
 		CSmartThread thr_;	//first destroying, no other data member could put under this one
 		void loop_();
-		inline void waiting_()
-		{
-			wait_.wait();
-		}
 		inline void wake_()
 		{
 			wait_.signal();
 		}
 	public:
 		CThreadPoolItem_Ret();
-		CThreadPoolItem_Ret(const CThreadPoolItem_Ret &)=delete;
 		template<class Func,class ... Args>
-		void assign_and_ret(Func &&,Args &&...);
+		void assign(Func &&,Args &&...);
 		inline Ret get()
 		{
 			return exec_->get();
+		}
+		inline std::thread::id get_id() const noexcept
+		{
+			return thr_.get_id();
 		}
 		void setCommun(std::unique_ptr<IThreadPoolCommunBase> &&commun)
 		{
@@ -50,7 +46,6 @@ namespace nThread
 		{
 			exec_->wait();
 		}
-		CThreadPoolItem_Ret& operator=(const CThreadPoolItem_Ret &)=delete;
 		~CThreadPoolItem_Ret();
 	};
 }

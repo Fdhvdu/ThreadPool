@@ -20,7 +20,7 @@ namespace nThread
 	{
 		auto temp{waitingQue_.wait_and_pop()};
 		const auto id{temp.first};
-		temp.second->assign_and_ret(std::forward<Func>(func),std::forward<Args>(args)...);
+		temp.second->assign(std::forward<Func>(func),std::forward<Args>(args)...);
 		return id;
 	}
 
