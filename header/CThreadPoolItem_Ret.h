@@ -4,7 +4,7 @@
 #include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.h"
 #include"../../lib/header/thread/CSmartThread.h"
-#include"../../lib/header/thread/CTask.h"
+#include"CThreadPoolItemExecutor_Ret.h"
 #include"IThreadPoolCommun.h"
 
 namespace nThread
@@ -17,7 +17,7 @@ namespace nThread
 	{
 		std::unique_ptr<IThreadPoolCommunBase> commun_;	//communicate with CThreadPool
 		bool destructor_;
-		std::unique_ptr<CThreadPoolItemExecutorRet<Ret>> exec_;
+		std::unique_ptr<CThreadPoolItemExecutor_Ret<Ret>> exec_;
 		CSemaphore wait_;
 		CSmartThread thr_;	//first destroying, no other data member could put under this one
 		void loop_();
@@ -52,31 +52,6 @@ namespace nThread
 		}
 		CThreadPoolItem_Ret& operator=(const CThreadPoolItem_Ret &)=delete;
 		~CThreadPoolItem_Ret();
-	};
-
-	template<class Ret>
-	class CThreadPoolItemExecutorRet
-	{
-		IThreadPoolCommunBase *commun_;
-		CTask<Ret> task_;
-	public:
-		template<class Func,class ... Args>
-		CThreadPoolItemExecutorRet(IThreadPoolCommunBase *,Func &&,Args &&...);
-		CThreadPoolItemExecutorRet(const CThreadPoolItemExecutorRet &)=delete;
-		void exec()
-		{
-			task_();
-		}
-		Ret get();
-		bool is_running() const noexcept
-		{
-			return task_.valid();
-		}
-		void wait()
-		{
-			task_.wait();
-		}
-		CThreadPoolItemExecutorRet& operator=(const CThreadPoolItemExecutorRet &)=delete;
 	};
 }
 
