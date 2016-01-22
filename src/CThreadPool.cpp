@@ -6,8 +6,8 @@
 #include<unordered_map>
 #include"../../lib/header/thread/CThreadList.h"
 #include"../../lib/header/thread/CThreadQueue.h"
-#include"../header/CThreadPoolItem.h"
 #include"../header/IThreadPoolCommun.h"
+#include"../header/IThreadPoolItem.h"
 #include"../header/IThreadPoolItemExecutor.h"
 using namespace std;
 
