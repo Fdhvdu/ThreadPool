@@ -35,7 +35,7 @@ namespace nThread
 		}
 		inline bool valid(const thread_id id) const noexcept
 		{
-			return thr_[id].valid();
+			return thr_[id].is_running();
 		}
 		inline void wait(const thread_id id) const	//block until ready
 		{

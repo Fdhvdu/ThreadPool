@@ -1,32 +1,21 @@
 #include"CThreadPoolItem_Ret.h"
+#include<functional>	//bind
+#include<utility>	//forward
 
 namespace nThread
 {
-	template<class Ret>
-	void CThreadPoolItem_Ret<Ret>::loop_()
-	{
-		while(wait_.wait(),!destructor_)
-			exec_->exec();
-	}
-
-	template<class Ret>
-	CThreadPoolItem_Ret<Ret>::CThreadPoolItem_Ret()
-		:destructor_{false},wait_{0},thr_{&CThreadPoolItem_Ret<Ret>::loop_,this}{}
-	
 	template<class Ret>
 	template<class Func,class ... Args>
 	void CThreadPoolItem_Ret<Ret>::assign(Func &&func,Args &&...args)
 	{
 		exec_=std::make_unique<CThreadPoolItemExecutor_Ret<Ret>>(commun_,std::forward<Func>(func),std::forward<Args>(args)...);
-		wake_();
+		exec(std::bind(&IThreadPoolItemExecutorBase::exec,exec_.get()));
 	}
 
 	template<class Ret>
 	CThreadPoolItem_Ret<Ret>::~CThreadPoolItem_Ret()
 	{
-		if(exec_&&exec_->is_running())
-			exec_->wait();
-		destructor_=true;
-		wake_();
+		if(exec_&&is_running())
+			wait();
 	}
 }
