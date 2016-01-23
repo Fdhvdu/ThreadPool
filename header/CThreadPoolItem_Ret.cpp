@@ -9,16 +9,16 @@ namespace nThread
 		:waitingQue_{waitingQue}{}
 
 	template<class Ret>
-	void CThreadPoolItem_Ret<Ret>::assign(std::unique_ptr<CTask<Ret>> &&exec)
+	void CThreadPoolItem_Ret<Ret>::assign(CTask<Ret> &&exec)
 	{
 		exec_=std::move(exec);
-		IThreadPoolItemBase::exec(std::bind(&CTask<Ret>::operator(),exec_.get()));
+		IThreadPoolItemBase::exec(std::bind(&CTask<Ret>::operator(),&exec_));
 	}
 
 	template<class Ret>
 	CThreadPoolItem_Ret<Ret>::~CThreadPoolItem_Ret()
 	{
-		if(exec_&&is_running())
+		if(is_running())
 			wait();
 	}
 }
