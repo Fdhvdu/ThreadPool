@@ -1,13 +1,13 @@
 #include"CThreadPoolItemExecutor_Ret.h"
 #include<utility>	//forward, move
 #include"../../lib/header/tool/CScopeGuard.h"
-#include"IThreadPoolCommun.h"
+#include"CThreadPoolCommun_Ret.h"
 
 namespace nThread
 {
 	template<class Ret>
 	template<class Func,class ... Args>
-	CThreadPoolItemExecutor_Ret<Ret>::CThreadPoolItemExecutor_Ret(std::unique_ptr<IThreadPoolCommunBase> &&commun,Func &&func,Args &&...args)
+	CThreadPoolItemExecutor_Ret<Ret>::CThreadPoolItemExecutor_Ret(std::unique_ptr<CThreadPoolCommun_Ret<Ret>> &&commun,Func &&func,Args &&...args)
 		:commun_{std::move(commun)},task_{std::forward<Func>(func),std::forward<Args>(args)...}{}
 
 	template<class Ret>

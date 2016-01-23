@@ -8,7 +8,7 @@ namespace nThread
 	void CThreadPoolItem_Ret<Ret>::assign(std::unique_ptr<CThreadPoolItemExecutor_Ret<Ret>> &&exec)
 	{
 		exec_=std::move(exec);
-		IThreadPoolItemBase::exec(std::bind(&IThreadPoolItemExecutorBase::exec,exec_.get()));
+		IThreadPoolItemBase::exec(std::bind(&CThreadPoolItemExecutor_Ret<Ret>::exec,exec_.get()));
 	}
 
 	template<class Ret>
