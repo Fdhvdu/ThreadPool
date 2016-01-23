@@ -1,6 +1,7 @@
 #include"CThreadPool_Ret.h"
 #include<memory>
 #include<utility>
+#include"../../lib/header/thread/CTask.h"
 
 namespace nThread
 {
@@ -21,7 +22,7 @@ namespace nThread
 	typename CThreadPool_Ret<Ret>::thread_id CThreadPool_Ret<Ret>::add(Func &&func,Args &&...args)
 	{
 		auto temp{waitingQue_.wait_and_pop()};
-		temp->assign(std::make_unique<CThreadPoolItemExecutor_Ret<Ret>>(std::forward<Func>(func),std::forward<Args>(args)...));
+		temp->assign(std::make_unique<CTask<Ret>>(std::forward<Func>(func),std::forward<Args>(args)...));
 		return temp->get_id();
 	}
 }

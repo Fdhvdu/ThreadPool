@@ -2,7 +2,7 @@
 #define CTHREADPOOLITEM_RET
 #include<memory>
 #include"../../lib/header/tool/CScopeGuard.h"
-#include"CThreadPoolItemExecutor_Ret.h"
+#include"../../lib/header/thread/CTask.h"
 #include"IThreadPoolItem.h"
 
 namespace nThread
@@ -10,13 +10,13 @@ namespace nThread
 	template<class Ret>
 	class CThreadPoolItem_Ret:public IThreadPoolItemBase
 	{
-		std::unique_ptr<CThreadPoolItemExecutor_Ret<Ret>> exec_;
+		std::unique_ptr<CTask<Ret>> exec_;
 		CThreadQueue<CThreadPoolItem_Ret<Ret>*> *waitingQue_;
 	public:
 		CThreadPoolItem_Ret(CThreadQueue<CThreadPoolItem_Ret<Ret>*> *);
 		CThreadPoolItem_Ret(const CThreadPoolItem_Ret &)=delete;
 		CThreadPoolItem_Ret(CThreadPoolItem_Ret &&) noexcept=default;
-		void assign(std::unique_ptr<CThreadPoolItemExecutor_Ret<Ret>> &&);
+		void assign(std::unique_ptr<CTask<Ret>> &&);
 		inline Ret get()
 		{
 			const nTool::CScopeGuard<void()> sg{[=]{waitingQue_->emplace(this);}};
@@ -24,7 +24,7 @@ namespace nThread
 		}
 		bool is_running() const noexcept override
 		{
-			return exec_->is_running();
+			return exec_->valid();
 		}
 		void wait() const override
 		{
