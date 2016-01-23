@@ -2,8 +2,8 @@
 I provide example.cpp and example_ret.cpp to help you understand how to use
 
 	CThreadPool, including the function
-		add(Func &&func,Args &&...args)
-		add_and_detach(Func &&func,Args &&...args)
+		add(Func &&,Args &&...)
+		add_and_detach(Func &&,Args &&...)
 		available()
 		count()
 		join(thread_id)
