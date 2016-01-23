@@ -2,38 +2,39 @@
 I provide example.cpp and example_ret.cpp to help you understand how to use
 
 	CThreadPool, including the function
-		add
-		add_and_detach
-		available
-		count
-		join
-		joinable
-		join_all
-		join_any
-		wait_until_all_available
+		add(Func &&func,Args &&...args)
+		add_and_detach(Func &&func,Args &&...args)
+		available()
+		count()
+		join(thread_id)
+		joinable(thread_id)
+		join_all()
+		join_any()
+		wait_until_all_available()
 	CThreadPool_Ret, including the function
-		add
-		available
-		count
-		get
-		valid
-		wait
+		add(Func &&,Args &&...)
+		available()
+		count()
+		get(thread_id)
+		valid(thread_id)
+		wait(thread_id)
 If you want to get the return value from function, you should use CThreadPool_Ret<br/>
 If you don't care the return value, use CThreadPool is better<br/>
 To use threadpool, you also have to download my lib (https://github.com/Fdhvdu/lib)<br/>
 The directory should look like
 
-	-lib----------header
+	-ThreadPool---header
 	|            -src
 	|            -tutorial
 	|            -LICENSE
 	|            -README.md
 	|
-	-ThreadPool---header
+	-lib----------header
 	             -src
 	             -tutorial
 	             -LICENSE
 	             -README.md
+
 <br/><br/>The compiler I use is VC++ 2015 and gcc 5.2.0<br/><br/><br/>
 Tutorial:<br/>
 To use example.cpp:<br/>
