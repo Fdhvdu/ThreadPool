@@ -1,6 +1,6 @@
 #ifndef CTHREADPOOLITEM_RET
 #define CTHREADPOOLITEM_RET
-#include<memory>	//unique_ptr
+#include<memory>
 #include"CThreadPoolItemExecutor_Ret.h"
 #include"IThreadPoolItem.h"
 

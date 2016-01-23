@@ -1,22 +1,18 @@
 #ifndef CTHREADPOOLITEMEXECUTOR_RET
 #define CTHREADPOOLITEMEXECUTOR_RET
-#include<functional>	//function
-#include<memory>	//unique_ptr
 #include"../../lib/header/thread/CTask.h"
+#include"CThreadPoolCommun_Ret.h"
 
 namespace nThread
 {
 	template<class Ret>
-	class CThreadPoolCommun_Ret;
-
-	template<class Ret>
 	class CThreadPoolItemExecutor_Ret
 	{
-		std::unique_ptr<CThreadPoolCommun_Ret<Ret>> commun_;
+		CThreadPoolCommun_Ret<Ret> commun_;
 		CTask<Ret> task_;
 	public:
 		template<class Func,class ... Args>
-		CThreadPoolItemExecutor_Ret(std::unique_ptr<CThreadPoolCommun_Ret<Ret>> &&,Func &&,Args &&...);
+		CThreadPoolItemExecutor_Ret(CThreadPoolCommun_Ret<Ret> &&,Func &&,Args &&...);
 		CThreadPoolItemExecutor_Ret(const CThreadPoolItemExecutor_Ret &)=delete;
 		void exec()
 		{

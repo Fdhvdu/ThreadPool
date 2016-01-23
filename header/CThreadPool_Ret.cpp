@@ -1,5 +1,5 @@
 #include"CThreadPool_Ret.h"
-#include<memory>	//make_unique
+#include<memory>
 #include<utility>
 #include"CThreadPoolCommun_Ret.h"
 
@@ -22,7 +22,7 @@ namespace nThread
 	typename CThreadPool_Ret<Ret>::thread_id CThreadPool_Ret<Ret>::add(Func &&func,Args &&...args)
 	{
 		auto temp{waitingQue_.wait_and_pop()};
-		temp->assign(std::make_unique<CThreadPoolItemExecutor_Ret<Ret>>(std::make_unique<CThreadPoolCommun_Ret<Ret>>(temp,waitingQue_),std::forward<Func>(func),std::forward<Args>(args)...));
+		temp->assign(std::make_unique<CThreadPoolItemExecutor_Ret<Ret>>(CThreadPoolCommun_Ret<Ret>{temp,waitingQue_},std::forward<Func>(func),std::forward<Args>(args)...));
 		return temp->get_id();
 	}
 }
