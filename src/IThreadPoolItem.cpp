@@ -46,11 +46,6 @@ namespace nThread
 	IThreadPoolItemBase::IThreadPoolItemBase(IThreadPoolItemBase &&rVal) noexcept
 		:impl_{move(rVal.impl_)}{}
 
-	void IThreadPoolItemBase::exec(const function<void()> &func)
-	{
-		impl_.get().exec(func);
-	}
-	
 	thread::id IThreadPoolItemBase::get_id() const noexcept
 	{
 		return impl_.get().thr.get_id();
@@ -64,10 +59,15 @@ namespace nThread
 
 	IThreadPoolItemBase::~IThreadPoolItemBase(){}
 
+	void IThreadPoolItemBase::exec_(const function<void()> &func)
+	{
+		impl_.get().exec(func);
+	}
+
 	void CThreadPoolItem::assign(unique_ptr<IThreadPoolItemExecutorBase> &&exec)
 	{
 		exec_=move(exec);
-		IThreadPoolItemBase::exec(bind(&IThreadPoolItemExecutorBase::exec,exec_.get()));
+		IThreadPoolItemBase::exec_(bind(&IThreadPoolItemExecutorBase::exec,exec_.get()));
 	}
 
 	bool CThreadPoolItem::is_running() const noexcept

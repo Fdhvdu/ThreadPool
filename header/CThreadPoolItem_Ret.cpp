@@ -12,7 +12,7 @@ namespace nThread
 	void CThreadPoolItem_Ret<Ret>::assign(CTask<Ret> &&exec)
 	{
 		exec_=std::move(exec);
-		IThreadPoolItemBase::exec(std::bind(&CTask<Ret>::operator(),&exec_));
+		IThreadPoolItemBase::exec_(std::bind(&CTask<Ret>::operator(),&exec_));
 	}
 
 	template<class Ret>
