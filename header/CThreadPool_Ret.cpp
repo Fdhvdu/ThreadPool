@@ -24,4 +24,12 @@ namespace nThread
 		temp->assign(CTask<Ret>{std::forward<Func>(func),std::forward<Args>(args)...});
 		return temp->get_id();
 	}
+
+	template<class Ret>
+	void CThreadPool_Ret<Ret>::wait_all() const
+	{
+		for(const auto &val:thr_)
+			if(valid(val.first))
+				wait(val.first);
+	}
 }

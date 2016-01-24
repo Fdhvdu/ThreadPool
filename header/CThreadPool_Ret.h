@@ -37,10 +37,11 @@ namespace nThread
 		{
 			return thr_.at(id).is_running();
 		}
-		inline void wait(const thread_id id) const	//block until ready
+		inline void wait(const thread_id id) const	//block until thr_[id] ready
 		{
 			thr_.at(id).wait();
 		}
+		void wait_all() const;
 		CThreadPool_Ret& operator=(const CThreadPool_Ret &)=delete;
 	};
 }
