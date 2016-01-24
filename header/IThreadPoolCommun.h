@@ -22,9 +22,8 @@ namespace nThread
 		CThreadQueue<CThreadPoolItem*> &waitingQue_;
 	public:
 		CThreadPoolCommunDetach(CThreadPoolItem *,CThreadQueue<CThreadPoolItem*> &);
-		void destroy() override{}	//nothing to do
-		void func_is_completed() override;
-		~CThreadPoolCommunDetach();
+		void destroy() override;
+		void func_is_completed() override;	//call destroy
 	};
 
 	class CThreadPoolCommunJoin: public IThreadPoolCommunBase
@@ -35,8 +34,7 @@ namespace nThread
 	public:
 		CThreadPoolCommunJoin(CThreadPoolItem *,CThreadList<CThreadPoolItem*> &,CThreadQueue<CThreadPoolItem*> &);
 		void destroy() override;	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waitingQue
-		void func_is_completed() override;	//push CThreadPoolItem into CThreadPool::Impl::waitingQue
-		~CThreadPoolCommunJoin();
+		void func_is_completed() override;	//push CThreadPoolItem into CThreadPool::Impl::join_anyList
 	};
 }
 

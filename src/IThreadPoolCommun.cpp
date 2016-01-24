@@ -11,12 +11,15 @@ namespace nThread
 	CThreadPoolCommunDetach::CThreadPoolCommunDetach(CThreadPoolItem *item,CThreadQueue<CThreadPoolItem*> &waitingQue)
 		:item_{item},waitingQue_{waitingQue}{}
 
-	void CThreadPoolCommunDetach::func_is_completed()
+	void CThreadPoolCommunDetach::destroy()
 	{
 		waitingQue_.emplace(item_);
 	}
 
-	CThreadPoolCommunDetach::~CThreadPoolCommunDetach(){}
+	void CThreadPoolCommunDetach::func_is_completed()
+	{
+		destroy();
+	}
 
 	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThreadList<CThreadPoolItem*> &join_anyList,CThreadQueue<CThreadPoolItem*> &waitingQue)
 		:item_{item},join_anyList_{join_anyList},waitingQue_{waitingQue}{}
@@ -32,6 +35,4 @@ namespace nThread
 	{
 		join_anyList_.emplace_back(item_);
 	}
-
-	CThreadPoolCommunJoin::~CThreadPoolCommunJoin(){}
 }
