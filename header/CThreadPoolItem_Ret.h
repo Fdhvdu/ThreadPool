@@ -1,6 +1,5 @@
 #ifndef CTHREADPOOLITEM_RET
 #define CTHREADPOOLITEM_RET
-#include<memory>
 #include"../../lib/header/tool/CScopeGuard.h"
 #include"../../lib/header/thread/CTask.h"
 #include"IThreadPoolItem.h"
