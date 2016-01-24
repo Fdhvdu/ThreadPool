@@ -22,6 +22,7 @@ namespace nThread
 		virtual ~IThreadPoolItemBase();
 	protected:
 		void exec_(const std::function<void()> &);
+		void exec_(std::function<void()> &&);
 	private:
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;

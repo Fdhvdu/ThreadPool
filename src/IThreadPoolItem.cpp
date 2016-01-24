@@ -15,6 +15,7 @@ namespace nThread
 		CSmartThread thr;	//first destroying, no other data member could put under this one
 		Impl();
 		void exec(const function<void()> &);
+		void exec(function<void()> &&);
 		inline void wake()
 		{
 			wait.signal();
@@ -31,6 +32,12 @@ namespace nThread
 	void IThreadPoolItemBase::Impl::exec(const function<void()> &func_)
 	{
 		func=func_;
+		wake();
+	}
+
+	void IThreadPoolItemBase::Impl::exec(function<void()> &&func_)
+	{
+		func=move(func_);
 		wake();
 	}
 
@@ -62,6 +69,11 @@ namespace nThread
 	void IThreadPoolItemBase::exec_(const function<void()> &func)
 	{
 		impl_.get().exec(func);
+	}
+
+	void IThreadPoolItemBase::exec_(function<void()> &&func_)
+	{
+		impl_.get().exec(move(func_));
 	}
 
 	void CThreadPoolItem::assign(unique_ptr<IThreadPoolItemExecutorBase> &&exec)
