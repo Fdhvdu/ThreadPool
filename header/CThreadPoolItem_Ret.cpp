@@ -1,6 +1,6 @@
 #include"CThreadPoolItem_Ret.h"
 #include<functional>	//bind
-#include<utility>	//move
+#include<utility>	//forward, move
 
 namespace nThread
 {
@@ -9,9 +9,10 @@ namespace nThread
 		:waitingQue_{waitingQue}{}
 
 	template<class Ret>
-	void CThreadPoolItem_Ret<Ret>::assign(CTask<Ret> &&exec)
+	template<class Func,class ... Args>
+	void CThreadPoolItem_Ret<Ret>::assign(Func &&func,Args &&...args)
 	{
-		exec_=std::move(exec);
+		exec_=CTask<Ret>{std::forward<Func>(func),std::forward<Args>(args)...};
 		IThreadPoolItemBase::exec_(std::bind(&CTask<Ret>::operator(),&exec_));
 	}
 

@@ -15,7 +15,8 @@ namespace nThread
 		CThreadPoolItem_Ret(CThreadQueue<CThreadPoolItem_Ret<Ret>*> *);
 		CThreadPoolItem_Ret(const CThreadPoolItem_Ret &)=delete;
 		CThreadPoolItem_Ret(CThreadPoolItem_Ret &&) noexcept=default;
-		void assign(CTask<Ret> &&);
+		template<class Func,class ... Args>
+		void assign(Func &&,Args &&...);
 		inline Ret get()
 		{
 			const nTool::CScopeGuard<void()> sg{[=]{waitingQue_->emplace(this);}};
