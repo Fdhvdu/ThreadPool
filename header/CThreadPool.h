@@ -8,10 +8,7 @@
 
 namespace nThread
 {
-	class CThreadPool	//same job, different argument and no return value
-						//with add, add_and_detach, join, joinable, join_all and join_any
-						//every threads must call join, join_any or join_all after calling add
-						//otherwise, there is no available thread even after threads complete their job
+	class CThreadPool	//cannot return value
 	{
 	public:
 		typedef std::thread::id thread_id;
@@ -24,17 +21,19 @@ namespace nThread
 		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
 		template<class Func,class ... Args>
-		inline thread_id add(Func &&func,Args &&...args)
+		inline thread_id add(Func &&func,Args &&...args)	//you have to call join, join_any or join_all after calling add
+															//otherwise, there is no available thread even after threads complete the job
 		{
 			return add_(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
 		}
 		template<class Func,class ... Args>
-		inline void add_and_detach(Func &&func,Args &&...args)
+		inline void add_and_detach(Func &&func,Args &&...args)	//if you don't know what "detach" means
+																//you should look std::thread::detach
 		{
 			add_and_detach_(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
 		}
-		std::size_t available() const noexcept;
-		std::size_t count() const noexcept;
+		std::size_t available() const noexcept;	//how many threads can use now
+		std::size_t count() const noexcept;	//total threads can use
 		void join(thread_id);	//do not combine join and join_any together in your code
 								//it will make some join_any cannot get notification
 		bool joinable(thread_id) const noexcept;

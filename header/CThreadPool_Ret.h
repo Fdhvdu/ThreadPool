@@ -9,7 +9,7 @@
 namespace nThread
 {
 	template<class Ret>
-	class CThreadPool_Ret	//same job, different argument and return value
+	class CThreadPool_Ret	//can return value
 	{
 	public:
 		typedef std::thread::id thread_id;
@@ -21,11 +21,11 @@ namespace nThread
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
 		template<class Func,class ... Args>
 		thread_id add(Func &&,Args &&...);
-		inline std::size_t available() const noexcept
+		inline std::size_t available() const noexcept	//how many threads can use now
 		{
 			return waitingQue_.size();
 		}
-		inline std::size_t count() const noexcept
+		inline std::size_t count() const noexcept	//total threads can use
 		{
 			return thr_.size();
 		}
