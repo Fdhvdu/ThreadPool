@@ -41,4 +41,4 @@ Tutorial:<br/>
 To use example.cpp:<br/>
 g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp<br/>
 To use example_ret.cpp:<br/>
-g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItem.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
+g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
