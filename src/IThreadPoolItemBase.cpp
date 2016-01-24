@@ -1,8 +1,7 @@
-#include"../header/IThreadPoolItem.h"
+#include"../header/IThreadPoolItemBase.h"
 #include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.h"
 #include"../../lib/header/thread/CSmartThread.h"
-#include"../header/IThreadPoolItemExecutor.h"
 using namespace std;
 
 namespace nThread
@@ -74,27 +73,5 @@ namespace nThread
 	void IThreadPoolItemBase::exec_(function<void()> &&func_)
 	{
 		impl_.get().exec(move(func_));
-	}
-
-	void CThreadPoolItem::assign(unique_ptr<IThreadPoolItemExecutorBase> &&exec)
-	{
-		exec_=move(exec);
-		IThreadPoolItemBase::exec_(bind(&IThreadPoolItemExecutorBase::exec,exec_.get()));
-	}
-
-	bool CThreadPoolItem::is_running() const noexcept
-	{
-		return exec_->is_running();
-	}
-
-	void CThreadPoolItem::wait() const
-	{
-		exec_->wait();
-	}
-
-	CThreadPoolItem::~CThreadPoolItem()
-	{
-		if(exec_&&is_running())
-			wait();
 	}
 }

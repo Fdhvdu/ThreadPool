@@ -2,7 +2,7 @@
 #define CTHREADPOOLITEM_RET
 #include"../../lib/header/tool/CScopeGuard.h"
 #include"../../lib/header/thread/CTask.h"
-#include"IThreadPoolItem.h"
+#include"IThreadPoolItemBase.h"
 
 namespace nThread
 {
