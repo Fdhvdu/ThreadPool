@@ -4,20 +4,20 @@ I provide example.cpp and example_ret.cpp to help you understand how to use
 	CThreadPool, including the function
 		thread_id	add(Func &&,Args &&...)
 		void		add_and_detach(Func &&,Args &&...)
-		std::size_t	available()
-		std::size_t	count()
+		std::size_t	available() const noexcept
+		std::size_t	count() const noexcept
 		void		join(thread_id)
-		bool		joinable(thread_id)
+		bool		joinable(thread_id) const noexcept
 		void		join_all()
 		thread_id	join_any()
-		void 		wait_until_all_available()
+		void 		wait_until_all_available() const
 	CThreadPool_Ret, including the function
 		thread_id	add(Func &&,Args &&...)
-		std::size_t	available()
-		std::size_t	count()
+		std::size_t	available() const noexcept
+		std::size_t	count() const noexcept
 		Ret			get(thread_id)
-		bool		valid(thread_id)
-		void		wait(thread_id)
+		bool		valid(thread_id) const noexcept
+		void		wait(thread_id) const
 		void 		wait_all()
 If you want to get the return value from function, you should use CThreadPool_Ret<br/>
 If you don't care the return value, use CThreadPool is better<br/>
