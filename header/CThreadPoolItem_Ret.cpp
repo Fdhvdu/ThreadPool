@@ -1,6 +1,6 @@
 #include"CThreadPoolItem_Ret.h"
 #include<functional>	//bind
-#include<utility>	//forward, move
+#include<utility>	//forward
 
 namespace nThread
 {

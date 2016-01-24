@@ -1,7 +1,6 @@
 #include"../header/CThreadPool.h"
 #include<memory>	//make_unique
 #include<mutex>
-#include<thread>
 #include<vector>
 #include<unordered_map>
 #include"../../lib/header/thread/CThreadList.h"

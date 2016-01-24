@@ -1,6 +1,6 @@
 #include"../header/IThreadPoolItemExecutor.h"
-#include<atomic>	//atomic<bool>
-#include<utility>
+#include<atomic>
+#include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.h"
 #include"../header/IThreadPoolCommun.h"
 using namespace std;

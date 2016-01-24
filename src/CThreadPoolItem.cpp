@@ -1,4 +1,5 @@
 #include"../header/CThreadPoolItem.h"
+#include<functional>	//bind
 #include<utility>	//move
 #include"../header/IThreadPoolItemExecutor.h"
 using namespace std;
