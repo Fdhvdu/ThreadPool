@@ -22,14 +22,14 @@ unsigned long fibonacci_47()
 
 void iterative_100000()
 {
-	volatile auto i{100000+1};
+	volatile unsigned long i{100000+1};
 	while(--i)
 		;
 }
 
-void iterative_1000000000()
+void iterative_2000000000()
 {
-	volatile auto i{1000000000+1};
+	volatile unsigned long i{2000000000+1};
 	while(--i)
 		;
 }
