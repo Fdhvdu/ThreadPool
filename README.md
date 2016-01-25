@@ -21,6 +21,8 @@ I provide example.cpp and example_ret.cpp to help you understand how to use
 		void 		wait_all()
 If you want to get the return value from function, you should use CThreadPool_Ret<br/>
 If you don't care the return value, use CThreadPool is better<br/>
+Use a CThreadPool when you can, and a CThreadPool_Ret when you have to.<br/>
+Use a CThreadPool::add_and_detach when you can, and a CThreadPool::add when you have to.<br/><br/>
 To use threadpool, you also have to download my lib (https://github.com/Fdhvdu/lib)<br/>
 The directory should look like
 
