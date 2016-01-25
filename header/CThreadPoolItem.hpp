@@ -1,7 +1,7 @@
 #ifndef CTHREADPOOLITEM
 #define CTHREADPOOLITEM
 #include<memory>	//unique_ptr
-#include"IThreadPoolItemBase.h"
+#include"IThreadPoolItemBase.hpp"
 
 namespace nThread
 {

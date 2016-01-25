@@ -1,7 +1,7 @@
-#include"../header/CThreadPoolItem.h"
+#include"../header/CThreadPoolItem.hpp"
 #include<functional>	//bind
 #include<utility>	//move
-#include"../header/IThreadPoolItemExecutor.h"
+#include"../header/IThreadPoolItemExecutor.hpp"
 using namespace std;
 
 namespace nThread

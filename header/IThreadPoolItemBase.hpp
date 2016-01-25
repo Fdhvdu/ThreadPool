@@ -2,7 +2,7 @@
 #define ITHREADPOOLITEMBASE
 #include<functional>	//function
 #include<thread>	//thread::id
-#include"../../lib/header/tool/CPimpl.h"
+#include"../../lib/header/tool/CPimpl.hpp"
 
 namespace nThread
 {

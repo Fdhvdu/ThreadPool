@@ -1,13 +1,13 @@
-#include"../header/CThreadPool.h"
+#include"../header/CThreadPool.hpp"
 #include<memory>	//make_unique
 #include<mutex>
 #include<vector>
 #include<unordered_map>
-#include"../../lib/header/thread/CThreadList.h"
-#include"../../lib/header/thread/CThreadQueue.h"
-#include"../header/CThreadPoolItem.h"
-#include"../header/IThreadPoolCommun.h"
-#include"../header/IThreadPoolItemExecutor.h"
+#include"../../lib/header/thread/CThreadList.hpp"
+#include"../../lib/header/thread/CThreadQueue.hpp"
+#include"../header/CThreadPoolItem.hpp"
+#include"../header/IThreadPoolCommun.hpp"
+#include"../header/IThreadPoolItemExecutor.hpp"
 using namespace std;
 
 namespace nThread

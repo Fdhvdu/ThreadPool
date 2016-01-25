@@ -4,7 +4,7 @@
 #include<thread>	//thread::id
 #include<unordered_map>
 #include<utility>	//forward, move
-#include"../../lib/header/thread/CThreadQueue.h"
+#include"../../lib/header/thread/CThreadQueue.hpp"
 #include"CThreadPoolItem_Ret.hpp"
 
 namespace nThread

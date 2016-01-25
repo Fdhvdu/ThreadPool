@@ -1,7 +1,7 @@
-#include"../header/IThreadPoolItemBase.h"
+#include"../header/IThreadPoolItemBase.hpp"
 #include<utility>	//move
-#include"../../lib/header/thread/CSemaphore.h"
-#include"../../lib/header/thread/CSmartThread.h"
+#include"../../lib/header/thread/CSemaphore.hpp"
+#include"../../lib/header/thread/CSmartThread.hpp"
 using namespace std;
 
 namespace nThread

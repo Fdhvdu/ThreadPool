@@ -4,7 +4,7 @@
 #include<functional>	//bind, function
 #include<thread>	//thread::id
 #include<utility>	//forward
-#include"../../lib/header/tool/CPimpl.h"
+#include"../../lib/header/tool/CPimpl.hpp"
 
 namespace nThread
 {

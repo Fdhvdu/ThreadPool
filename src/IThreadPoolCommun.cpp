@@ -1,7 +1,7 @@
-#include"../header/IThreadPoolCommun.h"
-#include"../../lib/header/thread/CThreadList.h"
-#include"../../lib/header/thread/CThreadQueue.h"
-#include"../header/CThreadPoolItem.h"
+#include"../header/IThreadPoolCommun.hpp"
+#include"../../lib/header/thread/CThreadList.hpp"
+#include"../../lib/header/thread/CThreadQueue.hpp"
+#include"../header/CThreadPoolItem.hpp"
 using namespace std;
 
 namespace nThread

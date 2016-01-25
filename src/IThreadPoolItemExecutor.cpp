@@ -1,8 +1,8 @@
-#include"../header/IThreadPoolItemExecutor.h"
+#include"../header/IThreadPoolItemExecutor.hpp"
 #include<atomic>
 #include<utility>	//move
-#include"../../lib/header/thread/CSemaphore.h"
-#include"../header/IThreadPoolCommun.h"
+#include"../../lib/header/thread/CSemaphore.hpp"
+#include"../header/IThreadPoolCommun.hpp"
 using namespace std;
 
 namespace nThread
