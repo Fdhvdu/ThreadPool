@@ -57,8 +57,13 @@ namespace nThread
 		//it will make some join_any cannot get notification
 		//for more details, see example.cpp
 		void join(thread_id);
+		//1. check whether the thread_id of thread is ready
+		//2. after calling add, the id return by add, will make the thread_id of thread ready
 		bool joinable(thread_id) const noexcept;
-		//it will not block add, you have to control by yourself
+		//1.
+		//join_all and wait_until_all_available are different
+		//join_all will not wait any threads which are belong to detach
+		//2. it will not block add, you have to control by yourself
 		void join_all();
 		//1.
 		//do not combine join and join_any together in your code
@@ -66,7 +71,10 @@ namespace nThread
 		//for more details, see example.cpp
 		//2. join_any must return value, because I have implemented add_and_detach already
 		thread_id join_any();
-		//wait until available equal to count
+		//1. wait until available equal to count
+		//2.
+		//wait_until_all_available and join_all and are different
+		//join_all will not wait any threads which are belong to detach
 		void wait_until_all_available() const;
 		//of course, why do you need to copy or move CThreadPool?
 		CThreadPool& operator=(const CThreadPool &)=delete;
