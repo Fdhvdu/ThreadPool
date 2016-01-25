@@ -25,8 +25,8 @@ void test_Fdhvdu_CThreadPool_Detach_fibonacci_10(const T thread_count)	//execute
 template<class T>
 void test_Fdhvdu_CThreadPool_Detach_fibonacci_47(const T thread_count)
 {
+	std::vector<unsigned long> vec(thread_count);
 	nThread::CThreadPool tp{thread_count};
-	std::vector<unsigned long> vec(tp.count());
 	for(size_t i{0};i!=tp.count();++i)
 		tp.add_and_detach([&,i]{vec[i]=fibonacci_47();});
 }
@@ -64,8 +64,8 @@ void test_Fdhvdu_CThreadPool_Join_fibonacci_10(const T thread_count)	//execute 1
 template<class T>
 void test_Fdhvdu_CThreadPool_Join_fibonacci_47(const T thread_count)
 {
+	std::vector<unsigned long> vec(thread_count);
 	nThread::CThreadPool tp{thread_count};
-	std::vector<unsigned long> vec(tp.count());
 	for(size_t i{0};i!=tp.count();++i)
 		tp.add([&,i]{vec[i]=fibonacci_47();});
 }
