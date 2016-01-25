@@ -3,8 +3,9 @@
 #include<cstddef>	//size_t
 #include<thread>	//thread::id
 #include<unordered_map>
+#include<utility>	//forward, move
 #include"../../lib/header/thread/CThreadQueue.h"
-#include"CThreadPoolItem_Ret.h"
+#include"CThreadPoolItem_Ret.hpp"
 
 namespace nThread
 {
@@ -17,10 +18,24 @@ namespace nThread
 		CThreadQueue<CThreadPoolItem_Ret<Ret>*> waitingQue_;
 		std::unordered_map<thread_id,CThreadPoolItem_Ret<Ret>> thr_;
 	public:
-		explicit CThreadPool_Ret(std::size_t);
+		explicit CThreadPool_Ret(std::size_t count)
+		{
+			while(count--)
+			{
+				CThreadPoolItem_Ret<Ret> item{&waitingQue_};
+				const auto id{item.get_id()};
+				thr_.emplace(id,std::move(item));
+				waitingQue_.emplace(&thr_.at(id));
+			}
+		}
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
 		template<class Func,class ... Args>
-		thread_id add(Func &&,Args &&...);
+		thread_id add(Func &&func,Args &&...args)
+		{
+			auto temp{waitingQue_.wait_and_pop()};
+			temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
+			return temp->get_id();
+		}
 		inline std::size_t available() const noexcept	//how many threads can use now
 		{
 			return waitingQue_.size();
@@ -41,11 +56,14 @@ namespace nThread
 		{
 			thr_.at(id).wait();
 		}
-		void wait_all() const;
+		void wait_all() const
+		{
+			for(const auto &val:thr_)
+				if(valid(val.first))
+					wait(val.first);
+		}
 		CThreadPool_Ret& operator=(const CThreadPool_Ret &)=delete;
 	};
 }
-
-#include"CThreadPool_Ret.cpp"
 
 #endif
