@@ -10,14 +10,14 @@ namespace
 	}
 }
 
-void fibonacci_10()
+unsigned long fibonacci_10()
 {
-	fibonacci(10);
+	return fibonacci(10);
 }
 
-void fibonacci_47()
+unsigned long fibonacci_47()
 {
-	fibonacci(47);
+	return fibonacci(47);
 }
 
 void iterative_100000()
