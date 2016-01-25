@@ -23,7 +23,7 @@ namespace nThread
 	};
 
 	IThreadPoolItemBase::Impl::Impl()
-		:destructor{false},wait{0},thr{[&]{
+		:destructor{false},wait{0},thr{[this]{
 			while(wait.wait(),!destructor)
 				func();
 		}}{}
