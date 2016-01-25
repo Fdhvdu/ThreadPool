@@ -1,5 +1,5 @@
 #include<algorithm>	//max
-#include<iostream>
+#include<fstream>
 #include<queue>
 #include<thread>	//thread::hardware_concurrency
 #include<type_traits>	//result_of
@@ -137,7 +137,9 @@ int main()
 	using namespace std;
 	const auto thread_count{max<result_of<decltype(thread::hardware_concurrency)&()>::type>(4,thread::hardware_concurrency())};
 
-	cout<<"Fdhvdu"<<endl
+	ofstream ofs{"Fdhvdu vs tghosgor.txt"};
+
+	ofs<<"Fdhvdu"<<endl
 		<<"\tspends "<<
 		nTool::calc_time(test_Fdhvdu_CThreadPool_Ret_fibonacci_10<decltype(thread_count)>,thread_count).duration_milliseconds()
 		<<" milliseconds on fibonacci_10 (execute 100000 times)"<<endl
@@ -151,18 +153,17 @@ int main()
 		nTool::calc_time(test_Fdhvdu_CThreadPool_Ret_iterative_2000000000<decltype(thread_count)>,thread_count).duration_milliseconds()
 		<<" milliseconds on iterative_2000000000"<<endl;
 
-	//cout<<"tghosgor"<<endl
-	//	<<"\tspends "<<
-	//	nTool::calc_time(test_tghosgor_fibonacci_10<decltype(thread_count)>,thread_count).duration_milliseconds()
-	//	<<" milliseconds on fibonacci_10 (execute 100000 times)"<<endl
-	//	<<"\tspends "<<
-	//	nTool::calc_time(test_tghosgor_fibonacci_47<decltype(thread_count)>,thread_count).duration_milliseconds()
-	//	<<" milliseconds on fibonacci_47"<<endl
-	//	<<"\tspends "<<
-	//	nTool::calc_time(test_tghosgor_iterative_100000<decltype(thread_count)>,thread_count).duration_milliseconds()
-	//	<<" milliseconds on iterative_100000 (execute 100000 times)"<<endl
-	//	<<"\tspends "<<
-	//	nTool::calc_time(test_tghosgor_iterative_2000000000<decltype(thread_count)>,thread_count).duration_milliseconds()
-	//	<<" milliseconds on iterative_2000000000"<<endl;
-	system("PAUSE");
+	ofs<<"tghosgor"<<endl
+		<<"\tspends "<<
+		nTool::calc_time(test_tghosgor_fibonacci_10<decltype(thread_count)>,thread_count).duration_milliseconds()
+		<<" milliseconds on fibonacci_10 (execute 100000 times)"<<endl
+		<<"\tspends "<<
+		nTool::calc_time(test_tghosgor_fibonacci_47<decltype(thread_count)>,thread_count).duration_milliseconds()
+		<<" milliseconds on fibonacci_47"<<endl
+		<<"\tspends "<<
+		nTool::calc_time(test_tghosgor_iterative_100000<decltype(thread_count)>,thread_count).duration_milliseconds()
+		<<" milliseconds on iterative_100000 (execute 100000 times)"<<endl
+		<<"\tspends "<<
+		nTool::calc_time(test_tghosgor_iterative_2000000000<decltype(thread_count)>,thread_count).duration_milliseconds()
+		<<" milliseconds on iterative_2000000000"<<endl;
 }
