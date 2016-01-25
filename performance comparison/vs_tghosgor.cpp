@@ -160,7 +160,7 @@ void test_tghosgor_fibonacci_10(const T thread_count)	//execute 100000 times
 	{
 		std::queue<std::future<unsigned long>> que;
 		for(size_t j{0};j!=tp.getWorkerCount();++j)
-			que.emplace(tp.postWork(std::function<unsigned long()>(fibonacci_47)));
+			que.emplace(tp.postWork(std::function<unsigned long()>(fibonacci_10)));
 		while(que.size())
 		{
 			que.front().get();
