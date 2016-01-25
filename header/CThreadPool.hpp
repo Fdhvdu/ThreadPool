@@ -57,8 +57,9 @@ namespace nThread
 		//it will make some join_any cannot get notification
 		//for more details, see example.cpp
 		void join(thread_id);
-		//1. check whether the thread_id of thread is ready
-		//2. after calling add, the id return by add, will make the thread_id of thread ready
+		//1. check whether the thread_id of thread is joinable
+		//2. after calling add, the id return by add, will make the thread_id of thread joinable
+		//3. only when you call join, join_all or join_any (or destructor) will make the thread_id of thread not joinable
 		bool joinable(thread_id) const noexcept;
 		//1.
 		//join_all and wait_until_all_available are different
