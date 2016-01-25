@@ -21,13 +21,15 @@ namespace nThread
 		explicit CThreadPool(std::size_t);
 		CThreadPool(const CThreadPool &)=delete;
 		template<class Func,class ... Args>
-		inline thread_id add(Func &&func,Args &&...args)	//you have to call join, join_any or join_all after calling add
+		inline thread_id add(Func &&func,Args &&...args)	//execute func immediately
+															//you have to call join, join_any or join_all after calling add
 															//otherwise, there is no available thread even after threads complete the job
 		{
 			return add_(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
 		}
 		template<class Func,class ... Args>
-		inline void add_and_detach(Func &&func,Args &&...args)	//if you don't know what "detach" means
+		inline void add_and_detach(Func &&func,Args &&...args)	//execute func immediately
+																//if you don't know what "detach" means
 																//you should look std::thread::detach
 		{
 			add_and_detach_(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));

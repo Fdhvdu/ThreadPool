@@ -30,7 +30,7 @@ namespace nThread
 		}
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
 		template<class Func,class ... Args>
-		thread_id add(Func &&func,Args &&...args)
+		thread_id add(Func &&func,Args &&...args)	//execute func immediately
 		{
 			auto temp{waitingQue_.wait_and_pop()};
 			temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
