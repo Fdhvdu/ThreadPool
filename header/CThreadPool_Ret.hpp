@@ -30,7 +30,7 @@ namespace nThread
 		}
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
 		template<class Func,class ... Args>
-		thread_id add(Func &&func,Args &&...args)	//execute func immediately
+		thread_id add(Func &&func,Args &&...args)	//execute func immediately if available()!=0; otherwise, waiting until 0<available() and execute
 													//you have to call get after calling add
 													//otherwise, there is no available threads even after threads complete the job
 		{
