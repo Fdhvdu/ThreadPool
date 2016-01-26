@@ -18,7 +18,7 @@ I provide example.cpp and example_ret.cpp to help you understand how to use
 		Ret			get(thread_id)
 		bool		valid(thread_id) const noexcept
 		void		wait(thread_id) const
-		void 		wait_all()
+		void 		wait_all() const
 Use CThreadPool_Ret when you want to get the return value of function<br>
 Use CThreadPool when you don't care the return value of function<br>
 The performance of CThreadPool and CThreadPool_Ret is almost same<br>
