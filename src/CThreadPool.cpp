@@ -15,8 +15,8 @@ namespace nThread
 	struct CThreadPool::Impl
 	{
 		unordered_map<thread::id,bool> is_joinable;
-		CThreadList<CThreadPoolItem*> join_anyList;
 		mutex join_all_mut;	//only for join_all
+		CThreadList<CThreadPoolItem*> join_anyList;
 		mutex wait_until_all_available_mut;	//only for wait_until_all_available
 		CThreadQueue<CThreadPoolItem*> waitingQue;
 		unordered_map<thread::id,CThreadPoolItem> thr;

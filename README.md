@@ -7,9 +7,9 @@ I provide example.cpp and example_ret.cpp to help you understand how to use
 		std::size_t	available() const noexcept
 		std::size_t	count() const noexcept
 		void		join(thread_id)
-		bool		joinable(thread_id) const noexcept
 		void		join_all()
 		thread_id	join_any()
+		bool		joinable(thread_id) const noexcept
 		void 		wait_until_all_available() const
 	CThreadPool_Ret, including the function
 		thread_id	add(Func &&,Args &&...)
