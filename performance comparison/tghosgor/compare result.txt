@@ -1,0 +1,6 @@
+Fdhvdu's CThreadPool_Ret is faster than tghosgor's threadpool
+(0.9<(3380/3655), they acts same performance on iterative_2000000000)
+
+Fdhvdu's CThreadPool with add_and_detach is faster than tghosgor's threadpool
+
+Fdhvdu's CThreadPool with add is as same as tghosgor's threadpool
