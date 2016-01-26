@@ -1,4 +1,6 @@
-#include"../header/test.h"
+#include"../header/test.hpp"
+#include<algorithm>	//max
+using namespace std;
 
 namespace
 {
@@ -9,6 +11,8 @@ namespace
 		return fibonacci(i-1)+fibonacci(i-2);
 	}
 }
+
+const result_of<decltype(thread::hardware_concurrency)&()>::type thread_count{max<result_of<decltype(thread::hardware_concurrency)&()>::type>(4,thread::hardware_concurrency())};
 
 unsigned long fibonacci_10()
 {
