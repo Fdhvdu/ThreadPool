@@ -16,12 +16,14 @@ namespace nThread
 	{
 		unordered_map<thread::id,bool> is_joinable;
 		CThreadList<CThreadPoolItem*> join_anyList;
-		mutex mut;	//only for wait_until_all_available
+		mutex join_all_mut;	//only for join_all
+		mutex wait_until_all_available_mut;	//only for wait_until_all_available
 		CThreadQueue<CThreadPoolItem*> waitingQue;
 		unordered_map<thread::id,CThreadPoolItem> thr;
 		Impl(size_t);
 		CThreadPool::thread_id add(function<void()> &&);
 		void add_and_detach(function<void()> &&);
+		void join_all();
 		bool joinable(thread::id) const noexcept;
 		void wait_until_all_available();
 	};
@@ -53,6 +55,14 @@ namespace nThread
 		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(make_unique<CThreadPoolCommunDetach>(temp,waitingQue),move(func)));
 	}
 
+	void CThreadPool::Impl::join_all()
+	{
+		lock_guard<mutex> lock{join_all_mut};
+		for(auto &val:thr)
+			if(joinable(val.first))
+				thr[val.first].wait();
+	}
+
 	bool CThreadPool::Impl::joinable(const thread::id id) const noexcept
 	{
 		if(is_joinable.at(id))
@@ -64,7 +74,7 @@ namespace nThread
 	{
 		vector<decltype(waitingQue)::value_type> vec;
 		vec.reserve(thr.size());
-		lock_guard<mutex> lock{mut};
+		lock_guard<mutex> lock{wait_until_all_available_mut};
 		while(vec.size()!=vec.capacity())
 			vec.emplace_back(waitingQue.wait_and_pop());
 		for(auto &val:vec)
@@ -99,16 +109,9 @@ namespace nThread
 		impl_.get().thr[id].wait();
 	}
 
-	bool CThreadPool::joinable(const thread_id id) const noexcept
-	{
-		return impl_.get().joinable(id);
-	}
-
 	void CThreadPool::join_all()
 	{
-		for(auto &val:impl_.get().thr)
-			if(joinable(val.first))
-				join(val.first);
+		impl_.get().join_all();
 	}
 
 	CThreadPool::thread_id CThreadPool::join_any()
@@ -116,6 +119,11 @@ namespace nThread
 		auto temp{impl_.get().join_anyList.wait_and_pop()};
 		temp->wait();
 		return temp->get_id();
+	}
+
+	bool CThreadPool::joinable(const thread_id id) const noexcept
+	{
+		return impl_.get().joinable(id);
 	}
 
 	void CThreadPool::wait_until_all_available() const
