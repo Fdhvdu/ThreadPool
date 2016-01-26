@@ -1,4 +1,4 @@
-# C++14 thread pool
+# Introduction
 I provide example.cpp and example_ret.cpp to help you understand how to use
 
 	CThreadPool, including the function
