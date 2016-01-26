@@ -10,7 +10,7 @@ namespace nThread
 	{
 		bool destructor;
 		function<void()> func;
-		CSemaphore wait;
+		CSemaphore wait;	//to wake up thr
 		CSmartThread thr;	//first destroying, no other data member could put under this one
 		Impl();
 		void exec(const function<void()> &);

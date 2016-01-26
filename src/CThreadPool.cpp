@@ -32,9 +32,14 @@ namespace nThread
 	{
 		while(size--)
 		{
+			//because the key_type of thr is thread::id, and thread::id is returned by CThreadPoolItem
+			//so, you have to create a CThreadPoolItem first, and emplace get_id to thr
 			CThreadPoolItem item;
 			const auto id{item.get_id()};
+			//it means "not joinable"
 			is_joinable.emplace(id,false);
+			//thr.emplace(item.get_id(),move(item)); is wrong
+			//you cannot guarantee item.get_id() will execute prior to move(item)
 			thr.emplace(id,move(item));
 			waitingQue.emplace(&thr[id]);
 		}
@@ -57,6 +62,12 @@ namespace nThread
 
 	void CThreadPool::Impl::join_all()
 	{
+		//if two threads call join_all at same time
+		//because joinable and wait is not atomic
+		//one thread may check joinable and execute wait
+		//another thread may check same item, and because the first thread have not completed wait yet
+		//it may call wait again, causing problem
+		//so I use lock to prevent the event from happening
 		lock_guard<mutex> lock{join_all_mut};
 		for(auto &val:thr)
 			if(joinable(val.first))
@@ -72,6 +83,7 @@ namespace nThread
 
 	void CThreadPool::Impl::wait_until_all_available()
 	{
+		//speed up, you can construct a vector in each threads in advance
 		vector<decltype(waitingQue)::value_type> vec;
 		vec.reserve(thr.size());
 		lock_guard<mutex> lock{wait_until_all_available_mut};

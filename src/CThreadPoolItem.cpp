@@ -24,6 +24,8 @@ namespace nThread
 
 	CThreadPoolItem::~CThreadPoolItem()
 	{
+		//if you don't call assign after constructing CThreadPoolItem
+		//when destructing CThreadPoolItem, exec_ is empty
 		if(exec_&&is_running())
 			wait();
 	}
