@@ -11,6 +11,7 @@
 
 template<class T>
 void test_Fdhvdu_CThreadPool_Detach_fibonacci_10(const T thread_count)	//execute 100000 times
+																		//to test how fast the threadpool can take a new job and execute
 {
 	nThread::CThreadPool tp{thread_count};
 	for(auto i{100000+1};--i;)
@@ -33,6 +34,7 @@ void test_Fdhvdu_CThreadPool_Detach_fibonacci_47(const T thread_count)
 
 template<class T>
 void test_Fdhvdu_CThreadPool_Detach_iterative_100000(const T thread_count)	//execute 100000 times
+																			//to test how fast the threadpool can take a new job and execute
 {
 	nThread::CThreadPool tp{thread_count};
 	for(auto i{100000+1};--i;)
@@ -50,6 +52,7 @@ void test_Fdhvdu_CThreadPool_Detach_iterative_2000000000(const T thread_count)
 
 template<class T>
 void test_Fdhvdu_CThreadPool_Join_fibonacci_10(const T thread_count)	//execute 100000 times
+																		//to test how fast the threadpool can take a new job and execute
 {
 	nThread::CThreadPool tp{thread_count};
 	for(auto i{100000+1};--i;)
@@ -72,6 +75,7 @@ void test_Fdhvdu_CThreadPool_Join_fibonacci_47(const T thread_count)
 
 template<class T>
 void test_Fdhvdu_CThreadPool_Join_iterative_100000(const T thread_count)	//execute 100000 times
+																			//to test how fast the threadpool can take a new job and execute
 {
 	nThread::CThreadPool tp{thread_count};
 	for(auto i{100000+1};--i;)
@@ -92,6 +96,7 @@ void test_Fdhvdu_CThreadPool_Join_iterative_2000000000(const T thread_count)
 
 template<class T>
 void test_Fdhvdu_CThreadPool_Ret_fibonacci_10(const T thread_count)	//execute 100000 times
+																	//to test how fast the threadpool can take a new job and execute
 {
 	nThread::CThreadPool_Ret<unsigned long> tp{thread_count};
 	for(auto i{100000+1};--i;)
@@ -123,6 +128,7 @@ void test_Fdhvdu_CThreadPool_Ret_fibonacci_47(const T thread_count)
 
 template<class T>
 void test_Fdhvdu_CThreadPool_Ret_iterative_100000(const T thread_count)	//execute 100000 times
+																		//to test how fast the threadpool can take a new job and execute
 {
 	nThread::CThreadPool_Ret<void> tp{thread_count};
 	for(auto i{100000+1};--i;)
@@ -154,6 +160,7 @@ void test_Fdhvdu_CThreadPool_Ret_iterative_2000000000(const T thread_count)
 
 template<class T>
 void test_tghosgor_fibonacci_10(const T thread_count)	//execute 100000 times
+														//to test how fast the threadpool can take a new job and execute
 {
 	threadpool11::Pool tp{thread_count};
 	for(auto i{100000+1};--i;)
@@ -185,6 +192,7 @@ void test_tghosgor_fibonacci_47(const T thread_count)
 
 template<class T>
 void test_tghosgor_iterative_100000(const T thread_count)	//execute 100000 times
+															//to test how fast the threadpool can take a new job and execute
 {
 	threadpool11::Pool tp{thread_count};
 	for(auto i{100000+1};--i;)
