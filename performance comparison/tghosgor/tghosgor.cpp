@@ -4,10 +4,10 @@
 #include<thread>	//thread::hardware_concurrency
 #include<type_traits>	//result_of
 #include"../../lib/header/tool/CChrono_timer.hpp"
-#include"../header/CThreadPool.hpp"
-#include"../header/CThreadPool_Ret.hpp"
+#include"../header/test.h"
+#include"../../header/CThreadPool.hpp"
+#include"../../header/CThreadPool_Ret.hpp"
 #include"threadpool11-2.0/threadpool11/include/threadpool11/threadpool11.hpp"
-#include"header/test.h"
 
 template<class T>
 void test_Fdhvdu_CThreadPool_Detach_fibonacci_10(const T thread_count)	//execute 100000 times

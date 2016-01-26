@@ -1,0 +1,1 @@
+intel i7 4930k, windows 7 enterprise sp1, 64 bit, visual c++ 2015 with full optimization
