@@ -1,7 +1,12 @@
+# Content
+[Introduction](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#introduction)<br>
+[Performance comparison](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#performance-comparison)<br>
+[Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
+[About compilation errors](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#about-compilation-errors)<br>
 # Introduction
-I provide example.cpp and example_ret.cpp to help you understand how to use
+Two classes
 
-	CThreadPool, including the function
+	CThreadPool, including the member function
 		thread_id	add(Func &&,Args &&...)
 		void		add_and_detach(Func &&,Args &&...)
 		std::size_t	available() const noexcept
@@ -11,7 +16,8 @@ I provide example.cpp and example_ret.cpp to help you understand how to use
 		thread_id	join_any()
 		bool		joinable(thread_id) const noexcept
 		void 		wait_until_all_available() const
-	CThreadPool_Ret, including the function
+		
+	CThreadPool_Ret, including the member function
 		thread_id	add(Func &&,Args &&...)
 		std::size_t	available() const noexcept
 		std::size_t	count() const noexcept
@@ -26,10 +32,15 @@ But the CThreadPool::add_and_detach is faster (very) than the CThreadPool::add<b
 So, use the CThreadPool::add_and_detach when you can, and the CThreadPool::add when you have to
 # Performance comparison
 My threadpool is totally faster and more powerful than<br>
-[progschj/ThreadPool](https://github.com/progschj/ThreadPool)
-and [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11)<br>
+[progschj/ThreadPool](https://github.com/progschj/ThreadPool) and [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11)<br>
 See the [directory](performance comparison/) for more details
-# Why do I get compilation errors?
+# Tutorial
+I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
+To use [example.cpp](tutorial/example.cpp):<br>
+g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp<br>
+To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
+g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
+# About compilation errors
 Does your compiler support C++14?<br>
 Or, maybe you lost my lib files, [here is link](https://github.com/Fdhvdu/lib)<br>
 The directory should be look like
@@ -48,8 +59,3 @@ The directory should be look like
 	             -README.md
 Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp<br>
 The compiler I use is VC++ 2015 and gcc 5.2.0
-# Tutorial
-To use example.cpp:<br>
-g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp<br>
-To use example_ret.cpp:<br>
-g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
