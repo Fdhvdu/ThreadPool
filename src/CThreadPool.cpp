@@ -1,5 +1,5 @@
 #include"../header/CThreadPool.hpp"
-#include<memory>	//make_unique
+#include<memory>	//addressof, make_unique
 #include<mutex>
 #include<vector>
 #include<unordered_map>
@@ -40,8 +40,7 @@ namespace nThread
 			is_joinable.emplace(id,false);
 			//thr.emplace(item.get_id(),move(item)); is wrong
 			//you cannot guarantee item.get_id() will execute prior to move(item)
-			thr.emplace(id,move(item));
-			waitingQue.emplace(&thr[id]);
+			waitingQue.emplace(addressof(thr.emplace(id,move(item)).first->second));
 		}
 	}
 
