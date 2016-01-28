@@ -9,8 +9,10 @@
 
 namespace nThread
 {
+	//1. a fixed-sized threadpool
+	//2. can return value
 	template<class Ret>
-	class CThreadPool_Ret	//can return value
+	class CThreadPool_Ret
 	{
 	public:
 		typedef std::thread::id thread_id;
@@ -54,7 +56,7 @@ namespace nThread
 			return waitingQue_.size();
 		}
 		//1. return total threads can be used
-		//2. the return value is what you pass to constructor
+		//2. the count is fixed after constructing
 		inline std::size_t count() const noexcept
 		{
 			return thr_.size();

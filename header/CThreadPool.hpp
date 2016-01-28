@@ -8,7 +8,9 @@
 
 namespace nThread
 {
-	class CThreadPool	//cannot return value
+	//1. a fixed-sized threadpool
+	//2. cannot return value
+	class CThreadPool
 	{
 	public:
 		typedef std::thread::id thread_id;
@@ -18,8 +20,7 @@ namespace nThread
 		thread_id add_(std::function<void()> &&);
 		void add_and_detach_(std::function<void()> &&);
 	public:
-		//1. determine how many threads you want to use
-		//2. the value you pass will always equal to count
+		//determine how many threads you want to use
 		explicit CThreadPool(std::size_t);
 		//of course, why do you need to copy or move CThreadPool?
 		CThreadPool(const CThreadPool &)=delete;
@@ -51,7 +52,7 @@ namespace nThread
 		//2. reduce 1 after calling add or add_and_detach
 		std::size_t available() const noexcept;
 		//1. return total threads can be used
-		//2. the return value is what you pass to constructor
+		//2. the count is fixed after constructing
 		std::size_t count() const noexcept;
 		//do not combine join and join_any together in your code
 		//it will make some join_any cannot get notification
