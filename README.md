@@ -25,16 +25,18 @@ Two classes
 		bool		valid(thread_id) const noexcept
 		void		wait(thread_id) const
 		void 		wait_all() const
-Use CThreadPool_Ret when you want to get the return value of function<br>
-Use CThreadPool when you don't care the return value of function<br>
-The performance of CThreadPool and CThreadPool_Ret is almost same<br>
-But the CThreadPool::add_and_detach is faster (very) than the CThreadPool::add<br>
-So, use the CThreadPool::add_and_detach when you can, and the CThreadPool::add when you have to
+Use CThreadPool_Ret when you want to get the return value of function.<br>
+Use CThreadPool when you don't care the return value of function.<br>
+The performance of CThreadPool and CThreadPool_Ret is almost same.<br>
+But the CThreadPool::add_and_detach is faster (very) than the CThreadPool::add.<br>
+So, use the CThreadPool::add_and_detach when you can, and the CThreadPool::add when you have to.
 # Performance comparison
 My threadpool is totally faster and more powerful (more useful functions) than<br>
 [progschj/ThreadPool](https://github.com/progschj/ThreadPool) and [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11)<br>
-See the [directory](performance comparison/) for more details<br><br>
-P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.
+See the [directory](performance comparison/) for more details.<br><br>
+P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.<br>
+P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe (as far as 24 commits). I am waiting for [nbsdx](https://github.com/nbsdx) to fix it.<br>
+(Test [test_nbsdx_fibonacci_10](performance comparison/src/nbsdx.cpp) by yourself. Change iteration times from 100000 to 100000000 may be enough.)
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
