@@ -27,12 +27,12 @@ So, use the CThreadPool::add_and_detach when you can, and the CThreadPool::add w
 # Performance comparison
 My threadpool is totally faster and more powerful than
 
-	progschj/ThreadPool (https://github.com/progschj/ThreadPool)
-	tghosgor/threadpool11 (https://github.com/tghosgor/threadpool11)
+	[progschj/ThreadPool](https://github.com/progschj/ThreadPool)
+	[tghosgor/threadpool11](https://github.com/tghosgor/threadpool11)
 See the directory (performance comparison/) for more details
 # Why do I get compilation errors?
 Does your compiler support C++14?<br>
-Or, maybe you lost my lib files, here is link https://github.com/Fdhvdu/lib<br>
+Or, maybe you lost my lib files, [here is link](https://github.com/Fdhvdu/lib)<br>
 The directory should be look like
 
 	-ThreadPool---header
