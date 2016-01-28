@@ -25,11 +25,10 @@ The performance of CThreadPool and CThreadPool_Ret is almost same<br>
 But the CThreadPool::add_and_detach is faster (very) than the CThreadPool::add<br>
 So, use the CThreadPool::add_and_detach when you can, and the CThreadPool::add when you have to
 # Performance comparison
-My threadpool is totally faster and more powerful than
-
-	[progschj/ThreadPool](https://github.com/progschj/ThreadPool)
-	[tghosgor/threadpool11](https://github.com/tghosgor/threadpool11)
-See the directory (performance comparison/) for more details
+My threadpool is totally faster and more powerful than<br>
+[progschj/ThreadPool](https://github.com/progschj/ThreadPool)
+and [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11)<br>
+See the [directory](performance comparison/) for more details
 # Why do I get compilation errors?
 Does your compiler support C++14?<br>
 Or, maybe you lost my lib files, [here is link](https://github.com/Fdhvdu/lib)<br>
