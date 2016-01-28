@@ -1,6 +1,6 @@
 # Content
 [Introduction](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#introduction)<br>
-[Performance comparison](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#performance-comparison)<br>
+[Performance comparison](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#performance-comparison)<br>
 [Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
 [About compilation errors](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#about-compilation-errors)<br>
 # Introduction
