@@ -60,7 +60,7 @@ namespace nThread
 		void join(thread_id);
 		//1.
 		//join_all and wait_until_all_available are different
-		//join_all will not wait any threads which are belong to detach
+		//join_all will not wait any threads which belong to detach (add_and_detach)
 		//2. it will not block add, you have to control by yourself
 		//3. join_all will block join_all
 		void join_all();
@@ -76,8 +76,9 @@ namespace nThread
 		bool joinable(thread_id) const noexcept;
 		//1. wait until available equal to count
 		//2.
-		//wait_until_all_available and join_all and are different
+		//wait_until_all_available and join_all are different
 		//join_all will not wait any threads which are belong to detach
+		//wait_until_all_available means "wait until available equal to count"
 		//3. wait_until_all_available will block wait_until_all_available
 		void wait_until_all_available() const;
 		//of course, why do you need to copy or move CThreadPool?
