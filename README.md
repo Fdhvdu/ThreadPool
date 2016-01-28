@@ -33,7 +33,8 @@ So, use the CThreadPool::add_and_detach when you can, and the CThreadPool::add w
 # Performance comparison
 My threadpool is totally faster and more powerful than<br>
 [progschj/ThreadPool](https://github.com/progschj/ThreadPool) and [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11)<br>
-See the [directory](performance comparison/) for more details
+See the [directory](performance comparison/) for more details<br><br>
+P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
