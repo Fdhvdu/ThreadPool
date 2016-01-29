@@ -1,6 +1,7 @@
 # What is test function?
-First, the execution time of function must same (no matter what thread pool you use).
+First, the execution time of function must same (no matter what thread pool you use).<br>
 So, the function should be short, and what we need to do is test
+
 	how fast can a thread pool construct and destruct (test iteration times)
 	how fast can a thread pool complete N jobs, while N equals to the size of thread pool (test iteration times)
 		-test by wait_single (if has)
