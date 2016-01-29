@@ -1,42 +1,34 @@
 #include"../header/nbsdx.hpp"
-#include<cstddef>
 #include"../nbsdx/ThreadPool-master/ThreadPool.h"
 using namespace std;
 
-void test_nbsdx_fibonacci_10()
+duration test_nbsdx_ctor_and_dtor()
 {
-	nbsdx::concurrent::ThreadPool<constexpr_thread_count> tp;
-	for(auto i{100000+1};--i;)
-	{
-		for(size_t j{0};j!=constexpr_thread_count;++j)
-			tp.AddJob(fibonacci_10);
+	return nTool::calc_time([=]{
+		for(auto i{iteration};i--;)
+			nbsdx::concurrent::ThreadPool<thread_count> tp;
+	}).duration_nanoseconds();
+}
+
+duration test_nbsdx_all_N()
+{
+	nbsdx::concurrent::ThreadPool<thread_count> tp;
+	return nTool::calc_time([&]{
+		for(auto i{iteration};i--;)
+		{
+			for(auto j{thread_count+1};--j;)
+				tp.AddJob(empty);
+			tp.WaitAll();
+		}
+	}).duration_nanoseconds();
+}
+
+duration test_nbsdx_billion()
+{
+	nbsdx::concurrent::ThreadPool<thread_count> tp;
+	return nTool::calc_time([&]{
+		for(auto i{iteration};i--;)
+			tp.AddJob(empty);
 		tp.WaitAll();
-	}
-}
-
-void test_nbsdx_fibonacci_47()
-{
-	nbsdx::concurrent::ThreadPool<constexpr_thread_count> tp;
-	for(size_t i{0};i!=constexpr_thread_count;++i)
-		tp.AddJob(fibonacci_47);
-	tp.WaitAll();
-}
-
-void test_nbsdx_iterative_100000()
-{
-	nbsdx::concurrent::ThreadPool<constexpr_thread_count> tp;
-	for(auto i{100000+1};--i;)
-	{
-		for(size_t j{0};j!=constexpr_thread_count;++j)
-			tp.AddJob(iterative_100000);
-		tp.WaitAll();
-	}
-}
-
-void test_nbsdx_iterative_2000000000()
-{
-	nbsdx::concurrent::ThreadPool<constexpr_thread_count> tp;
-	for(size_t i{0};i!=constexpr_thread_count;++i)
-		tp.AddJob(iterative_2000000000);
-	tp.WaitAll();
+	}).duration_nanoseconds();
 }

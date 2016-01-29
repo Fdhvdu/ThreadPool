@@ -1,64 +1,46 @@
 #include"../header/progschj.hpp"
-#include<cstddef>
 #include<future>
 #include<queue>
 #include"../progschj/ThreadPool-master/ThreadPool.h"
 using namespace std;
 
-void test_progschj_fibonacci_10()
+duration test_progschj_ctor_and_dtor()
 {
-	ThreadPool tp{thread_count};
-	for(auto i{100000+1};--i;)
-	{
-		queue<future<unsigned long>> que;
-		for(size_t j{0};j!=thread_count;++j)
-			que.emplace(tp.enqueue(fibonacci_10));
-		while(que.size())
-		{
-			que.front().get();
-			que.pop();
-		}
-	}
+	return nTool::calc_time([=]{
+		for(auto i{iteration};i--;)
+			ThreadPool tp{thread_count};
+	}).duration_nanoseconds();
 }
 
-void test_progschj_fibonacci_47()
-{
-	ThreadPool tp{thread_count};
-	queue<future<unsigned long>> que;
-	for(size_t i{0};i!=thread_count;++i)
-		que.emplace(tp.enqueue(fibonacci_47));
-	while(que.size())
-	{
-		que.front().get();
-		que.pop();
-	}
-}
-
-void test_progschj_iterative_100000()
-{
-	ThreadPool tp{thread_count};
-	for(auto i{100000+1};--i;)
-	{
-		queue<future<void>> que;
-		for(size_t j{0};j!=thread_count;++j)
-			que.emplace(tp.enqueue(iterative_100000));
-		while(que.size())
-		{
-			que.front().get();
-			que.pop();
-		}
-	}
-}
-
-void test_progschj_iterative_2000000000()
+duration test_progschj_specific_N()
 {
 	ThreadPool tp{thread_count};
 	queue<future<void>> que;
-	for(size_t i{0};i!=thread_count;++i)
-		que.emplace(tp.enqueue(iterative_2000000000));
-	while(que.size())
-	{
-		que.front().get();
-		que.pop();
-	}
+	return nTool::calc_time([&]{
+		for(auto i{iteration};i--;)
+		{
+			for(auto j{thread_count+1};--j;)
+				que.emplace(tp.enqueue(empty));
+			while(que.size())
+			{
+				que.front().get();
+				que.pop();
+			}
+		}
+	}).duration_nanoseconds();
+}
+
+duration test_progschj_billion()
+{
+	ThreadPool tp{thread_count};
+	queue<future<void>> que;
+	return nTool::calc_time([&]{
+		for(auto i{iteration};i--;)
+			que.emplace(tp.enqueue(empty));
+		while(que.size())
+		{
+			que.front().get();
+			que.pop();
+		}
+	}).duration_nanoseconds();
 }
