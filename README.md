@@ -60,4 +60,4 @@ The directory should be look like
 	             -LICENSE
 	             -README.md
 Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp<br>
-The compiler I use is VC++ 2015 and gcc 5.2.0
+The compiler I use is VC++ 2015 and gcc 5.2.0.
