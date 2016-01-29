@@ -10,3 +10,7 @@ Thread Count: 12
 		each spends 515112 nanoseconds on test_progschj_ctor_and_dtor
 		each spends 22867 nanoseconds on test_progschj_specific_N
 		each spends 1908 nanoseconds on test_progschj_billion
+# Compare To Fdhvdu
+About construction and destruction time, progschj's threadpool is faster than Fdhvdu's threadpool<br>
+About waiting specific job to complete, the performance of progschj's threadpool is as same as Fdhvdu's threadpool<br>
+About given a number of jobs, the performance of progschj's threadpool is slower than Fdhvdu's threadpool
