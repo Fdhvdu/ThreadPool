@@ -5,7 +5,7 @@ Compiler: visual c++ 2015<br>
 Compiler Option: full optimization<br>
 Iteration: 1000000<br>
 Thread Count: 12
-# Timing
+# Result
 	Fdhvdu's CThreadPool
 		each spends 589635 nanoseconds on test_Fdhvdu_CThreadPool_ctor_and_dtor
 		each spends 21003 nanoseconds on test_Fdhvdu_CThreadPool_join_specific_N
