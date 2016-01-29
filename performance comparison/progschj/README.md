@@ -2,8 +2,8 @@
 CPU: intel i7 4930k<br>
 OS: windows 7 enterprise sp1, 64 bit<br>
 Compiler: visual c++ 2015<br>
-Compiler Option: full optimization
-Iteration: 1000000
+Compiler Option: full optimization<br>
+Iteration: 1000000<br>
 Thread Count: 12
 # Timing
 	progschj
