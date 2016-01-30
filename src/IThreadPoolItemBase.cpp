@@ -9,9 +9,9 @@ namespace nThread
 	struct IThreadPoolItemBase::Impl
 	{
 		bool destructor;
-		function<void()> func;
 		CSemaphore wait;	//to wake up thr
-		CSmartThread thr;	//first destroying, no other data member could put under this one
+		CSmartThread thr;	//must destroying before destructor and wait
+		function<void()> func;
 		Impl();
 		void exec(const function<void()> &);
 		void exec(function<void()> &&);
