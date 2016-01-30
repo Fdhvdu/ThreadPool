@@ -1,12 +1,12 @@
 #include"../header/CThreadPool.hpp"
-#include<memory>	//addressof, make_unique
+#include<memory>	//make_unique
 #include<mutex>
 #include<vector>
 #include<unordered_map>
 #include"../../lib/header/thread/CThreadList.hpp"
 #include"../../lib/header/thread/CThreadQueue.hpp"
+#include"../header/CThreadPoolCommun.hpp"
 #include"../header/CThreadPoolItem.hpp"
-#include"../header/IThreadPoolCommun.hpp"
 #include"../header/IThreadPoolItemExecutor.hpp"
 using namespace std;
 
@@ -40,7 +40,7 @@ namespace nThread
 			is_joinable.emplace(id,false);
 			//thr.emplace(item.get_id(),move(item)); is wrong
 			//you cannot guarantee item.get_id() will execute prior to move(item)
-			waitingQue.emplace(addressof(thr.emplace(id,move(item)).first->second));
+			waitingQue.emplace(&thr.emplace(id,move(item)).first->second);
 		}
 	}
 
@@ -48,7 +48,7 @@ namespace nThread
 	{
 		auto temp{waitingQue.wait_and_pop()};
 		is_joinable[temp->get_id()]=true;
-		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(make_unique<CThreadPoolCommunJoin>(temp,join_anyList,waitingQue),move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&join_anyList,&waitingQue},move(func)));
 		return temp->get_id();
 	}
 
@@ -56,7 +56,7 @@ namespace nThread
 	{
 		auto temp{waitingQue.wait_and_pop()};
 		is_joinable[temp->get_id()]=false;
-		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(make_unique<CThreadPoolCommunDetach>(temp,waitingQue),move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waitingQue},move(func)));
 	}
 
 	void CThreadPool::Impl::join_all()

@@ -2,48 +2,48 @@
 #include<atomic>
 #include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.hpp"
-#include"../header/IThreadPoolCommun.hpp"
+#include"../header/CThreadPoolCommun.hpp"
 using namespace std;
 
 namespace nThread
 {
 	struct CThreadPoolItemExecutorDetach::Impl
 	{
-		unique_ptr<IThreadPoolCommunBase> commun;
+		CThreadPoolCommunDetach commun;
 		CSemaphore complete;
 		function<void()> func;
-		Impl(unique_ptr<IThreadPoolCommunBase> &&,function<void()> &&);
+		Impl(CThreadPoolCommunDetach &&,function<void()> &&);
 		void exec();
 	};
 
 	struct CThreadPoolItemExecutorJoin::Impl
 	{
-		unique_ptr<IThreadPoolCommunBase> commun;
+		CThreadPoolCommunJoin commun;
 		CSemaphore complete;
 		function<void()> func;
 		atomic<bool> running;
-		Impl(unique_ptr<IThreadPoolCommunBase> &&,function<void()> &&);
+		Impl(CThreadPoolCommunJoin &&,function<void()> &&);
 		void exec();
 		void join();
 	};
 
-	CThreadPoolItemExecutorDetach::Impl::Impl(unique_ptr<IThreadPoolCommunBase> &&commun_,function<void()> &&func_)
+	CThreadPoolItemExecutorDetach::Impl::Impl(CThreadPoolCommunDetach &&commun_,function<void()> &&func_)
 		:commun{move(commun_)},complete{0},func{move(func_)}{}
 
 	void CThreadPoolItemExecutorDetach::Impl::exec()
 	{
 		func();
 		complete.signal();
-		commun->func_is_completed();
+		commun.func_is_completed();
 	}
 
-	CThreadPoolItemExecutorJoin::Impl::Impl(unique_ptr<IThreadPoolCommunBase> &&commun_,function<void()> &&func_)
+	CThreadPoolItemExecutorJoin::Impl::Impl(CThreadPoolCommunJoin &&commun_,function<void()> &&func_)
 		:commun{move(commun_)},complete{0},func{move(func_)},running{true}{}
 
 	void CThreadPoolItemExecutorJoin::Impl::exec()
 	{
 		func();
-		commun->func_is_completed();	//notify CThreadPool::join_any, must prior to complete.signal()
+		commun.func_is_completed();	//notify CThreadPool::join_any, must prior to complete.signal()
 		complete.signal();	//notify CThreadPool::join
 	}
 
@@ -51,12 +51,12 @@ namespace nThread
 	{
 		complete.wait();
 		running=false;
-		commun->destroy();
+		commun.destroy();
 	}
 
 	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase(){}
 
-	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(unique_ptr<IThreadPoolCommunBase> &&commun,function<void()> &&func)
+	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommunDetach &&commun,function<void()> &&func)
 		:impl_{move(commun),move(func)}{}
 
 	void CThreadPoolItemExecutorDetach::exec()
@@ -76,7 +76,7 @@ namespace nThread
 
 	CThreadPoolItemExecutorDetach::~CThreadPoolItemExecutorDetach(){}
 
-	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(unique_ptr<IThreadPoolCommunBase> &&commun,function<void()> &&func)
+	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommunJoin &&commun,function<void()> &&func)
 		:impl_{move(commun),move(func)}{}
 
 	void CThreadPoolItemExecutorJoin::exec()

@@ -1,15 +1,14 @@
 #ifndef ITHREADPOOLITEMEXECUTOR
 #define ITHREADPOOLITEMEXECUTOR
 #include<functional>	//function
-#include<memory>	//unique_ptr
 #include"../../lib/header/tool/CPimpl.hpp"
 
 namespace nThread
 {
-	struct IThreadPoolCommunBase;
+	class CThreadPoolCommunDetach;
+	class CThreadPoolCommunJoin;
 
-	struct IThreadPoolItemExecutorBase	//I give up to use Non-Virtual Interface Idiom here
-										//because this is a abstract base struct
+	struct IThreadPoolItemExecutorBase
 	{
 		virtual void exec()=0;
 		virtual bool is_running() const noexcept=0;
@@ -22,7 +21,7 @@ namespace nThread
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
-		CThreadPoolItemExecutorDetach(std::unique_ptr<IThreadPoolCommunBase> &&,std::function<void()> &&);
+		CThreadPoolItemExecutorDetach(CThreadPoolCommunDetach &&,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;	//only the destructor of CThreadPoolItem will call this
 		void wait() override;	//only the destructor of CThreadPoolItem will call this
@@ -34,7 +33,7 @@ namespace nThread
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
-		CThreadPoolItemExecutorJoin(std::unique_ptr<IThreadPoolCommunBase> &&,std::function<void()> &&);
+		CThreadPoolItemExecutorJoin(CThreadPoolCommunJoin &&,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;
 		void wait() override;
