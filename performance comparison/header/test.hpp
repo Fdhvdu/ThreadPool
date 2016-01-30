@@ -5,7 +5,7 @@
 
 typedef decltype(nTool::CChrono_timer().duration_nanoseconds()) duration;
 
-constexpr unsigned long iteration{1000000};
+constexpr unsigned long iteration{10000000};
 extern constexpr std::result_of<decltype(std::thread::hardware_concurrency)&()>::type thread_count{12};
 
 inline void empty(){};
