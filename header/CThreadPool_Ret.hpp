@@ -1,7 +1,6 @@
 #ifndef CTHREADPOOL_RET
 #define CTHREADPOOL_RET
 #include<cstddef>	//size_t
-#include<memory>	//addressof
 #include<thread>	//thread::id
 #include<unordered_map>
 #include<utility>	//forward, move
@@ -29,7 +28,7 @@ namespace nThread
 			{
 				CThreadPoolItem_Ret<Ret> item{&waitingQue_};
 				const auto id{item.get_id()};
-				waitingQue_.emplace(std::addressof(thr_.emplace(id,std::move(item)).first->second));
+				waitingQue_.init_emplace(&thr_.emplace(id,std::move(item)).first->second);
 			}
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
