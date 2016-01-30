@@ -40,7 +40,7 @@ namespace nThread
 			is_joinable.emplace(id,false);
 			//thr.emplace(item.get_id(),move(item)); is wrong
 			//you cannot guarantee item.get_id() will execute prior to move(item)
-			waitingQue.emplace(&thr.emplace(id,move(item)).first->second);
+			waitingQue.init_emplace(&thr.emplace(id,move(item)).first->second);
 		}
 	}
 
