@@ -3,7 +3,7 @@
 #include<mutex>
 #include<vector>
 #include<unordered_map>
-#include"../../lib/header/thread/CThreadList.hpp"
+#include"../../lib/header/thread/CThreadForward_list.hpp"
 #include"../../lib/header/thread/CThreadQueue.hpp"
 #include"../header/CThreadPoolCommun.hpp"
 #include"../header/CThreadPoolItem.hpp"
@@ -16,7 +16,7 @@ namespace nThread
 	{
 		unordered_map<thread::id,bool> is_joinable;
 		mutex join_all_mut;	//only for join_all
-		CThreadList<CThreadPoolItem*> join_anyList;
+		CThreadForward_list<CThreadPoolItem*> join_anyList;
 		mutex wait_until_all_available_mut;	//only for wait_until_all_available
 		CThreadQueue<CThreadPoolItem*> waitingQue;
 		unordered_map<thread::id,CThreadPoolItem> thr;

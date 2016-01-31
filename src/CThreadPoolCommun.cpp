@@ -1,5 +1,5 @@
 #include"../header/CThreadPoolCommun.hpp"
-#include"../../lib/header/thread/CThreadList.hpp"
+#include"../../lib/header/thread/CThreadForward_list.hpp"
 #include"../../lib/header/thread/CThreadQueue.hpp"
 #include"../header/CThreadPoolItem.hpp"
 using namespace std;
@@ -14,7 +14,7 @@ namespace nThread
 		waitingQue_->emplace(item_);
 	}
 
-	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThreadList<CThreadPoolItem*> *join_anyList,CThreadQueue<CThreadPoolItem*> *waitingQue)
+	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThreadForward_list<CThreadPoolItem*> *join_anyList,CThreadQueue<CThreadPoolItem*> *waitingQue)
 		:item_{item},join_anyList_{join_anyList},waitingQue_{waitingQue}{}
 
 	void CThreadPoolCommunJoin::destroy()
@@ -26,6 +26,6 @@ namespace nThread
 
 	void CThreadPoolCommunJoin::func_is_completed()
 	{
-		join_anyList_->emplace_back(item_);
+		join_anyList_->emplace_front(item_);
 	}
 }
