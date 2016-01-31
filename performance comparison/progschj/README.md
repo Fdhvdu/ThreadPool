@@ -16,6 +16,6 @@ About waiting specific job to complete, progschj's threadpool is slower than Fdh
 About given a number of jobs, progschj's threadpool is slower than Fdhvdu's CThreadPool<br><br>
 Normally, we only need 1 threadpool, so
 
-	use CThreadpool_Ret if the times of waiting specific job to complete is higher than 15 (not included)
-	use CThreadpool if the times of waiting specific job to complete is higher than 49 (not included)
-	use CThreadpool if the number of jobs is higher than 192 (not included)
+	use CThreadpool_Ret if the times of waiting specific job to complete is bigger than 15
+	use CThreadpool if the times of waiting specific job to complete is bigger than 49
+	use CThreadpool if the number of jobs is bigger than 192
