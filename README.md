@@ -32,7 +32,7 @@ The performance of CThreadPool and CThreadPool_Ret is almost same.<br>
 But the CThreadPool::add_and_detach is faster (very) than the CThreadPool::add.<br>
 So, use the CThreadPool::add_and_detach when you can, and the CThreadPool::add when you have to.
 # Performance comparison
-If you only need 1 threadpool, my threadpool's performance is higher than [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Compare To Fdhvdu](performance comparison/progschj/README.md#compare-to-fdhvdu).<br><br>
+If you only need 1 threadpool, my threadpool is faster than [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Compare To Fdhvdu](performance comparison/progschj/README.md#compare-to-fdhvdu).<br><br>
 P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.<br>
 P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe (as far as 24 commits).<br>
 P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 11 releases).<br>
