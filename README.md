@@ -3,6 +3,7 @@
 [Performance comparison](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#performance-comparison)<br>
 [Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
 [About compilation errors](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#about-compilation-errors)<br>
+[Future work](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#future-work)
 # Introduction
 Two classes
 
@@ -61,3 +62,6 @@ The directory should be look like
 	             -README.md
 Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp<br>
 The compiler I use is VC++ 2015 and gcc 5.2.0.
+# Future work
+Make CThreadQueue be CThreadRingBuf (Actually, this is a future work of [lib](https://github.com/Fdhvdu/lib).)<br>
+[Compare to henkel/threadpool](https://github.com/henkel/threadpool)
