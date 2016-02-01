@@ -11,11 +11,11 @@ Thread Count: 12
 		each spends 23359 nanoseconds on test_progschj_specific_N
 		each spends 1988 nanoseconds on test_progschj_billion
 # Compare To Fdhvdu
-About construction and destruction time, progschj's threadpool is faster than Fdhvdu's threadpool<br>
-About waiting specific job to complete, progschj's threadpool is slower than Fdhvdu's threadpool<br>
+About construction and destruction time, progschj's threadpool is faster than Fdhvdu's CThreadPool<br>
+About waiting specific job to complete, progschj's threadpool is slower than Fdhvdu's CThreadPool_Ret<br>
 About given a number of jobs, progschj's threadpool is slower than Fdhvdu's CThreadPool<br><br>
 Normally, we only need 1 threadpool, so
 
-	use CThreadpool_Ret if the times of waiting specific job to complete is bigger than 15
-	use CThreadpool if the times of waiting specific job to complete is bigger than 49
-	use CThreadpool if the number of jobs is bigger than 192
+	use CThreadpool if the times of waiting specific job to complete is bigger than 33
+	use CThreadpool if the number of jobs is bigger than 111
+CThreadPool_Ret is totally faster than progschj's threadpool
