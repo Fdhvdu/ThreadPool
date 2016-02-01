@@ -6,7 +6,7 @@ namespace nThread
 {
 	class CThreadPoolItem;
 	template<class T,class Alloc>
-	class CThreadForward_list;
+	class CThread_forward_list;
 	template<class T>
 	class CThreadRingBuf;
 
@@ -22,10 +22,10 @@ namespace nThread
 	class CThreadPoolCommunJoin
 	{
 		CThreadPoolItem *item_;
-		CThreadForward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *join_anyList_;	//or use deque
+		CThread_forward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *join_anyList_;	//or use deque
 		CThreadRingBuf<CThreadPoolItem*> *waiting_buf_;
 	public:
-		CThreadPoolCommunJoin(CThreadPoolItem *,CThreadForward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *,CThreadRingBuf<CThreadPoolItem*> *);
+		CThreadPoolCommunJoin(CThreadPoolItem *,CThread_forward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *,CThreadRingBuf<CThreadPoolItem*> *);
 		void destroy();	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waiting_buf
 		void func_is_completed();	//push CThreadPoolItem into CThreadPool::Impl::join_anyList
 	};

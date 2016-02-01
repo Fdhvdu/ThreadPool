@@ -1,5 +1,5 @@
 #include"../header/CThreadPoolCommun.hpp"
-#include"../../lib/header/thread/CThreadForward_list.hpp"
+#include"../../lib/header/thread/CThread_forward_list.hpp"
 #include"../../lib/header/thread/CThreadRingBuf.hpp"
 #include"../header/CThreadPoolItem.hpp"
 using namespace std;
@@ -14,7 +14,7 @@ namespace nThread
 		waiting_buf_->write(item_);
 	}
 
-	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThreadForward_list<CThreadPoolItem*> *join_anyList,CThreadRingBuf<CThreadPoolItem*> *waiting_buf)
+	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThread_forward_list<CThreadPoolItem*> *join_anyList,CThreadRingBuf<CThreadPoolItem*> *waiting_buf)
 		:item_{item},join_anyList_{join_anyList},waiting_buf_{waiting_buf}{}
 
 	void CThreadPoolCommunJoin::destroy()
