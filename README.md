@@ -63,6 +63,4 @@ The directory should be look like
 Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp<br>
 The compiler I use is VC++ 2015 and gcc 5.2.0.
 # Future work
-Make CThreadQueue be CThreadRingBuf (Actually, this is a future work of [lib](https://github.com/Fdhvdu/lib).)<br>
-(The reason why I don't use boost::lockfree:queue is boost::lockfree:queue is too complicated (too much files to be included) and not so fast in my view.)<br>
 [Compare to henkel/threadpool](https://github.com/henkel/threadpool)
