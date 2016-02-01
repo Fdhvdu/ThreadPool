@@ -8,14 +8,14 @@ namespace nThread
 	template<class T,class Alloc>
 	class CThreadForward_list;
 	template<class T>
-	class CThreadQueue;
+	class CThreadRingBuf;
 
 	class CThreadPoolCommunDetach
 	{
 		CThreadPoolItem *item_;
-		CThreadQueue<CThreadPoolItem*> *waitingQue_;
+		CThreadRingBuf<CThreadPoolItem*> *waiting_buf_;
 	public:
-		CThreadPoolCommunDetach(CThreadPoolItem *,CThreadQueue<CThreadPoolItem*> *);
+		CThreadPoolCommunDetach(CThreadPoolItem *,CThreadRingBuf<CThreadPoolItem*> *);
 		void func_is_completed();	//call destroy
 	};
 
@@ -23,10 +23,10 @@ namespace nThread
 	{
 		CThreadPoolItem *item_;
 		CThreadForward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *join_anyList_;	//or use deque
-		CThreadQueue<CThreadPoolItem*> *waitingQue_;
+		CThreadRingBuf<CThreadPoolItem*> *waiting_buf_;
 	public:
-		CThreadPoolCommunJoin(CThreadPoolItem *,CThreadForward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *,CThreadQueue<CThreadPoolItem*> *);
-		void destroy();	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waitingQue
+		CThreadPoolCommunJoin(CThreadPoolItem *,CThreadForward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *,CThreadRingBuf<CThreadPoolItem*> *);
+		void destroy();	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waiting_buf
 		void func_is_completed();	//push CThreadPoolItem into CThreadPool::Impl::join_anyList
 	};
 }

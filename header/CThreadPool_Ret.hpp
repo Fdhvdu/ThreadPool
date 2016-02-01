@@ -4,7 +4,7 @@
 #include<thread>	//thread::id
 #include<unordered_map>
 #include<utility>	//forward, move
-#include"../../lib/header/thread/CThreadQueue.hpp"
+#include"../../lib/header/thread/CThreadRingBuf.hpp"
 #include"CThreadPoolItem_Ret.hpp"
 
 namespace nThread
@@ -17,18 +17,19 @@ namespace nThread
 	public:
 		typedef std::thread::id thread_id;
 	private:
-		CThreadQueue<CThreadPoolItem_Ret<Ret>*> waitingQue_;
+		CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> waiting_buf_;
 		std::unordered_map<thread_id,CThreadPoolItem_Ret<Ret>> thr_;
 	public:
 		//1. determine how many threads you want to use
 		//2. the value you pass will always equal to count
 		explicit CThreadPool_Ret(std::size_t count)
+			:waiting_buf_{count}
 		{
 			while(count--)
 			{
-				CThreadPoolItem_Ret<Ret> item{&waitingQue_};
+				CThreadPoolItem_Ret<Ret> item{&waiting_buf_};
 				const auto id{item.get_id()};
-				waitingQue_.init_emplace(&thr_.emplace(id,std::move(item)).first->second);
+				waiting_buf_.write(&thr_.emplace(id,std::move(item)).first->second);
 			}
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
@@ -44,15 +45,9 @@ namespace nThread
 		template<class Func,class ... Args>
 		thread_id add(Func &&func,Args &&...args)
 		{
-			auto temp{waitingQue_.wait_and_pop()};
+			auto temp{waiting_buf_.read()};
 			temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
 			return temp->get_id();
-		}
-		//1. return how many threads can be used now
-		//2. reduce 1 after calling add or add_and_detach
-		inline std::size_t available() const noexcept
-		{
-			return waitingQue_.size();
 		}
 		//1. return total threads can be used
 		//2. the count is fixed after constructing

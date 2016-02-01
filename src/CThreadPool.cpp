@@ -4,7 +4,7 @@
 #include<vector>
 #include<unordered_map>
 #include"../../lib/header/thread/CThreadForward_list.hpp"
-#include"../../lib/header/thread/CThreadQueue.hpp"
+#include"../../lib/header/thread/CThreadRingBuf.hpp"
 #include"../header/CThreadPoolCommun.hpp"
 #include"../header/CThreadPoolItem.hpp"
 #include"../header/IThreadPoolItemExecutor.hpp"
@@ -18,7 +18,7 @@ namespace nThread
 		mutex join_all_mut;	//only for join_all
 		CThreadForward_list<CThreadPoolItem*> join_anyList;
 		mutex wait_until_all_available_mut;	//only for wait_until_all_available
-		CThreadQueue<CThreadPoolItem*> waitingQue;
+		CThreadRingBuf<CThreadPoolItem*> waiting_buf;
 		unordered_map<thread::id,CThreadPoolItem> thr;
 		Impl(size_t);
 		CThreadPool::thread_id add(function<void()> &&);
@@ -29,6 +29,7 @@ namespace nThread
 	};
 
 	CThreadPool::Impl::Impl(size_t size)
+		:waiting_buf{size}
 	{
 		while(size--)
 		{
@@ -40,23 +41,23 @@ namespace nThread
 			is_joinable.emplace(id,false);
 			//thr.emplace(item.get_id(),move(item)); is wrong
 			//you cannot guarantee item.get_id() will execute prior to move(item)
-			waitingQue.init_emplace(&thr.emplace(id,move(item)).first->second);
+			waiting_buf.write(&thr.emplace(id,move(item)).first->second);
 		}
 	}
 
 	CThreadPool::thread_id CThreadPool::Impl::add(function<void()> &&func)
 	{
-		auto temp{waitingQue.wait_and_pop()};
+		auto temp{waiting_buf.read()};
 		is_joinable[temp->get_id()]=true;
-		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&join_anyList,&waitingQue},move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&join_anyList,&waiting_buf},move(func)));
 		return temp->get_id();
 	}
 
 	void CThreadPool::Impl::add_and_detach(function<void()> &&func)
 	{
-		auto temp{waitingQue.wait_and_pop()};
+		auto temp{waiting_buf.read()};
 		is_joinable[temp->get_id()]=false;
-		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waitingQue},move(func)));
+		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waiting_buf},move(func)));
 	}
 
 	void CThreadPool::Impl::join_all()
@@ -83,13 +84,13 @@ namespace nThread
 	void CThreadPool::Impl::wait_until_all_available()
 	{
 		//speed up, you can construct a vector in each threads in advance
-		vector<decltype(waitingQue)::value_type> vec;
+		vector<decltype(waiting_buf)::value_type> vec;
 		vec.reserve(thr.size());
 		lock_guard<mutex> lock{wait_until_all_available_mut};
 		while(vec.size()!=vec.capacity())
-			vec.emplace_back(waitingQue.wait_and_pop());
+			vec.emplace_back(waiting_buf.read());
 		for(auto &val:vec)
-			waitingQue.emplace(move(val));
+			waiting_buf.write(move(val));
 	}
 
 	CThreadPool::thread_id CThreadPool::add_(std::function<void()> &&func)
@@ -104,11 +105,6 @@ namespace nThread
 
 	CThreadPool::CThreadPool(const size_t size)
 		:impl_{size}{}
-	
-	size_t CThreadPool::available() const noexcept
-	{
-		return impl_.get().waitingQue.size();
-	}
 
 	size_t CThreadPool::count() const noexcept
 	{

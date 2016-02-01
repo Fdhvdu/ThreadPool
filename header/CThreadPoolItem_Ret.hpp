@@ -4,7 +4,7 @@
 #include<utility>	//forward
 #include"../../lib/header/tool/CScopeGuard.hpp"
 #include"../../lib/header/thread/CTask.hpp"
-#include"../../lib/header/thread/CThreadQueue.hpp"
+#include"../../lib/header/thread/CThreadRingBuf.hpp"
 #include"IThreadPoolItemBase.hpp"
 
 namespace nThread
@@ -13,10 +13,10 @@ namespace nThread
 	class CThreadPoolItem_Ret:public IThreadPoolItemBase
 	{
 		CTask<Ret> exec_;
-		CThreadQueue<CThreadPoolItem_Ret<Ret>*> *waitingQue_;
+		CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> *waiting_buf_;
 	public:
-		CThreadPoolItem_Ret(CThreadQueue<CThreadPoolItem_Ret<Ret>*> *waitingQue)
-			:waitingQue_{waitingQue}{}
+		CThreadPoolItem_Ret(CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> *waitingQue)
+			:waiting_buf_{waitingQue}{}
 		CThreadPoolItem_Ret(const CThreadPoolItem_Ret &)=delete;
 		CThreadPoolItem_Ret(CThreadPoolItem_Ret &&) noexcept=default;
 		template<class Func,class ... Args>
@@ -27,7 +27,7 @@ namespace nThread
 		}
 		inline Ret get()
 		{
-			const nTool::CScopeGuard<void()> sg{[=]{waitingQue_->emplace(this);}};
+			const nTool::CScopeGuard<void()> sg{[this]{waiting_buf_->write(this);}};
 			return exec_.get();
 		}
 		bool is_running() const noexcept override
