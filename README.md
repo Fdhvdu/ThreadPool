@@ -44,7 +44,7 @@ g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CSemaphore.cpp ../lib/src/C
 To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
 g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
 # About compilation errors
-Does your compiler support C++14?<br>
+Does your compiler support C++14? If not, why don't you use Visual Studio Community 2015 or GCC 5.2.0?<br>
 Or, maybe you lost my lib files, [here is link](https://github.com/Fdhvdu/lib)<br>
 The directory should be look like
 
@@ -61,6 +61,6 @@ The directory should be look like
 	             -LICENSE
 	             -README.md
 Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp<br>
-The compiler I use is VC++ 2015 and gcc 5.2.0.
+The compiler I use is VC++ 2015 and GCC 5.2.0.
 # Future work
 [Compare to henkel/threadpool](https://github.com/henkel/threadpool)
