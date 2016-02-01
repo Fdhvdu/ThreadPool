@@ -48,6 +48,9 @@ namespace nThread
 		{
 			add_and_detach_(std::bind(std::forward<Func>(func),std::forward<Args>(args)...));
 		}
+		//1. return how many threads can be used now
+		//2. reduce 1 after calling add or add_and_detach
+		std::size_t available() const noexcept;
 		//1. return total threads can be used
 		//2. the count is fixed after constructing
 		std::size_t count() const noexcept;

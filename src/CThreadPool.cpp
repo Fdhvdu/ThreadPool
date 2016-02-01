@@ -106,6 +106,11 @@ namespace nThread
 	CThreadPool::CThreadPool(const size_t size)
 		:impl_{size}{}
 
+	size_t CThreadPool::available() const noexcept
+	{
+		return impl_.get().waiting_buf.available();
+	}
+
 	size_t CThreadPool::count() const noexcept
 	{
 		return impl_.get().thr.size();
