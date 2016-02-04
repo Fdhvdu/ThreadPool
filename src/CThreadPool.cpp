@@ -29,7 +29,7 @@ namespace nThread
 	};
 
 	CThreadPool::Impl::Impl(size_t size)
-		:waiting_buf{size}
+		:is_joinable{size},waiting_buf{size},thr{size}
 	{
 		while(size--)
 		{

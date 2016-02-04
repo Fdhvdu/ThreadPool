@@ -23,7 +23,7 @@ namespace nThread
 		//1. determine how many threads you want to use
 		//2. the value you pass will always equal to count
 		explicit CThreadPool_Ret(std::size_t count)
-			:waiting_buf_{count}
+			:waiting_buf_{count},thr_{size}
 		{
 			while(count--)
 			{
