@@ -2,7 +2,7 @@
 CPU: intel i7 4930k<br>
 OS: windows 7 enterprise sp1, 64 bit<br>
 Compiler: visual c++ 2015<br>
-Compiler Option: full optimization<br>
+Compiler Option: release, x64, full optimization<br>
 Iteration: 10000000<br>
 Thread Count: 12
 # Result
