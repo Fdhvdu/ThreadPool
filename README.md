@@ -1,6 +1,7 @@
 # Contents
 [Introduction](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#introduction)<br>
 [Performance comparison](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#performance-comparison)<br>
+[Compiler](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#compiler)<br>
 [Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
 [About compilation errors](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#about-compilation-errors)<br>
 [Future work](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#future-work)
@@ -37,6 +38,8 @@ P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX suppo
 P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe (as far as 24 commits).<br>
 P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 11 releases).<br>
 See the [directory](performance comparison/) for more details.
+# Compiler
+VC++ 2015 and GCC 5.2.0.
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
@@ -60,7 +63,6 @@ The directory should be look like
 	             -tutorial
 	             -LICENSE
 	             -README.md
-Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp<br>
-The compiler I use is VC++ 2015 and GCC 5.2.0.
+Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp
 # Future work
 [Compare to henkel/threadpool](https://github.com/henkel/threadpool)
