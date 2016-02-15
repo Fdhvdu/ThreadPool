@@ -27,7 +27,7 @@ namespace nThread
 		}
 		inline Ret get()
 		{
-			const nTool::CScopeGuard<void()> sg{[this]{waiting_buf_->write(this);}};
+			const nTool::CScopeGuard sg{[this]{waiting_buf_->write(this);}};
 			return exec_.get();
 		}
 		bool is_running() const noexcept override
