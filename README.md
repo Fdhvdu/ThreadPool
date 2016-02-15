@@ -29,9 +29,9 @@ Two classes
 		void 		wait_all() const
 Use CThreadPool_Ret when you want to get the return value of function.<br>
 Use CThreadPool when you don't care the return value of function.<br>
-The performance of CThreadPool and CThreadPool_Ret is almost same.<br>
-But the CThreadPool::add_and_detach is faster (very) than the CThreadPool::add.<br>
-So, use the CThreadPool::add_and_detach when you can, and the CThreadPool::add when you have to.
+The CThreadPool::add_and_detach is faster (very) than the CThreadPool_Ret::add.<br>
+But the CThreadPool_Ret::add is faster than the CThreadPool::add.<br>
+So, use the CThreadPool::add_and_detach when you can, and the CThreadPool_Ret::add or the CThreadPool::add when you have to.
 # Performance comparison
 About [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Compare To Fdhvdu](performance comparison/progschj/README.md#compare-to-fdhvdu).<br><br>
 P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.<br>
