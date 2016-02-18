@@ -32,7 +32,8 @@ Use the CThreadPool when you don't care the return value of function.<br>
 The CThreadPool::add_and_detach is faster (very) than the CThreadPool_Ret::add.<br>
 But the CThreadPool_Ret::add is faster than the CThreadPool::add.
 # Performance comparison
-About [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Compare To Fdhvdu](performance comparison/progschj/README.md#compare-to-fdhvdu).<br><br>
+About [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Compare To Fdhvdu](performance comparison/progschj/README.md#compare-to-fdhvdu).<br>
+About [henkel/threadpool](https://github.com/henkel/threadpool), somehow, it has memory leak, see [README](performance comparison/henkel/README.md).<br><br>
 P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.<br>
 P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe (as far as 24 commits).<br>
 P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 11 releases).<br>
@@ -64,4 +65,4 @@ The directory should be look like
 	             -README.md
 Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp
 # Future work
-[Compare to henkel/threadpool](https://github.com/henkel/threadpool)
+Nothing.
