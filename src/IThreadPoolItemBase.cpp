@@ -8,9 +8,9 @@ namespace nThread
 {
 	struct IThreadPoolItemBase::Impl
 	{
-		bool destructor;
+		bool alive;
 		CSemaphore wait;	//to wake up thr
-		CSmartThread thr;	//must destroying before destructor and wait
+		CSmartThread thr;	//must destroying before alive and wait
 		function<void()> func;
 		Impl();
 		template<class FuncFwdRef>
@@ -27,14 +27,14 @@ namespace nThread
 	};
 
 	IThreadPoolItemBase::Impl::Impl()
-		:destructor{false},wait{0},thr{[this]{
-			while(wait.wait(),!destructor)
+		:alive{true},wait{0},thr{[this]{
+			while(wait.wait(),alive)
 				func();
 		}}{}
 
 	IThreadPoolItemBase::Impl::~Impl()
 	{
-		destructor=true;
+		alive=false;
 		wake();
 	}
 
