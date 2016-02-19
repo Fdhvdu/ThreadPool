@@ -103,6 +103,9 @@ namespace nThread
 		impl_.get().add_and_detach(move(func));
 	}
 
+	CThreadPool::CThreadPool()
+		:CThreadPool(thread::hardware_concurrency()){}
+
 	CThreadPool::CThreadPool(const CThreadPool::size_type size)
 		:impl_{size}{}
 

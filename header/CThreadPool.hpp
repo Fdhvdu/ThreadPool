@@ -21,6 +21,8 @@ namespace nThread
 		thread_id add_(std::function<void()> &&);
 		void add_and_detach_(std::function<void()> &&);
 	public:
+		//call CThreadPool(std::thread::hardware_concurrency())
+		CThreadPool();
 		//determine how many threads you want to use
 		explicit CThreadPool(size_type);
 		//of course, why do you need to copy or move CThreadPool?
