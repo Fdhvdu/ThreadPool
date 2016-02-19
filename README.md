@@ -11,19 +11,19 @@ Two classes
 	CThreadPool, including the member function
 		thread_id	add(Func &&,Args &&...)
 		void		add_and_detach(Func &&,Args &&...)
-		std::size_t	available() const noexcept
-		std::size_t	count() const noexcept
+		size_type	available() const noexcept
 		void		join(thread_id)
 		void		join_all()
 		thread_id	join_any()
 		bool		joinable(thread_id) const noexcept
+		size_type	size() const noexcept
 		void 		wait_until_all_available() const
 		
 	CThreadPool_Ret, including the member function
 		thread_id	add(Func &&,Args &&...)
-		std::size_t	available() const noexcept
-		std::size_t	count() const noexcept
+		size_type	available() const noexcept
 		Ret			get(thread_id)
+		size_type	size() const noexcept
 		bool		valid(thread_id) const noexcept
 		void		wait(thread_id) const
 		void 		wait_all() const
