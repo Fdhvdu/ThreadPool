@@ -20,7 +20,7 @@ namespace nThread
 		mutex wait_until_all_available_mut;	//only for wait_until_all_available
 		CThreadRingBuf<CThreadPoolItem*> waiting_buf;
 		unordered_map<thread::id,CThreadPoolItem> thr;
-		Impl(size_t);
+		Impl(CThreadPool::size_type);
 		CThreadPool::thread_id add(function<void()> &&);
 		void add_and_detach(function<void()> &&);
 		void join_all();
@@ -28,7 +28,7 @@ namespace nThread
 		void wait_until_all_available();
 	};
 
-	CThreadPool::Impl::Impl(size_t size)
+	CThreadPool::Impl::Impl(CThreadPool::size_type size)
 		:is_joinable{size},waiting_buf{size},thr{size}
 	{
 		while(size--)
@@ -103,17 +103,12 @@ namespace nThread
 		impl_.get().add_and_detach(move(func));
 	}
 
-	CThreadPool::CThreadPool(const size_t size)
+	CThreadPool::CThreadPool(const CThreadPool::size_type size)
 		:impl_{size}{}
 
-	size_t CThreadPool::available() const noexcept
+	CThreadPool::size_type CThreadPool::available() const noexcept
 	{
-		return impl_.get().waiting_buf.available();
-	}
-
-	size_t CThreadPool::count() const noexcept
-	{
-		return impl_.get().thr.size();
+		return static_cast<CThreadPool::size_type>(impl_.get().waiting_buf.available());
 	}
 
 	void CThreadPool::join(const thread_id id)
@@ -136,6 +131,11 @@ namespace nThread
 	bool CThreadPool::joinable(const thread_id id) const noexcept
 	{
 		return impl_.get().joinable(id);
+	}
+
+	CThreadPool::size_type CThreadPool::size() const noexcept
+	{
+		return static_cast<CThreadPool::size_type>(impl_.get().thr.size());
 	}
 
 	void CThreadPool::wait_until_all_available() const

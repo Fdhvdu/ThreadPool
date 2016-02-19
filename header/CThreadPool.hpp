@@ -1,8 +1,7 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
-#include<cstddef>	//size_t
 #include<functional>	//bind, function
-#include<thread>	//thread::id
+#include<thread>	//thread::hardware_concurrency, thread::id
 #include<type_traits>	//result_of
 #include<utility>	//forward
 #include"../../lib/header/tool/CPimpl.hpp"
@@ -23,7 +22,7 @@ namespace nThread
 		void add_and_detach_(std::function<void()> &&);
 	public:
 		//determine how many threads you want to use
-		explicit CThreadPool(std::size_t);
+		explicit CThreadPool(size_type);
 		//of course, why do you need to copy or move CThreadPool?
 		CThreadPool(const CThreadPool &)=delete;
 		//1.
@@ -52,10 +51,7 @@ namespace nThread
 		}
 		//1. return how many threads can be used now
 		//2. reduce 1 after calling add or add_and_detach
-		std::size_t available() const noexcept;
-		//1. return total threads can be used
-		//2. the count is fixed after constructing
-		std::size_t count() const noexcept;
+		size_type available() const noexcept;
 		//do not combine join and join_any together in your code
 		//it will make some join_any cannot get notification
 		//for more details, see example.cpp
@@ -76,11 +72,14 @@ namespace nThread
 		//2. after calling add, the id return by add, will make the thread_id of thread joinable
 		//3. only when you call join, join_all or join_any (or destructor) will make the thread_id of thread not joinable
 		bool joinable(thread_id) const noexcept;
-		//1. wait until available equal to count
+		//1. return total threads can be used
+		//2. the size is fixed after constructing
+		size_type size() const noexcept;
+		//1. wait until available equal to size
 		//2.
 		//wait_until_all_available and join_all are different
 		//join_all will not wait any threads which are belong to detach
-		//wait_until_all_available means "wait until available equal to count"
+		//wait_until_all_available means "wait until available equal to size"
 		//3. wait_until_all_available will block wait_until_all_available
 		void wait_until_all_available() const;
 		//of course, why do you need to copy or move CThreadPool?
