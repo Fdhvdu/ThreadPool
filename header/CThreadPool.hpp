@@ -23,7 +23,8 @@ namespace nThread
 	public:
 		//call CThreadPool(std::thread::hardware_concurrency())
 		CThreadPool();
-		//determine how many threads you want to use
+		//1. determine how many threads you want to use
+		//2. the value you pass will always equal to size
 		explicit CThreadPool(size_type);
 		//of course, why do you need to copy or move CThreadPool?
 		CThreadPool(const CThreadPool &)=delete;
