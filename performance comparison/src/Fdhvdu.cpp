@@ -27,7 +27,7 @@ duration test_Fdhvdu_CThreadPool_join_specific_N()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 		{
-			for(auto j{thread_count+1};--j;)
+			for(auto j{thread_count};j--;)
 				que.emplace(tp.add(empty));
 			while(que.size())
 			{
@@ -44,7 +44,7 @@ duration test_Fdhvdu_CThreadPool_join_all_N()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 		{
-			for(auto j{thread_count+1};--j;)
+			for(auto j{thread_count};j--;)
 				tp.add(empty);
 			tp.join_all();
 		}
@@ -57,7 +57,7 @@ duration test_Fdhvdu_CThreadPool_detach_all_N()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 		{
-			for(auto j{thread_count+1};--j;)
+			for(auto j{thread_count};j--;)
 				tp.add_and_detach(empty);
 			tp.wait_until_all_available();
 		}
@@ -71,7 +71,7 @@ duration test_Fdhvdu_CThreadPool_Ret_specific_N()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 		{
-			for(auto j{thread_count+1};--j;)
+			for(auto j{thread_count};j--;)
 				que.emplace(tp.add(empty));
 			while(que.size())
 			{

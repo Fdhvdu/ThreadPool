@@ -19,7 +19,7 @@ duration test_progschj_specific_N()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 		{
-			for(auto j{thread_count+1};--j;)
+			for(auto j{thread_count};j--;)
 				que.emplace(tp.enqueue(empty));
 			while(que.size())
 			{

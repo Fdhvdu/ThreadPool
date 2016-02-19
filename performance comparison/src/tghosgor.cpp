@@ -20,7 +20,7 @@ duration test_tghosgor_specific_N()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 		{
-			for(auto j{thread_count+1};--j;)
+			for(auto j{thread_count};j--;)
 				que.emplace(tp.postWork(function<void()>(empty)));
 			while(que.size())
 			{
@@ -37,7 +37,7 @@ duration test_tghosgor_all_N()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 		{
-			for(auto j{thread_count+1};--j;)
+			for(auto j{thread_count};j--;)
 				tp.postWork(function<void()>(empty));
 			tp.waitAll();
 		}

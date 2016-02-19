@@ -23,7 +23,7 @@ duration test_henkel_all_N()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 		{
-			for(auto j{thread_count+1};--j;)
+			for(auto j{thread_count};j--;)
 				tp.schedule(empty);
 			tp.wait();
 		}
