@@ -1,7 +1,7 @@
 #ifndef CTHREADPOOL_RET
 #define CTHREADPOOL_RET
-#include<cstddef>	//size_t
-#include<thread>	//thread::id
+#include<thread>	//thread::hardware_concurrency, thread::id
+#include<type_traits>	//result_of
 #include<unordered_map>
 #include<utility>	//forward, move
 #include"../../lib/header/thread/CThreadRingBuf.hpp"
@@ -15,17 +15,21 @@ namespace nThread
 	class CThreadPool_Ret
 	{
 	public:
+		typedef typename std::result_of<decltype(std::thread::hardware_concurrency)&()>::type size_type;
 		typedef std::thread::id thread_id;
 	private:
 		CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> waiting_buf_;
 		std::unordered_map<thread_id,CThreadPoolItem_Ret<Ret>> thr_;
 	public:
+		//call CThreadPool_Ret(std::thread::hardware_concurrency())
+		CThreadPool_Ret()
+			:CThreadPool_Ret{std::thread::hardware_concurrency()}{}
 		//1. determine how many threads you want to use
-		//2. the value you pass will always equal to count
-		explicit CThreadPool_Ret(std::size_t count)
-			:waiting_buf_{count},thr_{count}
+		//2. the value you pass will always equal to size
+		explicit CThreadPool_Ret(size_type size)
+			:waiting_buf_{size},thr_{size}
 		{
-			while(count--)
+			while(size--)
 			{
 				CThreadPoolItem_Ret<Ret> item{&waiting_buf_};
 				const auto id{item.get_id()};
@@ -49,17 +53,23 @@ namespace nThread
 			temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
 			return temp->get_id();
 		}
-		//1. return total threads can be used
-		//2. the count is fixed after constructing
-		inline std::size_t count() const noexcept
+		//1. return how many threads can be used now
+		//2. reduce 1 after calling add
+		inline size_type available() const noexcept
 		{
-			return thr_.size();
+			return static_cast<size_type>(waiting_buf_.size());
 		}
 		//1. get thr_[id] return value
 		//2. after calling this, thr_[id] is not ready
 		inline Ret get(const thread_id id)
 		{
 			return thr_.at(id).get();
+		}
+		//1. return total threads can be used
+		//2. the size is fixed after constructing
+		inline size_type size() const noexcept
+		{
+			return static_cast<size_type>(thr_.size());
 		}
 		//1. check whether thr_[id] is ready
 		//2. after calling add, the id return by add, will make thr_[id] ready
@@ -81,7 +91,6 @@ namespace nThread
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
 		CThreadPool_Ret& operator=(const CThreadPool_Ret &)=delete;
-		
 		//don't worry, the desturctor will wait all threads completing the job
 	};
 }

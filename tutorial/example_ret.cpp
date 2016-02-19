@@ -23,7 +23,7 @@ int main()
 	using namespace std;
 	nThread::CThreadPool_Ret<size_t> tp{4};	//merely size_t, not size_t()
 	queue<nThread::CThreadPool_Ret<size_t>::thread_id> que;
-	for(size_t i{0};i!=tp.count();++i)
+	for(size_t i{0};i!=tp.size();++i)
 		que.emplace(tp.add([&,i]{
 			using namespace std;
 			const auto sec{get()};
