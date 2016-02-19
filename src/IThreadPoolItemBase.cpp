@@ -44,7 +44,7 @@ namespace nThread
 	IThreadPoolItemBase::IThreadPoolItemBase(IThreadPoolItemBase &&xval) noexcept
 		:impl_{move(xval.impl_)}{}
 
-	CSmartThread::id IThreadPoolItemBase::get_id() const noexcept
+	IThreadPoolItemBase::id IThreadPoolItemBase::get_id() const noexcept
 	{
 		return impl_.get().thr.get_id();
 	}

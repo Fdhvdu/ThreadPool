@@ -8,10 +8,11 @@ namespace nThread
 {
 	struct IThreadPoolItemBase
 	{
+		typedef CSmartThread::id id;
 		IThreadPoolItemBase();
 		IThreadPoolItemBase(const IThreadPoolItemBase &)=delete;
 		IThreadPoolItemBase(IThreadPoolItemBase &&) noexcept;
-		CSmartThread::id get_id() const noexcept;
+		id get_id() const noexcept;
 		virtual bool is_running() const noexcept=0;
 		virtual void wait() const=0;
 		IThreadPoolItemBase& operator=(const IThreadPoolItemBase &)=delete;
