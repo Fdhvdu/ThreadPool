@@ -1,7 +1,7 @@
 #ifndef ITHREADPOOLITEMBASE
 #define ITHREADPOOLITEMBASE
 #include<functional>	//function
-#include<thread>	//thread::id
+#include"../../lib/header/thread/CSmartThread.hpp"	//CSmartThread::id
 #include"../../lib/header/tool/CPimpl.hpp"
 
 namespace nThread
@@ -11,7 +11,7 @@ namespace nThread
 		IThreadPoolItemBase();
 		IThreadPoolItemBase(const IThreadPoolItemBase &)=delete;
 		IThreadPoolItemBase(IThreadPoolItemBase &&) noexcept;
-		std::thread::id get_id() const noexcept;
+		CSmartThread::id get_id() const noexcept;
 		virtual bool is_running() const noexcept=0;
 		virtual void wait() const=0;
 		IThreadPoolItemBase& operator=(const IThreadPoolItemBase &)=delete;
