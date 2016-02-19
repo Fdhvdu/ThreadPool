@@ -21,11 +21,12 @@ namespace nThread
 		CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> waiting_buf_;
 		std::unordered_map<thread_id,CThreadPoolItem_Ret<Ret>> thr_;
 	public:
-		//call CThreadPool_Ret(std::thread::hardware_concurrency())
+		//CThreadPool_Ret::CThreadPool_Ret()
+		//	:CThreadPool_Ret(std::thread::hardware_concurrency()){}
 		CThreadPool_Ret()
 			:CThreadPool_Ret{std::thread::hardware_concurrency()}{}
-		//1. determine how many threads you want to use
-		//2. the value you pass will always equal to size
+		//1. determine the total of usable threads
+		//2. the value you pass will always equal to CThreadPool_Ret::size
 		explicit CThreadPool_Ret(size_type size)
 			:waiting_buf_{size},thr_{size}
 		{
@@ -38,14 +39,12 @@ namespace nThread
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
-		//1.
-		//execute func if available!=0
-		//otherwise, waiting until 0<available and execute
-		//2.
-		//after calling add, available reduce 1
-		//3.
-		//you have to call get after calling add
-		//otherwise, there is no available threads even after threads complete the job
+		//1. block until CThreadPool_Ret::available is not zero and execute the func
+		//2. after returning from add, CThreadPool_Ret::available will reduce 1
+		//3. after returning from add, CThreadPool_Ret::valid(thread_id) will return true
+		//4.
+		//you must call CThreadPool_Ret::get after returning from add at some moment
+		//otherwise, CThreadPool_Ret::available cannot increase 1
 		template<class Func,class ... Args>
 		thread_id add(Func &&func,Args &&...args)
 		{
@@ -53,32 +52,37 @@ namespace nThread
 			temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
 			return temp->get_id();
 		}
-		//1. return how many threads can be used now
-		//2. reduce 1 after calling add
+		//1. return the total of usable threads at that moment
+		//2. reduce 1 after returning from CThreadPool_Ret::add
+		//3. increase 1 after returning from CThreadPool_Ret::get
+		//4. non-block
 		inline size_type available() const noexcept
 		{
 			return static_cast<size_type>(waiting_buf_.size());
 		}
-		//1. get thr_[id] return value
-		//2. after calling this, thr_[id] is not ready
+		//1. block until the thread_id completes the func
+		//2. after returning from get, CThreadPool_Ret::valid(thread_id) will return false
+		//3. if the thread_id is not valid, do not get the thread_id
 		inline Ret get(const thread_id id)
 		{
 			return thr_.at(id).get();
 		}
-		//1. return total threads can be used
-		//2. the size is fixed after constructing
+		//1. return the total of usable threads
+		//2. is fixed after constructing
+		//3. non-block
 		inline size_type size() const noexcept
 		{
 			return static_cast<size_type>(thr_.size());
 		}
-		//1. check whether thr_[id] is ready
-		//2. after calling add, the id return by add, will make thr_[id] ready
+		//1. return whether the thread_id has been get yet
+		//2. return true for the thread_id which was returned by CThreadPool_Ret::add
+		//3. return false for the thread_id which was used by CThreadPool_Ret::get
+		//4. non-block
 		inline bool valid(const thread_id id) const noexcept
 		{
 			return thr_.at(id).is_running();
 		}
-		//1. block until thr_[id] ready
-		//2. before calling this, thr_[id] should be already ready
+		//block until the thread_id completes the func
 		inline void wait(const thread_id id) const
 		{
 			thr_.at(id).wait();
@@ -91,7 +95,7 @@ namespace nThread
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
 		CThreadPool_Ret& operator=(const CThreadPool_Ret &)=delete;
-		//don't worry, the desturctor will wait all threads completing the job
+		//automatically get all the threads in destructor
 	};
 }
 
