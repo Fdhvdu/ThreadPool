@@ -1,10 +1,11 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
 #include<functional>	//bind, function
-#include<thread>	//thread::hardware_concurrency, thread::id
+#include<thread>	//thread::hardware_concurrency
 #include<type_traits>	//result_of
 #include<utility>	//forward
 #include"../../lib/header/tool/CPimpl.hpp"
+#include"IThreadPoolItemBase.hpp"
 
 namespace nThread
 {
@@ -14,7 +15,7 @@ namespace nThread
 	{
 	public:
 		typedef std::result_of<decltype(std::thread::hardware_concurrency)&()>::type size_type;
-		typedef std::thread::id thread_id;
+		typedef IThreadPoolItemBase::id thread_id;
 	private:
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
