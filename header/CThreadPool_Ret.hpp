@@ -1,6 +1,6 @@
 #ifndef CTHREADPOOL_RET
 #define CTHREADPOOL_RET
-#include<thread>	//thread::hardware_concurrency, thread::id
+#include<thread>	//thread::hardware_concurrency
 #include<type_traits>	//result_of
 #include<unordered_map>
 #include<utility>	//forward, move
@@ -16,7 +16,7 @@ namespace nThread
 	{
 	public:
 		typedef typename std::result_of<decltype(std::thread::hardware_concurrency)&()>::type size_type;
-		typedef std::thread::id thread_id;
+		typedef IThreadPoolItemBase::id thread_id;
 	private:
 		CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> waiting_buf_;
 		std::unordered_map<thread_id,CThreadPoolItem_Ret<Ret>> thr_;
