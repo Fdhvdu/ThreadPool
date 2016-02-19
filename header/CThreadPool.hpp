@@ -3,6 +3,7 @@
 #include<cstddef>	//size_t
 #include<functional>	//bind, function
 #include<thread>	//thread::id
+#include<type_traits>	//result_of
 #include<utility>	//forward
 #include"../../lib/header/tool/CPimpl.hpp"
 
@@ -13,6 +14,7 @@ namespace nThread
 	class CThreadPool
 	{
 	public:
+		typedef std::result_of<decltype(std::thread::hardware_concurrency)&()>::type size_type;
 		typedef std::thread::id thread_id;
 	private:
 		struct Impl;
