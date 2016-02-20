@@ -95,7 +95,7 @@ namespace nThread
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
 		CThreadPool_Ret& operator=(const CThreadPool_Ret &)=delete;
-		//automatically get all the threads in destructor
+		//get all the threads in destructor
 	};
 }
 
