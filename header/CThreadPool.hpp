@@ -34,7 +34,7 @@ namespace nThread
 		//2. after returning from add, CThreadPool::available will reduce 1
 		//3. after returning from add, CThreadPool::joinable(thread_id) will return true
 		//4.
-		//you must call CThreadPool::join, CThreadPool::join_any or CThreadPool::join_all after returning from add at some moment
+		//you must call CThreadPool::join, CThreadPool::join_any or CThreadPool::join_all after returning from add
 		//otherwise, CThreadPool::available cannot increase 1
 		template<class Func,class ... Args>
 		inline thread_id add(Func &&func,Args &&...args)
@@ -53,7 +53,7 @@ namespace nThread
 		//2. reduce 1 after returning from CThreadPool::add or CThreadPool::add_and_detach
 		//3. increase 1 automatically after the func of CThreadPool::add_and_detach is completed
 		//4. increase 1 after returning from CThreadPool::join or CThreadPool::join_any
-		//5. equal to CThreadPool::size after returning from CThreadPool::wait_until_all_available at that moment
+		//5. equal to CThreadPool::size after returning from CThreadPool::wait_until_all_available (if no any threads block inside CThreadPool::add and CThreadPool::add_and_detach during the execution of CThreadPool::wait_until_all_available) at that moment
 		//6. non-block
 		size_type available() const noexcept;
 		//1. block until the thread_id completes the func
@@ -82,7 +82,8 @@ namespace nThread
 		//3. non-block
 		size_type size() const noexcept;
 		//1. block until CThreadPool::available equal to CThreadPool::size
-		//2. will block wait_until_all_available
+		//2. if no any threads block inside CThreadPool::add and CThreadPool::add_and_detach during the execution of wait_until_all_available, it guarantees CThreadPool::available equals to CThreadPool::size at that moment
+		//3. will block wait_until_all_available
 		void wait_until_all_available() const;
 		//of course, why do you need to copy or move CThreadPool?
 		CThreadPool& operator=(const CThreadPool &)=delete;
