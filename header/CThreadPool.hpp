@@ -53,7 +53,7 @@ namespace nThread
 		//2. reduce 1 after returning from CThreadPool::add or CThreadPool::add_and_detach
 		//3. increase 1 automatically after the func of CThreadPool::add_and_detach is completed
 		//4. increase 1 after returning from CThreadPool::join or CThreadPool::join_any
-		//5. equal to CThreadPool::size after returning from CThreadPool::wait_until_all_available (if no any threads block inside CThreadPool::add and CThreadPool::add_and_detach during the execution of CThreadPool::wait_until_all_available) at that moment
+		//5. equal to CThreadPool::size at the moment of returning from CThreadPool::wait_until_all_available (if no any threads block inside CThreadPool::add and CThreadPool::add_and_detach during the execution of CThreadPool::wait_until_all_available)
 		//6. non-block
 		size_type available() const noexcept;
 		//1. block until the thread_id completes the func
@@ -82,7 +82,7 @@ namespace nThread
 		//3. non-block
 		size_type size() const noexcept;
 		//1. block until CThreadPool::available equal to CThreadPool::size
-		//2. if no any threads block inside CThreadPool::add and CThreadPool::add_and_detach during the execution of wait_until_all_available, it guarantees CThreadPool::available equals to CThreadPool::size at that moment
+		//2. if no any threads block inside CThreadPool::add and CThreadPool::add_and_detach during the execution of wait_until_all_available, it guarantees CThreadPool::available equals to CThreadPool::size at the moment of returning from wait_until_all_available
 		//3. will block wait_until_all_available
 		void wait_until_all_available() const;
 		//of course, why do you need to copy or move CThreadPool?
