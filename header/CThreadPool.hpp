@@ -86,7 +86,8 @@ namespace nThread
 		void wait_until_all_available() const;
 		//of course, why do you need to copy or move CThreadPool?
 		CThreadPool& operator=(const CThreadPool &)=delete;
-		//automatically join all the threads in destructor
+		//1. join all the threads which were used by CThreadPool::add in destructor
+		//2. block until all the threads which were used by CThreadPool::add_and_detach is completed in destructor
 		~CThreadPool();
 	};
 }
