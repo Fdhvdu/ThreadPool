@@ -53,7 +53,7 @@ namespace nThread
 		//2. reduce 1 after returning from CThreadPool::add or CThreadPool::add_and_detach
 		//3. increase 1 automatically after the func of CThreadPool::add_and_detach is completed
 		//4. increase 1 after returning from CThreadPool::join or CThreadPool::join_any
-		//5. equal to CThreadPool::size after returning from CThreadPool::join_all or CThreadPool::wait_until_all_available at that moment
+		//5. equal to CThreadPool::size after returning from CThreadPool::wait_until_all_available at that moment
 		//6. non-block
 		size_type available() const noexcept;
 		//1. block until the thread_id completes the func
