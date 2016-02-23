@@ -28,7 +28,7 @@ namespace nThread
 	};
 
 	CThreadPoolItemExecutorDetach::Impl::Impl(CThreadPoolCommunDetach &&commun_,function<void()> &&func_)
-		:commun{move(commun_)},complete{0},func{move(func_)}{}
+		:commun{move(commun_)},func{move(func_)}{}
 
 	void CThreadPoolItemExecutorDetach::Impl::exec()
 	{
@@ -38,7 +38,7 @@ namespace nThread
 	}
 
 	CThreadPoolItemExecutorJoin::Impl::Impl(CThreadPoolCommunJoin &&commun_,function<void()> &&func_)
-		:commun{move(commun_)},complete{0},func{move(func_)},running{true}{}
+		:commun{move(commun_)},func{move(func_)},running{true}{}
 
 	void CThreadPoolItemExecutorJoin::Impl::exec()
 	{

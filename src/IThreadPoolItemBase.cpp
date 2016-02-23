@@ -27,7 +27,7 @@ namespace nThread
 	};
 
 	IThreadPoolItemBase::Impl::Impl()
-		:alive{true},wait{0},thr{[this]{
+		:alive{true},thr{[this]{
 			while(wait.wait(),alive)
 				func();
 		}}{}
