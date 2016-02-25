@@ -1,7 +1,7 @@
 #ifndef CTHREADPOOL_RET
 #define CTHREADPOOL_RET
 #include<thread>	//thread::hardware_concurrency
-#include<type_traits>	//result_of
+#include<type_traits>	//result_of_t
 #include<unordered_map>
 #include<utility>	//forward, move
 #include"../../lib/header/thread/CThreadRingBuf.hpp"

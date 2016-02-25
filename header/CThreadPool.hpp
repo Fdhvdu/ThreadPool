@@ -2,7 +2,7 @@
 #define CTHREADPOOL
 #include<functional>	//bind, function
 #include<thread>	//thread::hardware_concurrency
-#include<type_traits>	//result_of
+#include<type_traits>	//result_of_t
 #include<utility>	//forward
 #include"../../lib/header/tool/CPimpl.hpp"
 #include"IThreadPoolItemBase.hpp"
