@@ -111,7 +111,7 @@ namespace nThread
 
 	CThreadPool::size_type CThreadPool::available() const noexcept
 	{
-		return static_cast<CThreadPool::size_type>(impl_.get().waiting_buf.available());
+		return static_cast<size_type>(impl_.get().waiting_buf.available());
 	}
 
 	void CThreadPool::join(const thread_id id)
@@ -138,7 +138,7 @@ namespace nThread
 
 	CThreadPool::size_type CThreadPool::size() const noexcept
 	{
-		return static_cast<CThreadPool::size_type>(impl_.get().thr.size());
+		return static_cast<size_type>(impl_.get().thr.size());
 	}
 
 	void CThreadPool::wait_until_all_available() const

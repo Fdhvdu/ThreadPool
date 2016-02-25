@@ -15,8 +15,8 @@ namespace nThread
 	class CThreadPool_Ret
 	{
 	public:
-		typedef typename std::result_of<decltype(std::thread::hardware_concurrency)&()>::type size_type;
-		typedef IThreadPoolItemBase::id thread_id;
+		using size_type=std::result_of_t<decltype(std::thread::hardware_concurrency)&()>;
+		using thread_id=IThreadPoolItemBase::id;
 	private:
 		CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> waiting_buf_;
 		std::unordered_map<thread_id,CThreadPoolItem_Ret<Ret>> thr_;

@@ -8,7 +8,7 @@ namespace nThread
 {
 	struct IThreadPoolItemBase
 	{
-		typedef CSmartThread::id id;
+		using id=CSmartThread::id;
 		IThreadPoolItemBase();
 		IThreadPoolItemBase(const IThreadPoolItemBase &)=delete;
 		IThreadPoolItemBase(IThreadPoolItemBase &&) noexcept;
