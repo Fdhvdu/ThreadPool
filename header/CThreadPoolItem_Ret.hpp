@@ -18,7 +18,7 @@ namespace nThread
 		CThreadPoolItem_Ret(CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> *waitingQue)
 			:waiting_buf_{waitingQue}{}
 		CThreadPoolItem_Ret(const CThreadPoolItem_Ret &)=delete;
-		CThreadPoolItem_Ret(CThreadPoolItem_Ret &&) noexcept=default;
+		CThreadPoolItem_Ret(CThreadPoolItem_Ret &&)=default;
 		template<class Func,class ... Args>
 		void assign(Func &&func,Args &&...args)
 		{
@@ -39,7 +39,7 @@ namespace nThread
 			exec_.wait();
 		}
 		CThreadPoolItem_Ret& operator=(const CThreadPoolItem_Ret &)=delete;
-		CThreadPoolItem_Ret& operator=(CThreadPoolItem_Ret &&) noexcept=default;
+		CThreadPoolItem_Ret& operator=(CThreadPoolItem_Ret &&)=default;
 		~CThreadPoolItem_Ret()
 		{
 			if(is_running())
