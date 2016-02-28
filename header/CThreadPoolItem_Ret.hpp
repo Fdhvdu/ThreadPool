@@ -1,6 +1,6 @@
 #ifndef CTHREADPOOLITEM_RET
 #define CTHREADPOOLITEM_RET
-#include<functional>	//bind
+#include<functional>	//bind, ref
 #include<utility>	//forward
 #include"../../lib/header/tool/CScopeGuard.hpp"
 #include"../../lib/header/thread/CTask.hpp"
@@ -23,7 +23,7 @@ namespace nThread
 		void assign(Func &&func,Args &&...args)
 		{
 			exec_=CTask<Ret>{std::forward<Func>(func),std::forward<Args>(args)...};
-			IThreadPoolItemBase::exec_(std::bind(&CTask<Ret>::operator(),&exec_));
+			IThreadPoolItemBase::exec_(std::bind(&CTask<Ret>::operator(),std::ref(exec_)));
 		}
 		inline Ret get()
 		{
