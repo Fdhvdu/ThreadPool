@@ -19,7 +19,7 @@ namespace nThread
 
 	void CThreadPoolCommunJoin::destroy()
 	{
-		join_anyList_->remove_if([this](const CThreadPoolItem *val){return val->get_id()==item_->get_id();});
+		join_anyList_->remove_if([this](const CThreadPoolItem *val) noexcept{return val->get_id()==item_->get_id();});
 		//if CThreadPool::join_any run first, this would not erase anything (it's ok)
 		waiting_buf_->write(item_);
 	}
