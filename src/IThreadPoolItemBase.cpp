@@ -40,14 +40,14 @@ namespace nThread
 
 	IThreadPoolItemBase::IThreadPoolItemBase()=default;
 
-	IThreadPoolItemBase::IThreadPoolItemBase(IThreadPoolItemBase &&xval) noexcept=default;
+	IThreadPoolItemBase::IThreadPoolItemBase(IThreadPoolItemBase &&) noexcept=default;
 
 	IThreadPoolItemBase::id IThreadPoolItemBase::get_id() const noexcept
 	{
 		return impl_.get().thr.get_id();
 	}
 
-	IThreadPoolItemBase& IThreadPoolItemBase::operator=(IThreadPoolItemBase &&xval) noexcept=default;
+	IThreadPoolItemBase& IThreadPoolItemBase::operator=(IThreadPoolItemBase &&) noexcept=default;
 
 	IThreadPoolItemBase::~IThreadPoolItemBase()=default;
 
@@ -56,8 +56,8 @@ namespace nThread
 		impl_.get().exec(val);
 	}
 
-	void IThreadPoolItemBase::exec_(function<void()> &&xval)
+	void IThreadPoolItemBase::exec_(function<void()> &&val)
 	{
-		impl_.get().exec(move(xval));
+		impl_.get().exec(move(val));
 	}
 }
