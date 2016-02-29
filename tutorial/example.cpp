@@ -111,7 +111,7 @@ int main()
 		tp.add(add_func,i);
 	thread thr([&]{tp.join_any();});
 	tp.join_any();	//ok, no problem
-	cout<<"after join, "<<tp.available()<<" should equal to "<<1<<endl;
+	cout<<"after join, "<<tp.available()<<" should equal to 1 or 2"<<endl;
 	thr.join();
 	tp.join_all();
 	cout<<"after join_all, "<<tp.available()<<" should equal to "<<tp.size()<<endl;
