@@ -38,24 +38,18 @@ namespace nThread
 		wake();
 	}
 
-	IThreadPoolItemBase::IThreadPoolItemBase()
-		:impl_{}{}
+	IThreadPoolItemBase::IThreadPoolItemBase()=default;
 
-	IThreadPoolItemBase::IThreadPoolItemBase(IThreadPoolItemBase &&xval) noexcept
-		:impl_{move(xval.impl_)}{}
+	IThreadPoolItemBase::IThreadPoolItemBase(IThreadPoolItemBase &&xval) noexcept=default;
 
 	IThreadPoolItemBase::id IThreadPoolItemBase::get_id() const noexcept
 	{
 		return impl_.get().thr.get_id();
 	}
 
-	IThreadPoolItemBase& IThreadPoolItemBase::operator=(IThreadPoolItemBase &&xval) noexcept
-	{
-		impl_=move(xval.impl_);
-		return *this;
-	}
+	IThreadPoolItemBase& IThreadPoolItemBase::operator=(IThreadPoolItemBase &&xval) noexcept=default;
 
-	IThreadPoolItemBase::~IThreadPoolItemBase(){}
+	IThreadPoolItemBase::~IThreadPoolItemBase()=default;
 
 	void IThreadPoolItemBase::exec_(const function<void()> &val)
 	{

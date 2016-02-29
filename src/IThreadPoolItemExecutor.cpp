@@ -54,7 +54,7 @@ namespace nThread
 		commun.destroy();
 	}
 
-	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase(){}
+	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase()=default;
 
 	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommunDetach &&commun,function<void()> &&func)
 		:impl_{move(commun),move(func)}{}
@@ -74,7 +74,7 @@ namespace nThread
 		impl_.get().complete.wait();
 	}
 
-	CThreadPoolItemExecutorDetach::~CThreadPoolItemExecutorDetach(){}
+	CThreadPoolItemExecutorDetach::~CThreadPoolItemExecutorDetach()=default;
 
 	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommunJoin &&commun,function<void()> &&func)
 		:impl_{move(commun),move(func)}{}
@@ -94,5 +94,5 @@ namespace nThread
 		impl_.get().join();
 	}
 
-	CThreadPoolItemExecutorJoin::~CThreadPoolItemExecutorJoin(){}
+	CThreadPoolItemExecutorJoin::~CThreadPoolItemExecutorJoin()=default;
 }

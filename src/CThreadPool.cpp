@@ -146,5 +146,5 @@ namespace nThread
 		impl_.get().wait_until_all_available();
 	}
 
-	CThreadPool::~CThreadPool(){}
+	CThreadPool::~CThreadPool()=default;
 }
