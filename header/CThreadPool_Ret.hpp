@@ -21,8 +21,6 @@ namespace nThread
 		CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> waiting_buf_;
 		std::unordered_map<thread_id,CThreadPoolItem_Ret<Ret>> thr_;
 	public:
-		//CThreadPool_Ret::CThreadPool_Ret()
-		//	:CThreadPool_Ret(std::thread::hardware_concurrency()){}
 		CThreadPool_Ret()
 			:CThreadPool_Ret{std::thread::hardware_concurrency()}{}
 		//1. determine the total of usable threads
