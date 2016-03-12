@@ -43,9 +43,9 @@ VC++ 2015 and GCC 5.2.0.
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
-g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp<br>
+g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp<br>
 To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
-g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
+g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
 # About compilation errors
 Does your compiler support C++14? If not, why don't you use Visual Studio Community 2015 or GCC 5.2.0?<br>
 Or, maybe you lost my lib files, [here is link](https://github.com/Fdhvdu/lib)<br>
@@ -63,6 +63,6 @@ The directory should be look like
 	             -tutorial
 	             -LICENSE
 	             -README.md
-Or, maybe you forget to compile lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp
+Or, maybe you forget to compile lib/src/CScopeGuard.cpp, lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp
 # Future work
 Nothing.
