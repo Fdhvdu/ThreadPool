@@ -126,7 +126,7 @@ namespace nThread
 
 	CThreadPool::thread_id CThreadPool::join_any()
 	{
-		auto temp{impl_.get().join_anyList.wait_and_pop()};
+		auto temp{impl_.get().join_anyList.wait_and_pop_front()};
 		temp->wait();
 		return temp->get_id();
 	}
