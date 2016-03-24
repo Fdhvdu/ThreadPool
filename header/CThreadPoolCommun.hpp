@@ -15,7 +15,7 @@ namespace nThread
 		CThreadPoolItem *item_;
 		CThreadRingBuf<CThreadPoolItem*> *waiting_buf_;
 	public:
-		CThreadPoolCommunDetach(CThreadPoolItem *,CThreadRingBuf<CThreadPoolItem*> *);
+		CThreadPoolCommunDetach(CThreadPoolItem *,CThreadRingBuf<CThreadPoolItem*> *) noexcept;
 		void func_is_completed();	//call destroy
 	};
 
@@ -25,7 +25,7 @@ namespace nThread
 		CThread_forward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *join_anyList_;	//or use deque
 		CThreadRingBuf<CThreadPoolItem*> *waiting_buf_;
 	public:
-		CThreadPoolCommunJoin(CThreadPoolItem *,CThread_forward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *,CThreadRingBuf<CThreadPoolItem*> *);
+		CThreadPoolCommunJoin(CThreadPoolItem *,CThread_forward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *,CThreadRingBuf<CThreadPoolItem*> *) noexcept;
 		void destroy();	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waiting_buf
 		void func_is_completed();	//push CThreadPoolItem into CThreadPool::Impl::join_anyList
 	};

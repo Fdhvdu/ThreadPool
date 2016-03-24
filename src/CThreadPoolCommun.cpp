@@ -6,7 +6,7 @@ using namespace std;
 
 namespace nThread
 {
-	CThreadPoolCommunDetach::CThreadPoolCommunDetach(CThreadPoolItem *item,CThreadRingBuf<CThreadPoolItem*> *waiting_buf)
+	CThreadPoolCommunDetach::CThreadPoolCommunDetach(CThreadPoolItem *item,CThreadRingBuf<CThreadPoolItem*> *waiting_buf) noexcept
 		:item_{item},waiting_buf_{waiting_buf}{}
 
 	void CThreadPoolCommunDetach::func_is_completed()
@@ -14,7 +14,7 @@ namespace nThread
 		waiting_buf_->write(item_);
 	}
 
-	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThread_forward_list<CThreadPoolItem*> *join_anyList,CThreadRingBuf<CThreadPoolItem*> *waiting_buf)
+	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThread_forward_list<CThreadPoolItem*> *join_anyList,CThreadRingBuf<CThreadPoolItem*> *waiting_buf) noexcept
 		:item_{item},join_anyList_{join_anyList},waiting_buf_{waiting_buf}{}
 
 	void CThreadPoolCommunJoin::destroy()
