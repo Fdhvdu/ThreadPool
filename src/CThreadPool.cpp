@@ -53,7 +53,14 @@ namespace nThread
 	{
 		auto temp{waiting_buf.read()};
 		is_joinable[temp->get_id()]=true;
-		temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&join_anyList,&waiting_buf},move(func)));
+		try
+		{
+			temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&join_anyList,&waiting_buf},move(func)));
+		}catch(...)
+		{
+			waiting_buf.write(temp);
+			throw ;
+		}
 		return temp->get_id();
 	}
 
@@ -61,7 +68,14 @@ namespace nThread
 	{
 		auto temp{waiting_buf.read()};
 		is_joinable[temp->get_id()]=false;
-		temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waiting_buf},move(func)));
+		try
+		{
+			temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waiting_buf},move(func)));
+		}catch(...)
+		{
+			waiting_buf.write(temp);
+			throw ;
+		}
 	}
 
 	void CThreadPool::Impl::join_all()
