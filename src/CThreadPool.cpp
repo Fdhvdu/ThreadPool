@@ -14,17 +14,21 @@ namespace nThread
 {
 	struct CThreadPool::Impl
 	{
-		unordered_map<thread::id,bool> is_joinable;
+		unordered_map<thread_id,bool> is_joinable;
 		mutex join_all_mut;	//only for join_all
 		CThread_forward_list<CThreadPoolItem*> join_anyList;
 		mutex wait_until_all_available_mut;	//only for wait_until_all_available
 		CThreadRingBuf<CThreadPoolItem*> waiting_buf;
-		unordered_map<thread::id,CThreadPoolItem> thr;
+		unordered_map<thread_id,CThreadPoolItem> thr;
 		Impl(CThreadPool::size_type);
-		CThreadPool::thread_id add(function<void()> &&);
+		thread_id add(function<void()> &&);
 		void add_and_detach(function<void()> &&);
+		inline void join(const thread_id id)
+		{
+			thr[id].wait();
+		}
 		void join_all();
-		bool joinable(thread::id) const noexcept;
+		bool joinable(thread_id) const noexcept;
 		void wait_until_all_available();
 	};
 
@@ -33,7 +37,7 @@ namespace nThread
 	{
 		while(size--)
 		{
-			//because the key_type of thr is thread::id, and thread::id is returned by CThreadPoolItem
+			//because the key_type of thr is thread_id, and thread_id is returned by CThreadPoolItem
 			//so, you have to create a CThreadPoolItem first, and emplace get_id to thr
 			CThreadPoolItem item;
 			const auto id{item.get_id()};
@@ -71,10 +75,10 @@ namespace nThread
 		lock_guard<mutex> lock{join_all_mut};
 		for(auto &val:thr)
 			if(joinable(val.first))
-				thr[val.first].wait();
+				join(val.first);
 	}
 
-	bool CThreadPool::Impl::joinable(const thread::id id) const noexcept
+	bool CThreadPool::Impl::joinable(const thread_id id) const noexcept
 	{
 		if(is_joinable.at(id))
 			return thr.at(id).is_running();
@@ -116,7 +120,7 @@ namespace nThread
 
 	void CThreadPool::join(const thread_id id)
 	{
-		impl_.get().thr[id].wait();
+		impl_.get().join(id);
 	}
 
 	void CThreadPool::join_all()
