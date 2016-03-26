@@ -47,7 +47,14 @@ namespace nThread
 		thread_id add(Func &&func,Args &&...args)
 		{
 			auto temp{waiting_buf_.read()};
-			temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
+			try
+			{
+				temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
+			}catch(...)
+			{
+				waiting_buf_.write(temp);
+				throw ;
+			}
 			return temp->get_id();
 		}
 		//1. return the total of usable threads at that moment
