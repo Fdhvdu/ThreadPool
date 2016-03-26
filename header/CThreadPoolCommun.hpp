@@ -30,8 +30,7 @@ namespace nThread
 	public:
 		CThreadPoolCommunJoin(CThreadPoolItem *,CThread_forward_list<CThreadPoolItem*,std::allocator<CThreadPoolItem*>> *,CThreadRingBuf<CThreadPoolItem*> *);
 		void destroy();	//erase CThreadPool::Impl::join_anyList and push CThreadPoolItem into CThreadPool::Impl::waiting_buf
-		void func_is_completed(); //noexcept	//(require C++17)
-								  //push CThreadPoolItem into CThreadPool::Impl::join_anyList
+		void func_is_completed();	//push CThreadPoolItem into CThreadPool::Impl::join_anyList
 	};
 }
 
