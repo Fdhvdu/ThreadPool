@@ -1,5 +1,6 @@
 #include"../header/IThreadPoolItemExecutor.hpp"
 #include<atomic>
+#include<exception>
 #include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.hpp"
 #include"../header/CThreadPoolCommun.hpp"
@@ -20,6 +21,7 @@ namespace nThread
 	{
 		CThreadPoolCommunJoin commun;
 		CSemaphore complete;
+		exception_ptr except;
 		function<void()> func;
 		atomic<bool> running;
 		Impl(CThreadPoolCommunJoin &&,function<void()> &&);
@@ -32,7 +34,7 @@ namespace nThread
 
 	void CThreadPoolItemExecutorDetach::Impl::exec()
 	{
-		func();
+		func();	//may throw exception
 		complete.signal();
 		commun.func_is_completed();
 	}
@@ -42,7 +44,13 @@ namespace nThread
 
 	void CThreadPoolItemExecutorJoin::Impl::exec()
 	{
-		func();
+		try
+		{
+			func();
+		}catch(...)
+		{
+			except=current_exception();
+		}
 		commun.func_is_completed();	//notify CThreadPool::join_any, must prior to complete.signal()
 		complete.signal();	//notify CThreadPool::join
 	}
@@ -52,6 +60,8 @@ namespace nThread
 		complete.wait();
 		running=false;
 		commun.destroy();
+		if(except)	//must check
+			rethrow_exception(except);
 	}
 
 	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase()=default;

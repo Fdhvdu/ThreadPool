@@ -14,7 +14,7 @@ namespace nThread
 		waiting_buf_->write(item_);
 	}
 
-	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThread_forward_list<CThreadPoolItem*> *join_anyList,CThreadRingBuf<CThreadPoolItem*> *waiting_buf) noexcept
+	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThread_forward_list<CThreadPoolItem*> *join_anyList,CThreadRingBuf<CThreadPoolItem*> *waiting_buf)
 		:item_{item},join_anyList_{join_anyList},waiting_buf_{waiting_buf}{}
 
 	void CThreadPoolCommunJoin::destroy()
@@ -27,5 +27,6 @@ namespace nThread
 	void CThreadPoolCommunJoin::func_is_completed()
 	{
 		join_anyList_->emplace_front(item_);
+		//join_anyList_->emplace_CNode_front(move(node_));
 	}
 }
