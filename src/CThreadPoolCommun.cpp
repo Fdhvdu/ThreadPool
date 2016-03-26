@@ -11,7 +11,7 @@ namespace nThread
 
 	void CThreadPoolCommunDetach::func_is_completed()
 	{
-		waiting_buf_->write(item_);
+		waiting_buf_->write_and_notify(item_);
 	}
 
 	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThread_forward_list<CThreadPoolItem*> *join_anyList,CThreadRingBuf<CThreadPoolItem*> *waiting_buf)
@@ -21,7 +21,7 @@ namespace nThread
 	{
 		join_anyList_->remove_if([this](const CThreadPoolItem *val) noexcept{return val->get_id()==item_->get_id();});
 		//if CThreadPool::join_any run first, this would not erase anything (it's ok)
-		waiting_buf_->write(item_);
+		waiting_buf_->write_and_notify(item_);
 	}
 
 	void CThreadPoolCommunJoin::func_is_completed()

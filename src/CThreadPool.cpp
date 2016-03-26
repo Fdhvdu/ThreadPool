@@ -45,20 +45,20 @@ namespace nThread
 			is_joinable.emplace(id,false);
 			//thr.emplace(item.get_id(),move(item)); is wrong
 			//you cannot guarantee item.get_id() will execute prior to move(item)
-			waiting_buf.write(&thr.emplace(id,move(item)).first->second);
+			waiting_buf.write_and_notify(&thr.emplace(id,move(item)).first->second);
 		}
 	}
 
 	CThreadPool::thread_id CThreadPool::Impl::add(function<void()> &&func)
 	{
-		auto temp{waiting_buf.read()};
+		auto temp{waiting_buf.wait_and_read()};
 		is_joinable[temp->get_id()]=true;
 		try
 		{
 			temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&join_anyList,&waiting_buf},move(func)));
 		}catch(...)
 		{
-			waiting_buf.write(temp);
+			waiting_buf.write_and_notify(temp);
 			throw ;
 		}
 		return temp->get_id();
@@ -66,14 +66,14 @@ namespace nThread
 
 	void CThreadPool::Impl::add_and_detach(function<void()> &&func)
 	{
-		auto temp{waiting_buf.read()};
+		auto temp{waiting_buf.wait_and_read()};
 		is_joinable[temp->get_id()]=false;
 		try
 		{
 			temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waiting_buf},move(func)));
 		}catch(...)
 		{
-			waiting_buf.write(temp);
+			waiting_buf.write_and_notify(temp);
 			throw ;
 		}
 	}
@@ -106,9 +106,9 @@ namespace nThread
 		vec.reserve(thr.size());
 		lock_guard<mutex> lock{wait_until_all_available_mut};
 		while(vec.size()!=vec.capacity())
-			vec.emplace_back(waiting_buf.read());
+			vec.emplace_back(waiting_buf.wait_and_read());
 		for(auto &val:vec)
-			waiting_buf.write(move(val));
+			waiting_buf.write_and_notify(move(val));
 	}
 
 	CThreadPool::thread_id CThreadPool::add_(std::function<void()> &&func)

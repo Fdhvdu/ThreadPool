@@ -32,7 +32,7 @@ namespace nThread
 			{
 				CThreadPoolItem_Ret<Ret> item{&waiting_buf_};
 				const auto id{item.get_id()};
-				waiting_buf_.write(&thr_.emplace(id,std::move(item)).first->second);
+				waiting_buf_.write_and_notify(&thr_.emplace(id,std::move(item)).first->second);
 			}
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
@@ -46,13 +46,13 @@ namespace nThread
 		template<class Func,class ... Args>
 		thread_id add(Func &&func,Args &&...args)
 		{
-			auto temp{waiting_buf_.read()};
+			auto temp{waiting_buf_.wait_and_read()};
 			try
 			{
 				temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
 			}catch(...)
 			{
-				waiting_buf_.write(temp);
+				waiting_buf_.write_and_notify(temp);
 				throw ;
 			}
 			return temp->get_id();
