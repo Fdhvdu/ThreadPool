@@ -1,5 +1,5 @@
 #include"../header/CThreadPoolCommun.hpp"
-#include"../../lib/header/thread/CThread_forward_list.hpp"
+#include"../../lib/header/thread/CThread_forward_list.hpp"	//remove this if C++17 is usable
 #include"../../lib/header/thread/CThreadRingBuf.hpp"
 #include"../header/CThreadPoolItem.hpp"
 using namespace std;
@@ -27,6 +27,6 @@ namespace nThread
 	void CThreadPoolCommunJoin::func_is_completed()
 	{
 		join_anyList_->emplace_front(item_);
-		//join_anyList_->emplace_CNode_front(move(node_));
+		//join_anyList_->emplace_CNode_front(move(node_));	//require C++17
 	}
 }
