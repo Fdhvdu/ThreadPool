@@ -14,7 +14,7 @@ Two classes
 		size_type	available() const noexcept
 		void		join(thread_id)
 		void		join_all()
-		thread_id	join_any()
+		thread_id	join_any()	//don't use this, it's going to be removed in the future, you could do this by youself
 		bool		joinable(thread_id) const noexcept
 		size_type	size() const noexcept
 		void 		wait_until_all_available() const
