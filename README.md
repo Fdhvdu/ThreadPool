@@ -65,5 +65,9 @@ The directory should be look like
 	             -README.md
 Or, maybe you forget to compile lib/src/CScopeGuard.cpp, lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp
 # Future work
-exception safety (detach func)<br>
-work stealing
+exception safety<br>
+replace std::async with std::thread<br>
+replace executor with nThread::CTask<br>
+compare to std::async<br>
+above may be finished before 2016.4.20<br><br>
+work stealing<br>
