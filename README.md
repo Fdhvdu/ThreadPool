@@ -11,17 +11,17 @@ Two classes
 	CThreadPool, including the member function
 		thread_id	add(Func &&,Args &&...)
 		void		add_and_detach(Func &&,Args &&...)
-		size_type	available() const noexcept
+		size_type	available() const noexcept	//don't use this, it's going to be removed in the future
 		void		join(thread_id)
 		void		join_all()
 		thread_id	join_any()	//don't use this, it's going to be removed in the future, you could do this by youself
 		bool		joinable(thread_id) const noexcept
 		size_type	size() const noexcept
-		void 		wait_until_all_available() const
+		void 		wait_until_all_available() const	//this may be renamed
 		
 	CThreadPool_Ret, including the member function
 		thread_id	add(Func &&,Args &&...)
-		size_type	available() const noexcept
+		size_type	available() const noexcept	//don't use this, it's going to be removed in the future
 		Ret			get(thread_id)
 		size_type	size() const noexcept
 		bool		valid(thread_id) const noexcept
@@ -69,5 +69,5 @@ exception safety<br>
 replace std::async with std::thread<br>
 replace executor with nThread::CTask<br>
 compare to std::async<br>
-above may be finished before 2016.4.20<br><br>
+I have to implement CAtomic_bounded_queue, so the process here will be delayed<br><br>
 work stealing<br>
