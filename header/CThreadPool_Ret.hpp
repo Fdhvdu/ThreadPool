@@ -46,7 +46,7 @@ namespace nThread
 		template<class Func,class ... Args>
 		thread_id add(Func &&func,Args &&...args)
 		{
-			auto temp{waiting_queue_.wait_and_pop()};
+			const auto temp{waiting_queue_.wait_and_pop()};
 			try
 			{
 				temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
@@ -57,14 +57,14 @@ namespace nThread
 			}
 			return temp->get_id();
 		}
-		//1. return the total of usable threads at that moment
-		//2. reduce 1 after returning from CThreadPool_Ret::add
-		//3. increase 1 after returning from CThreadPool_Ret::get
-		//4. non-block
-		inline size_type available() const noexcept
-		{
-			return static_cast<size_type>(waiting_queue_.size());
-		}
+		////1. return the total of usable threads at that moment
+		////2. reduce 1 after returning from CThreadPool_Ret::add
+		////3. increase 1 after returning from CThreadPool_Ret::get
+		////4. non-block
+		//inline size_type available() const noexcept
+		//{
+		//	return static_cast<size_type>(waiting_queue_.size());
+		//}
 		//1. block until the thread_id completes the func
 		//2. after returning from get, CThreadPool_Ret::valid(thread_id) will return false
 		//3. if the thread_id is not valid, do not get the thread_id
