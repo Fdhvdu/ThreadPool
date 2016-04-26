@@ -65,8 +65,8 @@ The directory should be look like
 	             -README.md
 Or, maybe you forget to compile lib/src/CScopeGuard.cpp, lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp
 # Future work
-replace std::async with std::thread<br>
+remove CThreadPoolCommunDetach and CThreadPoolCommunJoin
 replace executor with nThread::CTask<br>
-compare to std::async<br>
-I have to implement CAtomic_bounded_queue, so the process here will be delayed<br><br>
+replace std::async with std::thread<br>
+compare to std::async<br><br>
 work stealing<br>
