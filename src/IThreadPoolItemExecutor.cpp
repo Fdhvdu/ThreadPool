@@ -34,7 +34,10 @@ namespace nThread
 
 	void CThreadPoolItemExecutorDetach::Impl::exec()
 	{
-		func();	//may throw exception
+		try
+		{
+			func();
+		}catch(...){}	//yes, do nothing
 		complete.signal();
 		commun.func_is_completed();
 	}
@@ -51,7 +54,6 @@ namespace nThread
 		{
 			except=current_exception();
 		}
-		commun.func_is_completed();	//notify CThreadPool::join_any, must prior to complete.signal()
 		complete.signal();	//notify CThreadPool::join
 	}
 

@@ -3,8 +3,7 @@
 #include<mutex>
 #include<vector>
 #include<unordered_map>
-#include"../../lib/header/thread/CThread_forward_list.hpp"
-#include"../../lib/header/thread/CThreadRingBuf.hpp"
+#include"../../lib/header/thread/CWait_bounded_queue.hpp"
 #include"../header/CThreadPoolCommun.hpp"
 #include"../header/CThreadPoolItem.hpp"
 #include"../header/IThreadPoolItemExecutor.hpp"
@@ -16,24 +15,19 @@ namespace nThread
 	{
 		unordered_map<thread_id,bool> is_joinable;
 		mutex join_all_mut;	//only for join_all
-		CThread_forward_list<CThreadPoolItem*> join_anyList;
 		mutex wait_until_all_available_mut;	//only for wait_until_all_available
-		CThreadRingBuf<CThreadPoolItem*> waiting_buf;
+		CWait_bounded_queue<CThreadPoolItem*> waiting_queue;
 		unordered_map<thread_id,CThreadPoolItem> thr;
 		Impl(CThreadPool::size_type);
 		thread_id add(function<void()> &&);
 		void add_and_detach(function<void()> &&);
-		inline void join(const thread_id id)
-		{
-			thr[id].wait();
-		}
 		void join_all();
-		bool joinable(thread_id) const noexcept;
+		bool joinable(thread_id) const;
 		void wait_until_all_available();
 	};
 
 	CThreadPool::Impl::Impl(CThreadPool::size_type size)
-		:is_joinable{size},waiting_buf{size},thr{size}
+		:is_joinable{size},waiting_queue{size},thr{size}
 	{
 		while(size--)
 		{
@@ -43,22 +37,20 @@ namespace nThread
 			const auto id{item.get_id()};
 			//it means "not joinable"
 			is_joinable.emplace(id,false);
-			//thr.emplace(item.get_id(),move(item)); is wrong
-			//you cannot guarantee item.get_id() will execute prior to move(item)
-			waiting_buf.write_and_notify(&thr.emplace(id,move(item)).first->second);
+			waiting_queue.emplace_not_ts(&thr.emplace(id,move(item)).first->second);
 		}
 	}
 
 	CThreadPool::thread_id CThreadPool::Impl::add(function<void()> &&func)
 	{
-		auto temp{waiting_buf.wait_and_read()};
+		const auto temp{waiting_queue.wait_and_pop()};
 		is_joinable[temp->get_id()]=true;
 		try
 		{
-			temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&join_anyList,&waiting_buf},move(func)));
+			temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&waiting_queue},move(func)));
 		}catch(...)
 		{
-			waiting_buf.write_and_notify(temp);
+			waiting_queue.emplace_and_notify(temp);
 			throw ;
 		}
 		return temp->get_id();
@@ -66,14 +58,14 @@ namespace nThread
 
 	void CThreadPool::Impl::add_and_detach(function<void()> &&func)
 	{
-		auto temp{waiting_buf.wait_and_read()};
+		const auto temp{waiting_queue.wait_and_pop()};
 		is_joinable[temp->get_id()]=false;
 		try
 		{
-			temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waiting_buf},move(func)));
+			temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waiting_queue},move(func)));
 		}catch(...)
 		{
-			waiting_buf.write_and_notify(temp);
+			waiting_queue.emplace_and_notify(temp);
 			throw ;
 		}
 	}
@@ -89,10 +81,10 @@ namespace nThread
 		lock_guard<mutex> lock{join_all_mut};
 		for(auto &val:thr)
 			if(joinable(val.first))
-				join(val.first);
+				thr[val.first].wait();
 	}
 
-	bool CThreadPool::Impl::joinable(const thread_id id) const noexcept
+	bool CThreadPool::Impl::joinable(const thread_id id) const
 	{
 		if(is_joinable.at(id))
 			return thr.at(id).is_running();
@@ -102,13 +94,13 @@ namespace nThread
 	void CThreadPool::Impl::wait_until_all_available()
 	{
 		//speed up, you can construct a vector in each threads in advance
-		vector<decltype(waiting_buf)::value_type> vec;
+		vector<decltype(waiting_queue)::value_type> vec;
 		vec.reserve(thr.size());
 		lock_guard<mutex> lock{wait_until_all_available_mut};
 		while(vec.size()!=vec.capacity())
-			vec.emplace_back(waiting_buf.wait_and_read());
+			vec.emplace_back(waiting_queue.wait_and_pop());
 		for(auto &val:vec)
-			waiting_buf.write_and_notify(move(val));
+			waiting_queue.emplace_and_notify(move(val));
 	}
 
 	CThreadPool::thread_id CThreadPool::add_(std::function<void()> &&func)
@@ -122,19 +114,24 @@ namespace nThread
 	}
 
 	CThreadPool::CThreadPool()
-		:CThreadPool(thread::hardware_concurrency()){}
+		:CThreadPool{thread::hardware_concurrency()}{}
 
 	CThreadPool::CThreadPool(const CThreadPool::size_type size)
 		:impl_{size}{}
 
-	CThreadPool::size_type CThreadPool::available() const noexcept
-	{
-		return static_cast<size_type>(impl_.get().waiting_buf.available());
-	}
+	//CThreadPool::size_type CThreadPool::available() const noexcept
+	//{
+	//	return static_cast<size_type>(impl_.get().waiting_queue.available());
+	//}
+
+	//bool CThreadPool::empty() const noexcept
+	//{
+	//	return impl_.get().waiting_queue.empty();
+	//}
 
 	void CThreadPool::join(const thread_id id)
 	{
-		impl_.get().join(id);
+		impl_.get().thr.at(id).wait();
 	}
 
 	void CThreadPool::join_all()
@@ -142,14 +139,7 @@ namespace nThread
 		impl_.get().join_all();
 	}
 
-	CThreadPool::thread_id CThreadPool::join_any()
-	{
-		auto temp{impl_.get().join_anyList.wait_and_pop_front()};
-		temp->wait();
-		return temp->get_id();
-	}
-
-	bool CThreadPool::joinable(const thread_id id) const noexcept
+	bool CThreadPool::joinable(const thread_id id) const
 	{
 		return impl_.get().joinable(id);
 	}

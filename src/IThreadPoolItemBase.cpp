@@ -16,7 +16,7 @@ namespace nThread
 		template<class FuncFwdRef>
 		void exec(FuncFwdRef &&val)
 		{
-			func=forward<FuncFwdRef>(val);
+			func=forward<decltype(val)>(val);
 			wake();
 		}
 		inline void wake()

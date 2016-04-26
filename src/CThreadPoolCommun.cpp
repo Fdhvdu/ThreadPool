@@ -1,32 +1,22 @@
 #include"../header/CThreadPoolCommun.hpp"
-#include"../../lib/header/thread/CThread_forward_list.hpp"	//remove this if C++17 is usable
-#include"../../lib/header/thread/CThreadRingBuf.hpp"
-#include"../header/CThreadPoolItem.hpp"
+#include"../../lib/header/thread/CWait_bounded_queue.hpp"
 using namespace std;
 
 namespace nThread
 {
-	CThreadPoolCommunDetach::CThreadPoolCommunDetach(CThreadPoolItem *item,CThreadRingBuf<CThreadPoolItem*> *waiting_buf) noexcept
-		:item_{item},waiting_buf_{waiting_buf}{}
+	CThreadPoolCommunDetach::CThreadPoolCommunDetach(CThreadPoolItem *item,CWait_bounded_queue<CThreadPoolItem*> *waiting_queue) noexcept
+		:item_{item},waiting_queue_{waiting_queue}{}
 
 	void CThreadPoolCommunDetach::func_is_completed()
 	{
-		waiting_buf_->write_and_notify(item_);
+		waiting_queue_->emplace_and_notify(item_);
 	}
 
-	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CThread_forward_list<CThreadPoolItem*> *join_anyList,CThreadRingBuf<CThreadPoolItem*> *waiting_buf)
-		:item_{item},join_anyList_{join_anyList},waiting_buf_{waiting_buf}{}
+	CThreadPoolCommunJoin::CThreadPoolCommunJoin(CThreadPoolItem *item,CWait_bounded_queue<CThreadPoolItem*> *waiting_queue) noexcept
+		:item_{item},waiting_queue_{waiting_queue}{}
 
 	void CThreadPoolCommunJoin::destroy()
 	{
-		join_anyList_->remove_if([this](const CThreadPoolItem *val) noexcept{return val->get_id()==item_->get_id();});
-		//if CThreadPool::join_any run first, this would not erase anything (it's ok)
-		waiting_buf_->write_and_notify(item_);
-	}
-
-	void CThreadPoolCommunJoin::func_is_completed()
-	{
-		join_anyList_->emplace_front(item_);
-		//join_anyList_->emplace_CNode_front(move(node_));	//require C++17
+		waiting_queue_->emplace_and_notify(item_);
 	}
 }

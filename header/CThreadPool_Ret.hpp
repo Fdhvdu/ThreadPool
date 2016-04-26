@@ -4,7 +4,7 @@
 #include<type_traits>	//result_of_t
 #include<unordered_map>
 #include<utility>	//forward, move
-#include"../../lib/header/thread/CThreadRingBuf.hpp"
+#include"../../lib/header/thread/CWait_bounded_queue.hpp"
 #include"CThreadPoolItem_Ret.hpp"
 
 namespace nThread
@@ -18,7 +18,7 @@ namespace nThread
 		using size_type=std::result_of_t<decltype(std::thread::hardware_concurrency)&()>;
 		using thread_id=IThreadPoolItemBase::id;
 	private:
-		CThreadRingBuf<CThreadPoolItem_Ret<Ret>*> waiting_buf_;
+		CWait_bounded_queue<CThreadPoolItem_Ret<Ret>*> waiting_queue_;
 		std::unordered_map<thread_id,CThreadPoolItem_Ret<Ret>> thr_;
 	public:
 		CThreadPool_Ret()
@@ -26,13 +26,13 @@ namespace nThread
 		//1. determine the total of usable threads
 		//2. the value you pass will always equal to CThreadPool_Ret::size
 		explicit CThreadPool_Ret(size_type size)
-			:waiting_buf_{size},thr_{size}
+			:waiting_queue_{size},thr_{size}
 		{
 			while(size--)
 			{
-				CThreadPoolItem_Ret<Ret> item{&waiting_buf_};
+				CThreadPoolItem_Ret<Ret> item{&waiting_queue_};
 				const auto id{item.get_id()};
-				waiting_buf_.write_and_notify(&thr_.emplace(id,std::move(item)).first->second);
+				waiting_queue_.emplace_not_ts(&thr_.emplace(id,std::move(item)).first->second);
 			}
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
@@ -46,13 +46,13 @@ namespace nThread
 		template<class Func,class ... Args>
 		thread_id add(Func &&func,Args &&...args)
 		{
-			auto temp{waiting_buf_.wait_and_read()};
+			auto temp{waiting_queue_.wait_and_pop()};
 			try
 			{
 				temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
 			}catch(...)
 			{
-				waiting_buf_.write_and_notify(temp);
+				waiting_queue_.emplace_and_notify(temp);
 				throw ;
 			}
 			return temp->get_id();
@@ -63,7 +63,7 @@ namespace nThread
 		//4. non-block
 		inline size_type available() const noexcept
 		{
-			return static_cast<size_type>(waiting_buf_.size());
+			return static_cast<size_type>(waiting_queue_.size());
 		}
 		//1. block until the thread_id completes the func
 		//2. after returning from get, CThreadPool_Ret::valid(thread_id) will return false
