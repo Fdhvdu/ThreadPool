@@ -2,9 +2,9 @@
 #define CTHREADPOOLITEM_RET
 #include<functional>	//bind, ref
 #include<utility>	//forward
-#include"../../lib/header/tool/CScopeGuard.hpp"
 #include"../../lib/header/thread/CTask.hpp"
 #include"../../lib/header/thread/CWait_bounded_queue.hpp"
+#include"../../lib/header/tool/CScopeGuard.hpp"
 #include"IThreadPoolItemBase.hpp"
 
 namespace nThread
