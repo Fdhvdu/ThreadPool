@@ -3,34 +3,36 @@
 #include<exception>
 #include<utility>	//move
 #include"../../lib/header/thread/CSemaphore.hpp"
-#include"../header/CThreadPoolCommun.hpp"
+#include"../../lib/header/thread/CWait_bounded_queue.hpp"
 using namespace std;
 
 namespace nThread
 {
 	struct CThreadPoolItemExecutorDetach::Impl
 	{
-		CThreadPoolCommunDetach commun;
 		CSemaphore complete;
 		function<void()> func;
-		Impl(CThreadPoolCommunDetach &&,function<void()> &&);
+		CThreadPoolItem *item;
+		CWait_bounded_queue<CThreadPoolItem*> *waiting_queue;
+		Impl(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*> *,function<void()> &&);
 		void exec();
 	};
 
 	struct CThreadPoolItemExecutorJoin::Impl
 	{
-		CThreadPoolCommunJoin commun;
 		CSemaphore complete;
 		exception_ptr except;
 		function<void()> func;
+		CThreadPoolItem *item;
 		atomic<bool> running;
-		Impl(CThreadPoolCommunJoin &&,function<void()> &&);
+		CWait_bounded_queue<CThreadPoolItem*> *waiting_queue;
+		Impl(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*> *,function<void()> &&);
 		void exec();
 		void join();
 	};
 
-	CThreadPoolItemExecutorDetach::Impl::Impl(CThreadPoolCommunDetach &&commun_,function<void()> &&func_)
-		:commun{move(commun_)},func{move(func_)}{}
+	CThreadPoolItemExecutorDetach::Impl::Impl(CThreadPoolItem *item_,CWait_bounded_queue<CThreadPoolItem*> *waiting_queue_,function<void()> &&func_)
+		:func{move(func_)},item{item_},waiting_queue{waiting_queue_}{}
 
 	void CThreadPoolItemExecutorDetach::Impl::exec()
 	{
@@ -39,11 +41,11 @@ namespace nThread
 			func();
 		}catch(...){}	//yes, do nothing
 		complete.signal();
-		commun.func_is_completed();
+		waiting_queue->emplace_and_notify(item);
 	}
 
-	CThreadPoolItemExecutorJoin::Impl::Impl(CThreadPoolCommunJoin &&commun_,function<void()> &&func_)
-		:commun{move(commun_)},func{move(func_)},running{true}{}
+	CThreadPoolItemExecutorJoin::Impl::Impl(CThreadPoolItem *item_,CWait_bounded_queue<CThreadPoolItem*> *waiting_queue_,function<void()> &&func_)
+		:func{move(func_)},item{item_},running{true},waiting_queue{waiting_queue_}{}
 
 	void CThreadPoolItemExecutorJoin::Impl::exec()
 	{
@@ -61,15 +63,15 @@ namespace nThread
 	{
 		complete.wait();
 		running=false;
-		commun.destroy();
+		waiting_queue->emplace_and_notify(item);
 		if(except)	//must check
 			rethrow_exception(except);
 	}
 
 	IThreadPoolItemExecutorBase::~IThreadPoolItemExecutorBase()=default;
 
-	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolCommunDetach &&commun,function<void()> &&func)
-		:impl_{move(commun),move(func)}{}
+	CThreadPoolItemExecutorDetach::CThreadPoolItemExecutorDetach(CThreadPoolItem *item,CWait_bounded_queue<CThreadPoolItem*> *waiting_queue,function<void()> &&func)
+		:impl_{item,waiting_queue,move(func)}{}
 
 	void CThreadPoolItemExecutorDetach::exec()
 	{
@@ -88,8 +90,8 @@ namespace nThread
 
 	CThreadPoolItemExecutorDetach::~CThreadPoolItemExecutorDetach()=default;
 
-	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolCommunJoin &&commun,function<void()> &&func)
-		:impl_{move(commun),move(func)}{}
+	CThreadPoolItemExecutorJoin::CThreadPoolItemExecutorJoin(CThreadPoolItem *item,CWait_bounded_queue<CThreadPoolItem*> *waiting_queue,function<void()> &&func)
+		:impl_{item,waiting_queue,move(func)}{}
 
 	void CThreadPoolItemExecutorJoin::exec()
 	{

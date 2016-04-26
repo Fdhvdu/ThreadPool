@@ -4,7 +4,6 @@
 #include<vector>
 #include<unordered_map>
 #include"../../lib/header/thread/CWait_bounded_queue.hpp"
-#include"../header/CThreadPoolCommun.hpp"
 #include"../header/CThreadPoolItem.hpp"
 #include"../header/IThreadPoolItemExecutor.hpp"
 using namespace std;
@@ -47,7 +46,7 @@ namespace nThread
 		is_joinable[temp->get_id()]=true;
 		try
 		{
-			temp->assign(make_unique<CThreadPoolItemExecutorJoin>(CThreadPoolCommunJoin{temp,&waiting_queue},move(func)));
+			temp->assign(make_unique<CThreadPoolItemExecutorJoin>(temp,&waiting_queue,move(func)));
 		}catch(...)
 		{
 			waiting_queue.emplace_and_notify(temp);
@@ -62,7 +61,7 @@ namespace nThread
 		is_joinable[temp->get_id()]=false;
 		try
 		{
-			temp->assign(make_unique<CThreadPoolItemExecutorDetach>(CThreadPoolCommunDetach{temp,&waiting_queue},move(func)));
+			temp->assign(make_unique<CThreadPoolItemExecutorDetach>(temp,&waiting_queue,move(func)));
 		}catch(...)
 		{
 			waiting_queue.emplace_and_notify(temp);

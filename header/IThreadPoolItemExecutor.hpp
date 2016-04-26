@@ -5,8 +5,8 @@
 
 namespace nThread
 {
-	class CThreadPoolCommunDetach;
-	class CThreadPoolCommunJoin;
+	class CThreadPoolItem;
+	template<class>class CWait_bounded_queue;
 
 	struct IThreadPoolItemExecutorBase
 	{
@@ -21,7 +21,7 @@ namespace nThread
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
-		CThreadPoolItemExecutorDetach(CThreadPoolCommunDetach &&,std::function<void()> &&);
+		CThreadPoolItemExecutorDetach(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*> *,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;	//only the destructor of CThreadPoolItem will call this
 		void wait() override;	//only the destructor of CThreadPoolItem will call this
@@ -33,7 +33,7 @@ namespace nThread
 		struct Impl;
 		nTool::CPimpl<Impl> impl_;
 	public:
-		CThreadPoolItemExecutorJoin(CThreadPoolCommunJoin &&,std::function<void()> &&);
+		CThreadPoolItemExecutorJoin(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*> *,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;
 		void wait() override;
