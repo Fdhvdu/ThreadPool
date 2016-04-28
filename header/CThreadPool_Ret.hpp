@@ -37,12 +37,10 @@ namespace nThread
 		}
 		//of course, why do you need to copy or move CThreadPool_Ret?
 		CThreadPool_Ret(const CThreadPool_Ret &)=delete;
-		//1. block until CThreadPool_Ret::available is not zero and execute the func
-		//2. after returning from add, CThreadPool_Ret::available will reduce 1
+		//1. block until CThreadPool::empty is false and execute the func
+		//2. after returning from add, usable threads will reduce 1
 		//3. after returning from add, CThreadPool_Ret::valid(thread_id) will return true
-		//4.
-		//you must call CThreadPool_Ret::get after returning from add at some moment
-		//otherwise, CThreadPool_Ret::available cannot increase 1
+		//4. you must call CThreadPool_Ret::get after returning from add
 		template<class Func,class ... Args>
 		thread_id add(Func &&func,Args &&...args)
 		{
@@ -57,14 +55,13 @@ namespace nThread
 			}
 			return temp->get_id();
 		}
-		////1. return the total of usable threads at that moment
-		////2. reduce 1 after returning from CThreadPool_Ret::add
-		////3. increase 1 after returning from CThreadPool_Ret::get
-		////4. non-block
-		//inline size_type available() const noexcept
-		//{
-		//	return static_cast<size_type>(waiting_queue_.size());
-		//}
+		//1. return true if there does not have usable threads at that moment
+		//2. return false if there has usable threads at that moment
+		//3. non-block
+		bool empty() const noexcept
+		{
+			return waiting_queue_.empty();
+		}
 		//1. block until the thread_id completes the func
 		//2. after returning from get, CThreadPool_Ret::valid(thread_id) will return false
 		//3. if the thread_id is not valid, do not get the thread_id

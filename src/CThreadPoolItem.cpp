@@ -1,5 +1,4 @@
 #include"../header/CThreadPoolItem.hpp"
-#include<functional>	//bind, ref
 #include<utility>	//move
 #include"../header/IThreadPoolItemExecutor.hpp"
 using namespace std;
@@ -9,7 +8,7 @@ namespace nThread
 	void CThreadPoolItem::assign(unique_ptr<IThreadPoolItemExecutorBase> &&exec)
 	{
 		exec_=move(exec);
-		IThreadPoolItemBase::exec_(bind(&IThreadPoolItemExecutorBase::exec,ref(*exec_)));
+		IThreadPoolItemBase::exec_([this]{exec_->exec();});
 	}
 
 	bool CThreadPoolItem::is_running() const noexcept

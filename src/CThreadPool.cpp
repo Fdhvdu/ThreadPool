@@ -14,7 +14,7 @@ namespace nThread
 	{
 		unordered_map<thread_id,bool> is_joinable;
 		mutex join_all_mut;	//only for join_all
-		mutex wait_until_all_available_mut;	//only for wait_until_all_available
+		mutex wait_until_all_usable_mut;	//only for wait_until_all_usable
 		CWait_bounded_queue<CThreadPoolItem*> waiting_queue;
 		unordered_map<thread_id,CThreadPoolItem> thr;
 		Impl(CThreadPool::size_type);
@@ -22,7 +22,7 @@ namespace nThread
 		void add_and_detach(function<void()> &&);
 		void join_all();
 		bool joinable(thread_id) const;
-		void wait_until_all_available();
+		void wait_until_all_usable();
 	};
 
 	CThreadPool::Impl::Impl(CThreadPool::size_type size)
@@ -90,12 +90,12 @@ namespace nThread
 		return false;
 	}
 
-	void CThreadPool::Impl::wait_until_all_available()
+	void CThreadPool::Impl::wait_until_all_usable()
 	{
 		//speed up, you can construct a vector in each threads in advance
 		vector<decltype(waiting_queue)::value_type> vec;
 		vec.reserve(thr.size());
-		lock_guard<mutex> lock{wait_until_all_available_mut};
+		lock_guard<mutex> lock{wait_until_all_usable_mut};
 		while(vec.size()!=vec.capacity())
 			vec.emplace_back(waiting_queue.wait_and_pop());
 		for(auto &val:vec)
@@ -117,16 +117,11 @@ namespace nThread
 
 	CThreadPool::CThreadPool(const CThreadPool::size_type size)
 		:impl_{size}{}
-
-	//CThreadPool::size_type CThreadPool::available() const noexcept
-	//{
-	//	return static_cast<size_type>(impl_.get().waiting_queue.available());
-	//}
-
-	//bool CThreadPool::empty() const noexcept
-	//{
-	//	return impl_.get().waiting_queue.empty();
-	//}
+	
+	bool CThreadPool::empty() const noexcept
+	{
+		return impl_.get().waiting_queue.empty();
+	}
 
 	void CThreadPool::join(const thread_id id)
 	{
@@ -148,9 +143,9 @@ namespace nThread
 		return static_cast<size_type>(impl_.get().thr.size());
 	}
 
-	void CThreadPool::wait_until_all_available() const
+	void CThreadPool::wait_until_all_usable() const
 	{
-		impl_.get().wait_until_all_available();
+		impl_.get().wait_until_all_usable();
 	}
 
 	CThreadPool::~CThreadPool()=default;
