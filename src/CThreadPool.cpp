@@ -21,7 +21,10 @@ namespace nThread
 		thread_id add(function<void()> &&);
 		void add_and_detach(function<void()> &&);
 		void join_all();
-		bool joinable(thread_id) const;
+		inline bool joinable(const thread_id id) const
+		{
+			return is_joinable.at(id)&&thr.at(id).is_running();
+		}
 		void wait_until_all_usable();
 	};
 
@@ -82,14 +85,7 @@ namespace nThread
 			if(joinable(val.first))
 				thr[val.first].wait();
 	}
-
-	bool CThreadPool::Impl::joinable(const thread_id id) const
-	{
-		if(is_joinable.at(id))
-			return thr.at(id).is_running();
-		return false;
-	}
-
+	
 	void CThreadPool::Impl::wait_until_all_usable()
 	{
 		//speed up, you can construct a vector in each threads in advance
