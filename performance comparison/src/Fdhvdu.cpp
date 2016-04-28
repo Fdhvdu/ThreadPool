@@ -59,7 +59,7 @@ duration test_Fdhvdu_CThreadPool_detach_all_N()
 		{
 			for(auto j{thread_count};j--;)
 				tp.add_and_detach(empty);
-			tp.wait_until_all_available();
+			tp.wait_until_all_usable();
 		}
 	}).duration_nanoseconds();
 }
@@ -88,6 +88,6 @@ duration test_Fdhvdu_CThreadPool_detach_billion()
 	return nTool::calc_time([&]{
 		for(auto i{iteration};i--;)
 			tp.add_and_detach(empty);
-		tp.wait_until_all_available();
+		tp.wait_until_all_usable();
 	}).duration_nanoseconds();
 }

@@ -1,16 +1,18 @@
 #include"../header/IThreadPoolItemBase.hpp"
+#include<future>
 #include<utility>	//forward, move
 #include"../../lib/header/thread/CSemaphore.hpp"
-#include"../../lib/header/thread/CSmartThread.hpp"
 using namespace std;
 
 namespace nThread
 {
 	struct IThreadPoolItemBase::Impl
 	{
+		static IThreadPoolItemBase::id class_id;
 		bool alive;
 		CSemaphore wait;	//to wake up thr
-		CSmartThread thr;	//must destroying before alive and wait
+		future<void> fut;	//must destroying before alive and wait
+		const IThreadPoolItemBase::id id;
 		function<void()> func;
 		Impl();
 		template<class FuncFwdRef>
@@ -27,10 +29,10 @@ namespace nThread
 	};
 
 	IThreadPoolItemBase::Impl::Impl()
-		:alive{true},thr{[this]{
+		:alive{true},fut{async(launch::async,[this]{
 			while(wait.wait(),alive)
 				func();
-		}}{}
+		})},id{class_id++}{}
 
 	IThreadPoolItemBase::Impl::~Impl()
 	{
@@ -40,16 +42,12 @@ namespace nThread
 
 	IThreadPoolItemBase::IThreadPoolItemBase()=default;
 
-	IThreadPoolItemBase::IThreadPoolItemBase(IThreadPoolItemBase &&) noexcept=default;
+	IThreadPoolItemBase::IThreadPoolItemBase(IThreadPoolItemBase &&val) noexcept=default;
 
 	IThreadPoolItemBase::id IThreadPoolItemBase::get_id() const noexcept
 	{
-		return impl_.get().thr.get_id();
+		return impl_.get().id;
 	}
-
-	IThreadPoolItemBase& IThreadPoolItemBase::operator=(IThreadPoolItemBase &&) noexcept=default;
-
-	IThreadPoolItemBase::~IThreadPoolItemBase()=default;
 
 	void IThreadPoolItemBase::exec_(const function<void()> &val)
 	{
@@ -60,4 +58,10 @@ namespace nThread
 	{
 		impl_.get().exec(move(val));
 	}
+
+	IThreadPoolItemBase& IThreadPoolItemBase::operator=(IThreadPoolItemBase &&) noexcept=default;
+
+	IThreadPoolItemBase::~IThreadPoolItemBase()=default;
+
+	IThreadPoolItemBase::id IThreadPoolItemBase::Impl::class_id{0};
 }

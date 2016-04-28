@@ -1,14 +1,14 @@
 #ifndef ITHREADPOOLITEMBASE
 #define ITHREADPOOLITEMBASE
+#include<thread>	//thread::hardware_concurrency
 #include<functional>	//function
-#include"../../lib/header/thread/CSmartThread.hpp"	//CSmartThread::id
 #include"../../lib/header/tool/CPimpl.hpp"
 
 namespace nThread
 {
 	struct IThreadPoolItemBase
 	{
-		using id=CSmartThread::id;
+		using id=std::result_of_t<decltype(std::thread::hardware_concurrency)&()>;
 		IThreadPoolItemBase();
 		IThreadPoolItemBase(const IThreadPoolItemBase &)=delete;
 		IThreadPoolItemBase(IThreadPoolItemBase &&) noexcept;
