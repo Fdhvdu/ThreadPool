@@ -34,7 +34,7 @@ About [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Compar
 About [henkel/threadpool](https://github.com/henkel/threadpool), somehow, it has memory leak, see [README](performance comparison/henkel/README.md).<br><br>
 P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.<br>
 P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe (as far as 24 commits).<br>
-P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 11 releases).<br>
+P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 177 commits and 11 releases).<br>
 See the [directory](performance comparison/) for more details.
 # Compiler
 VC++ 2015 and GCC 5.2.0.
