@@ -11,17 +11,16 @@ Two classes
 	CThreadPool, including the member function
 		thread_id	add(Func &&,Args &&...)
 		void		add_and_detach(Func &&,Args &&...)
-		size_type	available() const noexcept	//don't use this, it's going to be removed in the future
+		size_type	empty() const noexcept
 		void		join(thread_id)
 		void		join_all()
-		thread_id	join_any()	//don't use this, it's going to be removed in the future, you could do this by youself
 		bool		joinable(thread_id) const noexcept
 		size_type	size() const noexcept
-		void 		wait_until_all_available() const	//this may be renamed
+		void 		wait_until_all_usable() const
 		
 	CThreadPool_Ret, including the member function
 		thread_id	add(Func &&,Args &&...)
-		size_type	available() const noexcept	//don't use this, it's going to be removed in the future
+		size_type	empty() const noexcept
 		Ret			get(thread_id)
 		size_type	size() const noexcept
 		bool		valid(thread_id) const noexcept
@@ -43,9 +42,9 @@ VC++ 2015 and GCC 5.2.0.
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
-g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp<br>
+g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp<br>
 To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
-g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp ../lib/src/CSmartThread.cpp
+g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp
 # About compilation errors
 Does your compiler support C++14? If not, why don't you use Visual Studio Community 2015 or GCC 5.2.0?<br>
 Or, maybe you lost my lib files, [here is link](https://github.com/Fdhvdu/lib)<br>
@@ -63,8 +62,7 @@ The directory should be look like
 	             -tutorial
 	             -LICENSE
 	             -README.md
-Or, maybe you forget to compile lib/src/CScopeGuard.cpp, lib/src/CSemaphore.cpp and lib/src/CSmartThread.cpp
+Or, maybe you forget to compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp
 # Future work
-replace std::async with std::thread<br>
-compare to std::async<br><br>
+compare to std::async<br>
 work stealing<br>
