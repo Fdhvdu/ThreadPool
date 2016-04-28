@@ -14,7 +14,7 @@ Two classes
 		size_type	empty() const noexcept
 		void		join(thread_id)
 		void		join_all()
-		bool		joinable(thread_id) const noexcept
+		bool		joinable(thread_id) const
 		size_type	size() const noexcept
 		void 		wait_until_all_usable() const
 		
