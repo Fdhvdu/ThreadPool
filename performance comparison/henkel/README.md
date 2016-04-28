@@ -12,11 +12,8 @@ Boost: [Boost.lib](https://github.com/Fdhvdu/Boost.lib/tree/master/boost_1_60_0/
 		each spends 51897 nanoseconds on test_henkel_all_N (10000000 iteration)
 		each spends 1803 nanoseconds on test_henkel_billion (10000000 iteration)
 # Compare To Fdhvdu
-About construction and destruction time, henkel's threadpool is faster than Fdhvdu's threadpool<br>
+henkel's threadpool can only compare to Fdhvdu's CThreadPool. (because CThreadPool_Ret cannot use "all" function)<br>
+About construction and destruction time, henkel's threadpool is slower than Fdhvdu's threadpool<br>
 About waiting all job to complete, henkel's threadpool is slower than Fdhvdu's CThreadPool<br>
 About given a number of jobs, henkel's threadpool is slower than Fdhvdu's CThreadPool<br><br>
-henkel's threadpool can only compare to Fdhvdu's CThreadPool.<br>
-Normally, we only need 1 threadpool (and we should only use 1 threadpool as much as possible to prevent memory leak), so
-
-	use CThreadpool if the times of waiting all job to complete is bigger than 5 ((607034-420012)/(51897-19929))
-	use CThreadpool if the number of jobs is bigger than 348 ((607034-420012)/(1803-1267))
+As a result, you should use Fdhvdu's CThreadPool in any condition
