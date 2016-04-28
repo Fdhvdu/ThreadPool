@@ -63,5 +63,4 @@ The directory should be look like
 	             -README.md
 Or, maybe you forget to compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp
 # Future work
-compare to std::async<br>
-work stealing<br>
+work stealing
