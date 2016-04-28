@@ -1,7 +1,7 @@
 #ifndef ITHREADPOOLITEMBASE
 #define ITHREADPOOLITEMBASE
-#include<thread>	//thread::hardware_concurrency
 #include<functional>	//function
+#include<thread>	//thread::hardware_concurrency
 #include"../../lib/header/tool/CPimpl.hpp"
 
 namespace nThread
