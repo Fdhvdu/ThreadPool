@@ -37,7 +37,7 @@ P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe 
 P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 177 commits and 11 releases).<br>
 See the [directory](performance comparison/) for more details.
 # Compiler
-VC++ 2015 and GCC 5.2.0.
+VC++ 2015 (update 2) and GCC 5.3.0.
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
