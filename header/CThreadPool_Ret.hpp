@@ -80,7 +80,7 @@ namespace nThread
 		//2. return true for the thread_id which was returned by CThreadPool_Ret::add
 		//3. return false for the thread_id which was used by CThreadPool_Ret::get
 		//4. non-block
-		inline bool valid(const thread_id id) const noexcept
+		inline bool valid(const thread_id id) const
 		{
 			return thr_.at(id).is_running();
 		}

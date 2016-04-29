@@ -23,7 +23,7 @@ Two classes
 		size_type	empty() const noexcept
 		Ret			get(thread_id)
 		size_type	size() const noexcept
-		bool		valid(thread_id) const noexcept
+		bool		valid(thread_id) const
 		void		wait(thread_id) const
 		void 		wait_all() const
 Use the CThreadPool_Ret when you want to get the return value of function.<br>
