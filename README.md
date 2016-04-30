@@ -37,7 +37,7 @@ P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe 
 P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 177 commits and 11 releases).<br>
 See the [directory](performance comparison/) for more details.
 # Compiler
-VC++ 2015 (update 2) and GCC 5.3.0.
+VC++ 2015 (update 2)
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
@@ -45,7 +45,7 @@ g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp ../lib/src/
 To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
 g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp
 # About compilation errors
-Does your compiler support C++14? If not, why don't you use Visual Studio Community 2015 or GCC 5.2.0?<br>
+Does your compiler support C++14? If not, why don't you use Visual Studio Community 2015?<br>
 Or, maybe you lost my lib files, [here is link](https://github.com/Fdhvdu/lib)<br>
 The directory should be look like
 
