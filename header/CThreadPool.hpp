@@ -37,18 +37,14 @@ namespace nThread
 		template<class Func,class ... Args>
 		inline thread_id add(Func &&func,Args &&...args)
 		{
-			return add_([&]() noexcept(noexcept(std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...))){
-				std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...);
-			});
+			return add_(std::bind(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...));
 		}
 		//1. block until CThreadPool::empty is false and execute the func
 		//2. after the func is completed, usable threads will increase 1
 		template<class Func,class ... Args>
 		inline void add_and_detach(Func &&func,Args &&...args)
 		{
-			add_and_detach_([&]() noexcept(noexcept(std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...))){
-				std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...);
-			});
+			add_and_detach_(std::bind(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...));
 		}
 		//1. return true if there does not have usable threads at that moment
 		//2. return false if there has usable threads at that moment
