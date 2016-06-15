@@ -46,7 +46,7 @@ See the [directory](performance comparison/) for more details.
 VC++ 2015 (update 2)<br>
 or any compiler which supports C++14
 # How to compile
-you have to download [my lib](https://github.com/Fdhvdu/lib)
+You have to download [my lib](https://github.com/Fdhvdu/lib)<br>
 The directory should be look like
 
 	-ThreadPool---header
@@ -64,7 +64,9 @@ The directory should be look like
 Don't forget to add compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp.
 # About compilation errors
 Q: My compiler doesn't support C++14<br>
-A: Get a newer compiler version, such as GCC 5.3.0 or VC++ 14.2 (inside Visual Studio Community 2015 Update 2)
+A: Get a newer compiler version, such as GCC 5.3.0 or VC++ 14.2 (inside Visual Studio Community 2015 Update 2)<br><br>
+Q: Other problems<br>
+A: See [How to compile](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#how-to-compile)
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
