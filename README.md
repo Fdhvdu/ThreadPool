@@ -1,11 +1,15 @@
 # Contents
 [Introduction](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#introduction)<br>
+[Class view](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#class-view)<br>
 [Performance comparison](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#performance-comparison)<br>
 [Compiler](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#compiler)<br>
 [Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
 [About compilation errors](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#about-compilation-errors)<br>
 [Future work](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#future-work)
 # Introduction
+This is a pure C++ (which means it doesn't depend on any platform) threadpool (so far, there is no standard threadpool in C++).<br>
+The goal of this project is to provide a *fastest*, *beautiful* and *easy-to-use* C++ threadpool library.<br>
+# Class view
 Two classes
 
 	CThreadPool, including the member function
@@ -30,6 +34,7 @@ Use the CThreadPool_Ret when you want to get the return value of function.<br>
 Use the CThreadPool when you don't care the return value of function.<br>
 The CThreadPool::add_and_detach is faster (very) than the CThreadPool_Ret::add.
 # Performance comparison
+github search "threadpool language:C++"<br><br>
 About [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Compare To Fdhvdu](performance comparison/progschj/README.md#compare-to-fdhvdu).<br>
 About [henkel/threadpool](https://github.com/henkel/threadpool), somehow, it has memory leak, see [README](performance comparison/henkel/README.md).<br><br>
 P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.<br>
