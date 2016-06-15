@@ -3,12 +3,13 @@
 [Class view](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#class-view)<br>
 [Performance comparison](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#performance-comparison)<br>
 [Compiler](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#compiler)<br>
-[Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
+[How to compile](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#how-to-compile)<br>
 [About compilation errors](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#about-compilation-errors)<br>
+[Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
 [Future work](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#future-work)
 # Introduction
 This is a pure C++ (which means it doesn't depend on any platform) and exception-safety (such as bad_alloc) threadpool (so far, there is no standard threadpool in C++).<br>
-The goal of this project is to provide a *fastest*, *beautiful* and *easy-to-use* C++ threadpool library.<br>
+The goal of this project is to provide a *fastest*, *beautiful* and *easy-to-use* C++ threadpool library.
 # Class view
 Two classes
 
@@ -44,15 +45,8 @@ See the [directory](performance comparison/) for more details.
 # Compiler
 VC++ 2015 (update 2)<br>
 or any compiler which supports C++14
-# Tutorial
-I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
-To use [example.cpp](tutorial/example.cpp):<br>
-g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp<br>
-To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
-g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp
-# About compilation errors
-Does your compiler support C++14? If not, why don't you use Visual Studio Community 2015?<br>
-Or, maybe you lost my lib files, [here is link](https://github.com/Fdhvdu/lib)<br>
+# How to compile
+you have to download [my lib](https://github.com/Fdhvdu/lib)
 The directory should be look like
 
 	-ThreadPool---header
@@ -67,6 +61,15 @@ The directory should be look like
 	             -tutorial
 	             -LICENSE
 	             -README.md
-Or, maybe you forget to compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp
+Don't forget to add compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp.
+# About compilation errors
+Q: My compiler doesn't support C++14<br>
+A: Get a newer compiler version, such as GCC 5.3.0 or VC++ 14.2 (inside Visual Studio Community 2015 Update 2)
+# Tutorial
+I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
+To use [example.cpp](tutorial/example.cpp):<br>
+g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp<br>
+To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
+g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp
 # Future work
 work stealing
