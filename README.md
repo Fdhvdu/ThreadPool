@@ -43,7 +43,7 @@ P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe 
 P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 177 commits and 11 releases).<br>
 See the [directory](performance comparison/) for more details.
 # Compiler
-VC++ 2015 (update 2)<br>
+VC++ 14.2<br>
 or any compiler which supports C++14
 # How to compile
 You have to download [my lib](https://github.com/Fdhvdu/lib)<br>
