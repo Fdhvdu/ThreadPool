@@ -7,7 +7,7 @@
 [About compilation errors](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#about-compilation-errors)<br>
 [Future work](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#future-work)
 # Introduction
-This is a pure C++ (which means it doesn't depend on any platform) threadpool (so far, there is no standard threadpool in C++).<br>
+This is a pure C++ (which means it doesn't depend on any platform) and exception-safety (such as bad_alloc) threadpool (so far, there is no standard threadpool in C++).<br>
 The goal of this project is to provide a *fastest*, *beautiful* and *easy-to-use* C++ threadpool library.<br>
 # Class view
 Two classes
