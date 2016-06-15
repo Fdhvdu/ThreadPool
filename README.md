@@ -61,7 +61,7 @@ The directory should be look like
 	             -tutorial
 	             -LICENSE
 	             -README.md
-Don't forget to add compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp.
+Don't forget to compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp.
 # About compilation errors
 Q: My compiler doesn't support C++14<br>
 A: Get a newer compiler version, such as GCC 5.3.0 or VC++ 14.2 (inside Visual Studio Community 2015 Update 2)<br><br>
