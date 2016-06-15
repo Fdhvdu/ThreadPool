@@ -43,7 +43,7 @@ P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not th
 See the [directory](performance comparison/) for more details.
 # Compiler
 VC++ 2015 (update 2)<br>
-or any compiler which supports C++14<br>
+or any compiler which supports C++14
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
