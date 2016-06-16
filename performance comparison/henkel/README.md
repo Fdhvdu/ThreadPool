@@ -5,7 +5,7 @@ Compiler: visual c++ 2015<br>
 Compiler Option: release, x64, full optimization<br>
 Iteration: 600000 (because of memory leak, test [test_henkel_ctor_and_dtor](../header/henkel.hpp) by yourself) and 10000000<br>
 Thread Count: 12<br>
-Boost: [Boost.lib](https://github.com/Fdhvdu/Boost.lib/tree/master/boost_1_60_0/msvc-14.0_release_64_static_multi)
+Boost: 1.60.0
 # Result
 	henkel
 		each spends 420012 nanoseconds on test_henkel_ctor_and_dtor (600000 iteration)
