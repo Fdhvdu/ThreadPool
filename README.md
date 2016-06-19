@@ -8,7 +8,7 @@
 [Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
 [Future work](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#future-work)
 # Introduction
-This is a pure C++ (which means it doesn't depend on any platform) and exception-safety threadpool (so far, there is no standard threadpool in C++).<br>
+This is a pure (which means it doesn't depend on any platform) and exception-safety C++ threadpool (so far, there is no standard threadpool in C++).<br>
 The goal of this project is to provide a `fastest`, `beautiful` and `easy-to-use` C++ threadpool library.
 # Class view
 Two classes
@@ -66,7 +66,7 @@ Don't forget to compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp.
 Q: My compiler doesn't support C++14<br>
 A: Get a newer compiler version, such as GCC 5.3.0 or VC++ 14.2 (inside Visual Studio Community 2015 Update 2)<br><br>
 Q: Other problems<br>
-A: See [How to compile](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#how-to-compile)
+A: See [How to compile](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#how-to-compile) or email me
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
