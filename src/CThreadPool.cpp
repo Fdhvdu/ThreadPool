@@ -90,9 +90,10 @@ namespace nThread
 	{
 		//speed up, you can construct a vector in each threads in advance
 		vector<decltype(waiting_queue)::value_type> vec;
-		vec.reserve(thr.size());
+		size_t size{thr.size()};
+		vec.reserve(size);
 		lock_guard<mutex> lock{wait_until_all_usable_mut};
-		while(vec.size()!=vec.capacity())
+		while(size--)
 			vec.emplace_back(waiting_queue.wait_and_pop());
 		for(auto &val:vec)
 			waiting_queue.emplace_and_notify(move(val));
