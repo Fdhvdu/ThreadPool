@@ -40,7 +40,8 @@ namespace nThread
 			return add_(std::bind(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...));
 		}
 		//1. block until CThreadPool::empty is false and execute the func
-		//2. after the func is completed, usable threads will increase 1
+		//2. after returning from add_and_detach, usable threads will reduce 1
+		//3. after the func is completed, usable threads will increase 1
 		template<class Func,class ... Args>
 		inline void add_and_detach(Func &&func,Args &&...args)
 		{
