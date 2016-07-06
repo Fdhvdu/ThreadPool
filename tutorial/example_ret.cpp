@@ -16,6 +16,16 @@ namespace
 		static mt19937 mu{static_cast<mt19937::result_type>(chrono::high_resolution_clock::now().time_since_epoch().count())};
 		return mu()%4;
 	}
+
+	std::size_t add_func(const std::size_t i)
+	{
+		using namespace std;
+		const auto sec{get()};
+		this_thread::sleep_for(chrono::seconds{sec});
+		lock_guard<mutex> lock{mut};
+		cout<<"thread "<<i<<" wait "<<sec<<" sec"<<endl;
+		return i;
+	}
 }
 
 int main()
@@ -24,14 +34,7 @@ int main()
 	nThread::CThreadPool_Ret<size_t> tp{4};	//merely size_t, not size_t()
 	queue<nThread::CThreadPool_Ret<size_t>::thread_id> que;
 	for(size_t i{0};i!=tp.size();++i)
-		que.emplace(tp.add([&,i]{
-			using namespace std;
-			const auto sec{get()};
-			this_thread::sleep_for(chrono::seconds{sec});
-			lock_guard<mutex> lock{mut};
-			cout<<"thread "<<i<<" wait "<<sec<<" sec"<<endl;
-			return i;
-		;}));
+		que.emplace(tp.add(add_func,i));
 	tp.wait(que.front());	//tp will block here until thread[que.front()] complete
 	cout<<tp.get(que.front())<<" complete"<<endl;	//get the return value from lambda
 	//tp.get(que.front());	//do not call same id twice
