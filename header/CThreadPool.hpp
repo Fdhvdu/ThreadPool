@@ -1,6 +1,6 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
-#include<functional>	//function
+#include<functional>	//bind, function
 #include<thread>	//thread::hardware_concurrency
 #include<type_traits>	//result_of_t
 #include<utility>	//forward
