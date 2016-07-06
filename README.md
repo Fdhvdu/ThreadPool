@@ -74,4 +74,5 @@ g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp ../lib/src/
 To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
 g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp
 # Future work
+remove bind of CThreadPool::add and CThreadPool::add_and_detach<br>
 work stealing
