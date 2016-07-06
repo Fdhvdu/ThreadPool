@@ -47,7 +47,7 @@ namespace nThread
 			const auto temp{waiting_queue_.wait_and_pop()};
 			try
 			{
-				temp->assign(std::forward<Func>(func),std::forward<Args>(args)...);
+				temp->assign(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...);
 			}catch(...)
 			{
 				waiting_queue_.emplace_and_notify(temp);
