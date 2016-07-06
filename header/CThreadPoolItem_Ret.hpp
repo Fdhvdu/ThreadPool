@@ -1,5 +1,6 @@
 #ifndef CTHREADPOOLITEM_RET
 #define CTHREADPOOLITEM_RET
+#include<functional>	//bind
 #include<utility>	//forward
 #include"../../lib/header/thread/CTask.hpp"
 #include"../../lib/header/thread/CWait_bounded_queue.hpp"
@@ -21,7 +22,7 @@ namespace nThread
 		template<class Func,class ... Args>
 		void assign(Func &&func,Args &&...args)
 		{
-			exec_=CTask<Ret>{std::forward<Func>(func),std::forward<Args>(args)...};
+			exec_=CTask<Ret>{std::bind(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...)};
 			IThreadPoolItemBase::exec_([this]{exec_();});
 		}
 		inline Ret get()
