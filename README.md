@@ -61,7 +61,7 @@ The directory should be look like
 	             -tutorial
 	             -LICENSE
 	             -README.md
-Don't forget to compile lib/src/CScopeGuard.cpp and lib/src/CSemaphore.cpp.
+Don't forget to compile lib/src/CScopeGuard.cpp.
 # About compilation errors
 Q: My compiler doesn't support C++14<br>
 A: Get a newer compiler version, such as GCC 5.3.0 or VC++ 14.2 (inside Visual Studio Community 2015 Update 2)<br><br>
@@ -70,9 +70,9 @@ A: See [How to compile](https://github.com/Fdhvdu/ThreadPool/blob/master/README.
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
-g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp<br>
+g++ -std=c++14 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp<br>
 To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
-g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp ../lib/src/CSemaphore.cpp
+g++ -std=c++14 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp
 # Future work
 replace std::bind in CThreadPool::add, CThreadPool::add_and_detach and CThreadPool_Ret::add with C++17 std::apply<br>
 work stealing
