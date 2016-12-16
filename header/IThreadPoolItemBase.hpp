@@ -2,7 +2,7 @@
 #define ITHREADPOOLITEMBASE
 #include<functional>	//function
 #include<thread>	//thread::hardware_concurrency
-#include"../../lib/header/tool/CPimpl.hpp"
+#include"../../lib/header/tool/CUnique_obj.hpp"
 
 namespace nThread
 {
@@ -23,7 +23,7 @@ namespace nThread
 		void exec_(std::function<void()> &&);
 	private:
 		struct Impl;
-		nTool::CPimpl<Impl> impl_;
+		nTool::CUnique_obj<Impl> impl_;
 	};
 }
 

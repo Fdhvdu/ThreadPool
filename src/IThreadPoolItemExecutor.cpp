@@ -75,17 +75,17 @@ namespace nThread
 
 	void CThreadPoolItemExecutorDetach::exec()
 	{
-		impl_.get().exec();
+		impl_->exec();
 	}
 
 	bool CThreadPoolItemExecutorDetach::is_running() const noexcept
 	{
-		return !impl_.get().complete.count();
+		return !impl_->complete.count();
 	}
 
 	void CThreadPoolItemExecutorDetach::wait()
 	{
-		impl_.get().complete.wait();
+		impl_->complete.wait();
 	}
 
 	CThreadPoolItemExecutorDetach::~CThreadPoolItemExecutorDetach()=default;
@@ -95,17 +95,17 @@ namespace nThread
 
 	void CThreadPoolItemExecutorJoin::exec()
 	{
-		impl_.get().exec();
+		impl_->exec();
 	}
 
 	bool CThreadPoolItemExecutorJoin::is_running() const noexcept
 	{
-		return impl_.get().running;
+		return impl_->running;
 	}
 
 	void CThreadPoolItemExecutorJoin::wait()
 	{
-		impl_.get().join();
+		impl_->join();
 	}
 
 	CThreadPoolItemExecutorJoin::~CThreadPoolItemExecutorJoin()=default;

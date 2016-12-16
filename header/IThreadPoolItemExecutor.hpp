@@ -1,7 +1,7 @@
 #ifndef ITHREADPOOLITEMEXECUTOR
 #define ITHREADPOOLITEMEXECUTOR
 #include<functional>	//function
-#include"../../lib/header/tool/CPimpl.hpp"
+#include"../../lib/header/tool/CUnique_obj.hpp"
 
 namespace nThread
 {
@@ -19,7 +19,7 @@ namespace nThread
 	class CThreadPoolItemExecutorDetach:public IThreadPoolItemExecutorBase
 	{
 		struct Impl;
-		nTool::CPimpl<Impl> impl_;
+		nTool::CUnique_obj<Impl> impl_;
 	public:
 		CThreadPoolItemExecutorDetach(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*> *,std::function<void()> &&);
 		void exec() override;
@@ -31,7 +31,7 @@ namespace nThread
 	class CThreadPoolItemExecutorJoin:public IThreadPoolItemExecutorBase
 	{
 		struct Impl;
-		nTool::CPimpl<Impl> impl_;
+		nTool::CUnique_obj<Impl> impl_;
 	public:
 		CThreadPoolItemExecutorJoin(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*> *,std::function<void()> &&);
 		void exec() override;

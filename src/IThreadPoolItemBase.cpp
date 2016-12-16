@@ -46,17 +46,17 @@ namespace nThread
 
 	IThreadPoolItemBase::id IThreadPoolItemBase::get_id() const noexcept
 	{
-		return impl_.get().id;
+		return impl_->id;
 	}
 
 	void IThreadPoolItemBase::exec_(const function<void()> &val)
 	{
-		impl_.get().exec(val);
+		impl_->exec(val);
 	}
 
 	void IThreadPoolItemBase::exec_(function<void()> &&val)
 	{
-		impl_.get().exec(move(val));
+		impl_->exec(move(val));
 	}
 
 	IThreadPoolItemBase& IThreadPoolItemBase::operator=(IThreadPoolItemBase &&) noexcept=default;

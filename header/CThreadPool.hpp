@@ -4,7 +4,7 @@
 #include<thread>	//thread::hardware_concurrency
 #include<type_traits>	//result_of_t
 #include<utility>	//forward
-#include"../../lib/header/tool/CPimpl.hpp"
+#include"../../lib/header/tool/CUnique_obj.hpp"
 #include"IThreadPoolItemBase.hpp"
 
 namespace nThread
@@ -18,7 +18,7 @@ namespace nThread
 		using thread_id=IThreadPoolItemBase::id;
 	private:
 		struct Impl;
-		nTool::CPimpl<Impl> impl_;
+		nTool::CUnique_obj<Impl> impl_;
 		thread_id add_(std::function<void()> &&);
 		void add_and_detach_(std::function<void()> &&);
 	public:

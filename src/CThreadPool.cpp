@@ -101,12 +101,12 @@ namespace nThread
 
 	CThreadPool::thread_id CThreadPool::add_(std::function<void()> &&func)
 	{
-		return impl_.get().add(move(func));
+		return impl_->add(move(func));
 	}
 
 	void CThreadPool::add_and_detach_(std::function<void()> &&func)
 	{
-		impl_.get().add_and_detach(move(func));
+		impl_->add_and_detach(move(func));
 	}
 
 	CThreadPool::CThreadPool()
@@ -117,32 +117,32 @@ namespace nThread
 	
 	bool CThreadPool::empty() const noexcept
 	{
-		return impl_.get().waiting_queue.empty();
+		return impl_->waiting_queue.empty();
 	}
 
 	void CThreadPool::join(const thread_id id)
 	{
-		impl_.get().thr.at(id).wait();
+		impl_->thr.at(id).wait();
 	}
 
 	void CThreadPool::join_all()
 	{
-		impl_.get().join_all();
+		impl_->join_all();
 	}
 
 	bool CThreadPool::joinable(const thread_id id) const
 	{
-		return impl_.get().joinable(id);
+		return impl_->joinable(id);
 	}
 
 	CThreadPool::size_type CThreadPool::size() const noexcept
 	{
-		return static_cast<size_type>(impl_.get().thr.size());
+		return static_cast<size_type>(impl_->thr.size());
 	}
 
 	void CThreadPool::wait_until_all_usable() const
 	{
-		impl_.get().wait_until_all_usable();
+		impl_->wait_until_all_usable();
 	}
 
 	CThreadPool::~CThreadPool()=default;
