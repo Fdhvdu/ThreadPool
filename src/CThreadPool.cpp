@@ -4,6 +4,7 @@
 #include<vector>
 #include<unordered_map>
 #include"../../lib/header/thread/CWait_bounded_queue.hpp"
+#include"../../lib/header/thread/tag.hpp"
 #include"../header/CThreadPoolItem.hpp"
 #include"../header/IThreadPoolItemExecutor.hpp"
 using namespace std;
@@ -15,7 +16,7 @@ namespace nThread
 		unordered_map<thread_id,bool> is_joinable;
 		mutex join_all_mut;	//only for join_all
 		mutex wait_until_all_usable_mut;	//only for wait_until_all_usable
-		CWait_bounded_queue<CThreadPoolItem*> waiting_queue;
+		CWait_bounded_queue<CThreadPoolItem*,Do_not_use_pop_if_exist> waiting_queue;
 		unordered_map<thread_id,CThreadPoolItem> thr;
 		Impl(CThreadPool::size_type);
 		thread_id add(function<void()> &&);
