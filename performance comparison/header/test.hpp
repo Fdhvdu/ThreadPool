@@ -4,10 +4,13 @@
 #include<type_traits>
 #include"../../../lib/header/tool/CChrono_timer.hpp"
 
-using duration=decltype(nTool::CChrono_timer().duration_nanoseconds());
+namespace nTest
+{
+	using duration=decltype(nTool::CChrono_timer().duration_nanoseconds());
 
-constexpr std::result_of_t<decltype(std::thread::hardware_concurrency)&()> thread_count(16);
+	constexpr std::result_of_t<decltype(std::thread::hardware_concurrency)&()> thread_count(16);
 
-constexpr void empty() noexcept{}
+	constexpr void empty() noexcept{}
+}
 
 #endif
