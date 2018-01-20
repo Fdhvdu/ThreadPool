@@ -14,6 +14,6 @@ int main()
 		<<" nanoseconds on test_tghosgor_specific_N"<<endl<<"\teach spends "<<
 		test_tghosgor_all_N()/iteration
 		<<" nanoseconds on test_tghosgor_all_N"<<endl<<"\teach spends "<<
-		test_tghosgor_billion()/iteration
-		<<" nanoseconds on test_tghosgor_billion";
+		test_tghosgor_10_million()/iteration
+		<<" nanoseconds on test_tghosgor_10_million";
 }

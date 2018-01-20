@@ -9,6 +9,6 @@ duration test_progschj_ctor_and_dtor();
 duration test_progschj_specific_N();
 
 //how fast can a thread pool complete iteration jobs, while the size of thread pool is thread_count or constexpr_thread_count
-duration test_progschj_billion();
+duration test_progschj_10_million();
 
 #endif

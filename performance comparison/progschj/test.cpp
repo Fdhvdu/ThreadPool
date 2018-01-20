@@ -12,6 +12,6 @@ int main()
 		<<" nanoseconds on test_progschj_ctor_and_dtor"<<endl<<"\teach spends "<<
 		test_progschj_specific_N()/iteration
 		<<" nanoseconds on test_progschj_specific_N"<<endl<<"\teach spends "<<
-		test_progschj_billion()/iteration
-		<<" nanoseconds on test_progschj_billion";
+		test_progschj_10_million()/iteration
+		<<" nanoseconds on test_progschj_10_million";
 }

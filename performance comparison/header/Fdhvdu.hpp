@@ -13,6 +13,6 @@ duration test_Fdhvdu_CThreadPool_detach_all_N();
 duration test_Fdhvdu_CThreadPool_Ret_specific_N();
 
 //how fast can a thread pool complete iteration jobs, while the size of thread pool is thread_count or constexpr_thread_count
-duration test_Fdhvdu_CThreadPool_detach_billion();
+duration test_Fdhvdu_CThreadPool_detach_10_million();
 
 #endif

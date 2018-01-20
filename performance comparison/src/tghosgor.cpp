@@ -2,7 +2,7 @@
 #include<functional>
 #include<future>
 #include<queue>
-#include"../tghosgor/threadpool11-2.0/threadpool11/include/threadpool11/threadpool11.hpp"
+#include"../../../../tghosgor/threadpool11/threadpool11/include/threadpool11/threadpool11.hpp"
 using namespace std;
 
 duration test_tghosgor_ctor_and_dtor()
@@ -44,7 +44,7 @@ duration test_tghosgor_all_N()
 	}).duration_nanoseconds();
 }
 
-duration test_tghosgor_billion()
+duration test_tghosgor_10_million()
 {
 	threadpool11::Pool tp{thread_count};
 	return nTool::calc_time([&]{

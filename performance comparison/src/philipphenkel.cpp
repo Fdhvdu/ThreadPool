@@ -1,5 +1,5 @@
-#include"../header/henkel.hpp"
-#include"../henkel/threadpool-threadpool-0.2.6/boost/threadpool.hpp"
+#include"../header/philipphenkel.hpp"
+#include"../../../../philipphenkel/threadpool/boost/threadpool.hpp"
 using namespace std;
 
 using thread_pool=boost::threadpool::thread_pool<
@@ -9,7 +9,7 @@ using thread_pool=boost::threadpool::thread_pool<
 	boost::threadpool::empty_controller,
 	boost::threadpool::wait_for_all_tasks>;
 
-duration test_henkel_ctor_and_dtor()
+duration test_philipphenkel_ctor_and_dtor()
 {
 	return nTool::calc_time([=]{
 		for(auto i{iteration};i--;)
@@ -17,7 +17,7 @@ duration test_henkel_ctor_and_dtor()
 	}).duration_nanoseconds();
 }
 
-duration test_henkel_all_N()
+duration test_philipphenkel_all_N()
 {
 	thread_pool tp{thread_count};
 	return nTool::calc_time([&]{
@@ -30,7 +30,7 @@ duration test_henkel_all_N()
 	}).duration_nanoseconds();
 }
 
-duration test_henkel_billion()
+duration test_philipphenkel_10_million()
 {
 	thread_pool tp{thread_count};
 	return nTool::calc_time([&]{

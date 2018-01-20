@@ -82,7 +82,7 @@ duration test_Fdhvdu_CThreadPool_Ret_specific_N()
 	}).duration_nanoseconds();
 }
 
-duration test_Fdhvdu_CThreadPool_detach_billion()
+duration test_Fdhvdu_CThreadPool_detach_10_million()
 {
 	nThread::CThreadPool tp{thread_count};
 	return nTool::calc_time([&]{

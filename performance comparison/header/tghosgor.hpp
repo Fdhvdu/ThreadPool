@@ -10,6 +10,6 @@ duration test_tghosgor_specific_N();
 duration test_tghosgor_all_N();
 
 //how fast can a thread pool complete iteration jobs, while the size of thread pool is thread_count or constexpr_thread_count
-duration test_tghosgor_billion();
+duration test_tghosgor_10_million();
 
 #endif

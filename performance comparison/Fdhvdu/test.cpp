@@ -16,8 +16,8 @@ int main()
 		<<" nanoseconds on test_Fdhvdu_CThreadPool_join_all_N"<<endl<<"\teach spends "<<
 		test_Fdhvdu_CThreadPool_detach_all_N()/iteration
 		<<" nanoseconds on test_Fdhvdu_CThreadPool_detach_all_N"<<endl<<"\teach spends "<<
-		test_Fdhvdu_CThreadPool_detach_billion()/iteration
-		<<" nanoseconds on test_Fdhvdu_CThreadPool_detach_billion"<<endl;
+		test_Fdhvdu_CThreadPool_detach_10_million()/iteration
+		<<" nanoseconds on test_Fdhvdu_CThreadPool_detach_10_million"<<endl;
 		
 	ofs<<"Fdhvdu's CThreadPool_Ret"<<endl<<"\teach spends "<<
 		test_Fdhvdu_CThreadPool_Ret_ctor_and_dtor()/iteration

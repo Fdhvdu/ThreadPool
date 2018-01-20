@@ -1,5 +1,5 @@
 #include"../header/nbsdx.hpp"
-#include"../nbsdx/ThreadPool-master/ThreadPool.h"
+#include"../../../../nbsdx/ThreadPool/ThreadPool.h"
 using namespace std;
 
 duration test_nbsdx_ctor_and_dtor()
@@ -23,7 +23,7 @@ duration test_nbsdx_all_N()
 	}).duration_nanoseconds();
 }
 
-duration test_nbsdx_billion()
+duration test_nbsdx_10_million()
 {
 	nbsdx::concurrent::ThreadPool<thread_count> tp;
 	return nTool::calc_time([&]{

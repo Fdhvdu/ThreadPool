@@ -12,6 +12,6 @@ int main()
 		<<" nanoseconds on test_nbsdx_ctor_and_dtor"<<endl<<"\teach spends "<<
 		test_nbsdx_all_N()/iteration
 		<<" nanoseconds on test_nbsdx_all_N"<<endl<<"\teach spends "<<
-		test_nbsdx_billion()/iteration
-		<<" nanoseconds on test_nbsdx_billion";
+		test_nbsdx_10_million()/iteration
+		<<" nanoseconds on test_nbsdx_10_million";
 }

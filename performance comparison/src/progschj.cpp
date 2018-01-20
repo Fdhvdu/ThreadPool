@@ -1,7 +1,7 @@
 #include"../header/progschj.hpp"
 #include<future>
 #include<queue>
-#include"../progschj/ThreadPool-master/ThreadPool.h"
+#include"../../../../progschj/ThreadPool/ThreadPool.h"
 using namespace std;
 
 duration test_progschj_ctor_and_dtor()
@@ -30,7 +30,7 @@ duration test_progschj_specific_N()
 	}).duration_nanoseconds();
 }
 
-duration test_progschj_billion()
+duration test_progschj_10_million()
 {
 	ThreadPool tp{thread_count};
 	queue<future<void>> que;

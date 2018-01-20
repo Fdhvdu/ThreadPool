@@ -9,6 +9,6 @@ duration test_nbsdx_ctor_and_dtor();
 duration test_nbsdx_all_N();
 
 //how fast can a thread pool complete iteration jobs, while the size of thread pool is thread_count or constexpr_thread_count
-duration test_nbsdx_billion();
+duration test_nbsdx_10_million();
 
 #endif
