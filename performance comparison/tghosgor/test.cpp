@@ -1,19 +1,20 @@
 #include<fstream>
+#include<string>
 #include"../header/tghosgor.hpp"
 
-int main()
+int main(int argc,char **argv)
 {
 	using namespace std;
-
-	ofstream ofs{"tghosgor.txt"};
+	const auto cnt(stoul(argv[1]));
+	ofstream ofs("tghosgor");
 
 	ofs<<"tghosgor"<<endl<<"\teach spends "<<
-		test_tghosgor_ctor_and_dtor()/iteration
+		test_tghosgor_ctor_and_dtor(cnt)/cnt
 		<<" nanoseconds on test_tghosgor_ctor_and_dtor"<<endl<<"\teach spends "<<
-		test_tghosgor_specific_N()/iteration
+		test_tghosgor_specific_N(cnt)/cnt
 		<<" nanoseconds on test_tghosgor_specific_N"<<endl<<"\teach spends "<<
-		test_tghosgor_all_N()/iteration
+		test_tghosgor_all_N(cnt)/cnt
 		<<" nanoseconds on test_tghosgor_all_N"<<endl<<"\teach spends "<<
-		test_tghosgor_10_million()/iteration
-		<<" nanoseconds on test_tghosgor_10_million";
+		test_tghosgor_job(cnt)/cnt
+		<<" nanoseconds on test_tghosgor_job";
 }

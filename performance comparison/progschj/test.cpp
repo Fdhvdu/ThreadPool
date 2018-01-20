@@ -1,17 +1,18 @@
 #include<fstream>
+#include<string>
 #include"../header/progschj.hpp"
 
-int main()
+int main(int argc,char **argv)
 {
 	using namespace std;
-
-	ofstream ofs{"progschj.txt"};
+	const auto cnt(stoul(argv[1]));
+	ofstream ofs("progschj");
 
 	ofs<<"progschj"<<endl<<"\teach spends "<<
-		test_progschj_ctor_and_dtor()/iteration
+		test_progschj_ctor_and_dtor(cnt)/cnt
 		<<" nanoseconds on test_progschj_ctor_and_dtor"<<endl<<"\teach spends "<<
-		test_progschj_specific_N()/iteration
+		test_progschj_specific_N(cnt)/cnt
 		<<" nanoseconds on test_progschj_specific_N"<<endl<<"\teach spends "<<
-		test_progschj_10_million()/iteration
-		<<" nanoseconds on test_progschj_10_million";
+		test_progschj_job(cnt)/cnt
+		<<" nanoseconds on test_progschj_job";
 }
