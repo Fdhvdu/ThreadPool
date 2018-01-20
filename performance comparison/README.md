@@ -1,5 +1,5 @@
 # What is test function?
-First, the execution time of function must same (no matter what thread pool you use).<br>
+First, the execution time of function is same (no matter what thread pool you use).<br>
 So, the function should be short, and what we need to do is test
 
 	how fast can a thread pool construct and destruct (test iteration times)
@@ -8,7 +8,7 @@ So, the function should be short, and what we need to do is test
 		-test by wait_all (if has)
 	how fast can a thread pool complete iteration jobs
 # The version I use
-[progschj/ThreadPool](https://github.com/progschj/ThreadPool) 28 commits<br>
-[henkel/threadpool](https://github.com/henkel/threadpool) 2 commits<br>
-[nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) 24 commits<br>
-[tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) 177 commits, 11 releases
+[progschj/ThreadPool](https://github.com/progschj/ThreadPool) commit: 9a42ec1329f259a5f4881a291db1dcb8f2ad9040<br>
+[nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) commit: 08905cfc36d8bae308488c56c505e9aefa2bcb78<br>
+[philipphenkel/threadpool](https://github.com/philipphenkel/threadpool) commit: bb6da2e40eacb3358e5c648f2242faf307a54268<br>
+[tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) commit: 8bfcf6afbdb60b2dc7976762f45fd424de06097a
