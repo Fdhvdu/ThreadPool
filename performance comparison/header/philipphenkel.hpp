@@ -1,5 +1,5 @@
-#ifndef HENKEL
-#define HENKEL
+#ifndef PHILIPPHENKEL
+#define PHILIPPHENKEL
 #include"test.hpp"
 
 //how fast can a thread pool construct and destruct (test iteration times)
