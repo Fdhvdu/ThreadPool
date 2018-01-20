@@ -2,12 +2,12 @@
 #include"../henkel/threadpool-threadpool-0.2.6/boost/threadpool.hpp"
 using namespace std;
 
-typedef boost::threadpool::thread_pool<
+using thread_pool=boost::threadpool::thread_pool<
 	boost::threadpool::task_func,
 	boost::threadpool::fifo_scheduler,
 	boost::threadpool::static_size,
 	boost::threadpool::empty_controller,
-	boost::threadpool::wait_for_all_tasks> thread_pool;
+	boost::threadpool::wait_for_all_tasks>;
 
 duration test_henkel_ctor_and_dtor()
 {
