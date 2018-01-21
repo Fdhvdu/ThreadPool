@@ -6,7 +6,7 @@ int main(int argc,char **argv)
 {
 	using namespace std;
 	const auto cnt(stoul(argv[1]));
-	ofstream ofs("nbsdx");
+	ofstream ofs("out_"+string(argv[1]));
 
 	ofs<<"nbsdx"<<endl<<"\teach spends "<<
 		test_nbsdx_ctor_and_dtor(cnt)/cnt
