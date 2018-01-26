@@ -13,3 +13,10 @@ So, the function should be short, and what we need to do is test
 [philipphenkel/threadpool](https://github.com/philipphenkel/threadpool) commit: bb6da2e40eacb3358e5c648f2242faf307a54268<br>
 [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) commit: 8bfcf6afbdb60b2dc7976762f45fd424de06097a<br>
 [Tyler-Hardin/thread_pool](https://github.com/Tyler-Hardin/thread_pool) commit: 0b1eff9817d89266232489cd250d24841e147dc3
+# Environment
+Motherboard: ASUS TUF X299 MARK 1<br>
+CPU: Intel(R) Core(TM) i7-7820X<br>
+Memory: 16 GiB DDR4 2400 MHz * 2<br>
+OS: Linux 4.14.15-1-ARCH #1 SMP PREEMPT<br>
+Compiler: gcc version 7.2.1 20180116<br>
+boost version: 1.66.0-1
