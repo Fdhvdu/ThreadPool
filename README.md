@@ -4,7 +4,7 @@
 [Performance comparison](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#performance-comparison)<br>
 [Compiler](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#compiler)<br>
 [How to compile](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#how-to-compile)<br>
-[About compilation errors](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#about-compilation-errors)<br>
+[Compilation errors?](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#compilation-errors?)<br>
 [Tutorial](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#tutorial)<br>
 [Future work](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#future-work)
 # Introduction
@@ -33,20 +33,20 @@ Two classes
 		void 		wait_all() const
 Use the CThreadPool_Ret when you want to get the return value of function.<br>
 Use the CThreadPool when you don't care the return value of function.<br>
-The CThreadPool::add_and_detach is faster (very) than the CThreadPool_Ret::add.
+CThreadPool::add_and_detach is faster (very) than CThreadPool_Ret::add.
 # Performance comparison
-github search "threadpool language:C++"<br><br>
-About [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Compare To Fdhvdu](performance comparison/progschj/README.md#compare-to-fdhvdu).<br>
-About [henkel/threadpool](https://github.com/henkel/threadpool), somehow, it has memory leak, see [README](performance comparison/henkel/README.md).<br><br>
-P.S. [bilash/threadpool](https://github.com/bilash/threadpool) needs POSIX support, however, I don't have Unix system. So, there is no comparison result.<br>
-P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) is not thread-safe (as far as 24 commits).<br>
-P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) is not thread-safe (as far as 177 commits and 11 releases).<br>
-See the [directory](performance comparison/) for more details.
+[progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Comparison](comparison/README.md#result).<br>
+[Tyler-Hardin/thread_pool](https://github.com/Tyler-Hardin/thread_pool), see [Comparison](comparison/README.md#result).<br>
+P.S. [bilash/threadpool](https://github.com/bilash/threadpool), I don't want to test a C-like code.<br>
+P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) cannot pass testing, see [README](comparison/nbsdx/README.md#warning).<br>
+P.S. [philipphenkel/threadpool](https://github.com/philipphenkel/threadpool) cannot pass testing, see [README](comparison/philipphenkel/README.md#warning).<br>
+P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) cannot pass testing, see [README](comparison/tghosgor/README.md#warning).<br>
+See the [directory](comparison/) for more details.
 # Compiler
 VC++ 14.2<br>
 or any compiler which supports C++14
 # How to compile
-You have to download [my lib](https://github.com/Fdhvdu/lib)<br>
+You have to download [my lib](https://github.com/Fdhvdu/lib) first.<br>
 The directory should be look like
 
 	-ThreadPool---header
@@ -62,7 +62,7 @@ The directory should be look like
 	             -LICENSE
 	             -README.md
 Don't forget to compile lib/src/CScopeGuard.cpp.
-# About compilation errors
+# Compilation errors?
 Q: My compiler doesn't support C++14<br>
 A: Get a newer compiler version, such as GCC 5.3.0 or VC++ 14.2 (inside Visual Studio Community 2015 Update 2)<br><br>
 Q: Other problems<br>
