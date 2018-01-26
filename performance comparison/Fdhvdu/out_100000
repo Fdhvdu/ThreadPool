@@ -1,0 +1,9 @@
+Fdhvdu's CThreadPool
+	each spends 959417 nanoseconds on test_Fdhvdu_CThreadPool_ctor_and_dtor
+	each spends 40560 nanoseconds on test_Fdhvdu_CThreadPool_join_specific_N
+	each spends 40039 nanoseconds on test_Fdhvdu_CThreadPool_join_all_N
+	each spends 60632 nanoseconds on test_Fdhvdu_CThreadPool_detach_all_N
+	each spends 2550 nanoseconds on test_Fdhvdu_CThreadPool_detach_job
+Fdhvdu's CThreadPool_Ret
+	each spends 956302 nanoseconds on test_Fdhvdu_CThreadPool_Ret_ctor_and_dtor
+	each spends 39995 nanoseconds on test_Fdhvdu_CThreadPool_Ret_specific_N

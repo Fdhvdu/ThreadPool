@@ -1,0 +1,4 @@
+progschj
+	each spends 547785 nanoseconds on test_progschj_ctor_and_dtor
+	each spends 51185 nanoseconds on test_progschj_specific_N
+	each spends 3107 nanoseconds on test_progschj_job

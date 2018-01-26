@@ -1,0 +1,4 @@
+Tyler-Hardin
+	each spends 620148 nanoseconds on test_TylerHardin_ctor_and_dtor
+	each spends 72200 nanoseconds on test_TylerHardin_specific_N
+	each spends 4638 nanoseconds on test_TylerHardin_job
