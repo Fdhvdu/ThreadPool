@@ -1,0 +1,4 @@
+nbsdx
+	each spends 590151 nanoseconds on test_nbsdx_ctor_and_dtor
+	each spends 135163 nanoseconds on test_nbsdx_all_N
+	each spends 7914 nanoseconds on test_nbsdx_job

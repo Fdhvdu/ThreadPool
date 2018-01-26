@@ -1,0 +1,4 @@
+philipphenkel
+	each spends 931914 nanoseconds on test_philipphenkel_ctor_and_dtor
+	each spends 270902 nanoseconds on test_philipphenkel_all_N
+	each spends 17015 nanoseconds on test_philipphenkel_job
