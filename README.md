@@ -14,23 +14,23 @@ The goal of this project is to provide a `fastest`, `beautiful` and `easy-to-use
 Two classes
 
 	CThreadPool, including the member function
-		thread_id	add(Func &&,Args &&...)
-		void		add_and_detach(Func &&,Args &&...)
-		size_type	empty() const noexcept
-		void		join(thread_id)
-		void		join_all()
-		bool		joinable(thread_id) const
-		size_type	size() const noexcept
-		void 		wait_until_all_usable() const
+		thread_id    add(Func &&,Args &&...)
+		void         add_and_detach(Func &&,Args &&...)
+		size_type    empty() const noexcept
+		void         join(thread_id)
+		void         join_all()
+		bool         joinable(thread_id) const
+		size_type    size() const noexcept
+		void         wait_until_all_usable() const
 		
 	CThreadPool_Ret, including the member function
-		thread_id	add(Func &&,Args &&...)
-		size_type	empty() const noexcept
-		Ret			get(thread_id)
-		size_type	size() const noexcept
-		bool		valid(thread_id) const
-		void		wait(thread_id) const
-		void 		wait_all() const
+		thread_id    add(Func &&,Args &&...)
+		size_type    empty() const noexcept
+		Ret          get(thread_id)
+		size_type    size() const noexcept
+		bool         valid(thread_id) const
+		void         wait(thread_id) const
+		void         wait_all() const
 Use the CThreadPool_Ret when you want to get the return value of function.<br>
 Use the CThreadPool when you don't care the return value of function.<br>
 CThreadPool::add_and_detach is faster (very) than CThreadPool_Ret::add.
