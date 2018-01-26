@@ -49,18 +49,19 @@ or any compiler which supports C++14
 You have to download [my lib](https://github.com/Fdhvdu/lib) first.<br>
 The directory should be look like
 
-	-ThreadPool---header
-	|            -performance comparison
-	|            -src
-	|            -tutorial
-	|            -LICENSE
-	|            -README.md
-	|
-	-lib----------header
-	             -src
-	             -tutorial
-	             -LICENSE
-	             -README.md
+	├── lib
+	│   ├── header
+	│   ├── LICENSE
+	│   ├── README.md
+	│   ├── src
+	│   └── tutorial
+	└── ThreadPool
+	    ├── comparison
+	    ├── header
+	    ├── LICENSE
+	    ├── README.md
+	    ├── src
+	    └── tutorial
 Don't forget to compile lib/src/CScopeGuard.cpp.
 # Compilation errors?
 Q: My compiler doesn't support C++14<br>
