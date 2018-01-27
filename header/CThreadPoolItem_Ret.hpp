@@ -1,6 +1,5 @@
 #ifndef CTHREADPOOLITEM_RET
 #define CTHREADPOOLITEM_RET
-#include<functional>	//bind
 #include<utility>	//forward
 #include"../../lib/header/thread/CTask.hpp"
 #include"../../lib/header/thread/CWait_bounded_queue.hpp"
@@ -19,10 +18,11 @@ namespace nThread
 			:waiting_queue_{waitingQue}{}
 		CThreadPoolItem_Ret(const CThreadPoolItem_Ret &)=delete;
 		CThreadPoolItem_Ret(CThreadPoolItem_Ret &&)=default;
-		template<class Func,class ... Args>
-		void assign(Func &&func,Args &&...args)
+		template<class Func>
+		void assign(Func &&func)
 		{
-			exec_=CTask<Ret>{std::bind(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...)};
+			using namespace std;
+			exec_=CTask<Ret>{std::forward<decltype(func)>(func)};
 			IThreadPoolItemBase::exec_([this]{exec_();});
 		}
 		inline Ret get()

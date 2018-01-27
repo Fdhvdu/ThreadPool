@@ -1,8 +1,8 @@
 #ifndef CTHREADPOOL
 #define CTHREADPOOL
-#include<functional>	//bind, function
+#include<functional>	//function
 #include<thread>	//thread::hardware_concurrency
-#include<type_traits>	//result_of_t
+#include<type_traits>	//invoke_result_t
 #include<utility>	//forward
 #include"../../lib/header/tool/CUnique_obj.hpp"
 #include"IThreadPoolItemBase.hpp"
@@ -14,7 +14,7 @@ namespace nThread
 	class CThreadPool
 	{
 	public:
-		using size_type=std::result_of_t<decltype(std::thread::hardware_concurrency)&()>;
+		using size_type=std::invoke_result_t<decltype(std::thread::hardware_concurrency)>;
 		using thread_id=IThreadPoolItemBase::id;
 	private:
 		struct Impl;
@@ -37,7 +37,7 @@ namespace nThread
 		template<class Func,class ... Args>
 		inline thread_id add(Func &&func,Args &&...args)
 		{
-			return add_(std::bind(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...));
+			return add_(forward_as_lambda(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...));
 		}
 		//1. block until CThreadPool::empty is false and execute the func
 		//2. after returning from add_and_detach, usable threads will reduce 1
@@ -45,7 +45,7 @@ namespace nThread
 		template<class Func,class ... Args>
 		inline void add_and_detach(Func &&func,Args &&...args)
 		{
-			add_and_detach_(std::bind(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...));
+			add_and_detach_(forward_as_lambda(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...));
 		}
 		//1. return true if there does not have usable threads at that moment
 		//2. return false if there has usable threads at that moment

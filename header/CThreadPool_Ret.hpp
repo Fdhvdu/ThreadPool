@@ -1,7 +1,7 @@
 #ifndef CTHREADPOOL_RET
 #define CTHREADPOOL_RET
 #include<thread>	//thread::hardware_concurrency
-#include<type_traits>	//result_of_t
+#include<type_traits>	//invoke_result_t
 #include<unordered_map>
 #include<utility>	//forward, move
 #include"../../lib/header/thread/CWait_bounded_queue.hpp"
@@ -15,7 +15,7 @@ namespace nThread
 	class CThreadPool_Ret
 	{
 	public:
-		using size_type=std::result_of_t<decltype(std::thread::hardware_concurrency)&()>;
+		using size_type=std::invoke_result_t<decltype(std::thread::hardware_concurrency)>;
 		using thread_id=IThreadPoolItemBase::id;
 	private:
 		CWait_bounded_queue<CThreadPoolItem_Ret<Ret>*> waiting_queue_;
@@ -47,7 +47,7 @@ namespace nThread
 			const auto temp{waiting_queue_.wait_and_pop()};
 			try
 			{
-				temp->assign(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...);
+				temp->assign(forward_as_lambda(std::forward<decltype(func)>(func),std::forward<decltype(args)>(args)...));
 			}catch(...)
 			{
 				waiting_queue_.emplace_and_notify(temp);
