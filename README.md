@@ -3,7 +3,26 @@ Since commit `f66048ed999aa1b50dc956c4a728ff565042d761`, I move ThreadPool to C+
 In addition, **the rule of passing parameters to ThreadPool is different.**<br>
 Unlike before, which uses `std::bind`, **ThreadPool will not copy anything right now.**<br>
 All of ThreadPool does is forward (**no decay**).<br>
-This means you have to copy arguments by yourself before passing it to ThreadPool.
+This means you have to copy arguments by yourself before passing it to ThreadPool.<br>
+Below is demonstration,
+
+	void test(int &i)
+	{
+		i=10;
+	}
+
+	int main()
+	{
+		int i(0);
+		CThreadPool tp;
+		tp.join(tp.add(test,i));
+
+		//before commit f66048ed999aa1b50dc956c4a728ff565042d761
+		cout<<i<<endl;	//0
+
+		//since commit f66048ed999aa1b50dc956c4a728ff565042d761
+		cout<<i<<endl;	//10
+	}
 # Contents
 [Introduction](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#introduction)<br>
 [Class view](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#class-view)<br>
