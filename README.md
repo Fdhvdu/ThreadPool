@@ -62,7 +62,7 @@ Use the CThreadPool when you don't care the return value of function.<br>
 # Performance comparison
 [progschj/ThreadPool](https://github.com/progschj/ThreadPool), see [Comparison](comparison/README.md#result).<br>
 [Tyler-Hardin/thread_pool](https://github.com/Tyler-Hardin/thread_pool), see [Comparison](comparison/README.md#result).<br>
-P.S. [bilash/threadpool](https://github.com/bilash/threadpool), I don't want to test a C-like code.<br>
+P.S. About [bilash/threadpool](https://github.com/bilash/threadpool), I don't want to test a C-like code.<br>
 P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) cannot pass testing, see [README](comparison/nbsdx/README.md#warning).<br>
 P.S. [philipphenkel/threadpool](https://github.com/philipphenkel/threadpool) cannot pass testing, see [README](comparison/philipphenkel/README.md#warning).<br>
 P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) cannot pass testing, see [README](comparison/tghosgor/README.md#warning).<br>
@@ -100,4 +100,5 @@ To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
 
 	g++ -std=c++17 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp
 # Future work
+add a non-block version of `CThreadPool::add`<br>
 work stealing
