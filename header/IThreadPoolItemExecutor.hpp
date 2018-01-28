@@ -22,7 +22,7 @@ namespace nThread
 		struct Impl;
 		nTool::CUnique_obj<Impl> impl_;
 	public:
-		CThreadPoolItemExecutorDetach(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*,Do_not_use_pop_if_exist> *,std::function<void()> &&);
+		CThreadPoolItemExecutorDetach(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*,Do_not_use_pop_if_exist> &,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;	//only the destructor of CThreadPoolItem will call this
 		void wait() override;	//only the destructor of CThreadPoolItem will call this
@@ -34,7 +34,7 @@ namespace nThread
 		struct Impl;
 		nTool::CUnique_obj<Impl> impl_;
 	public:
-		CThreadPoolItemExecutorJoin(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*,Do_not_use_pop_if_exist> *,std::function<void()> &&);
+		CThreadPoolItemExecutorJoin(CThreadPoolItem *,CWait_bounded_queue<CThreadPoolItem*,Do_not_use_pop_if_exist> &,std::function<void()> &&);
 		void exec() override;
 		bool is_running() const noexcept override;
 		void wait() override;

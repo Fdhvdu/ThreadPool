@@ -30,7 +30,7 @@ namespace nThread
 		{
 			while(size--)
 			{
-				CThreadPoolItem_Ret<Ret> item{&waiting_queue_};
+				CThreadPoolItem_Ret<Ret> item{waiting_queue_};
 				const auto id{item.get_id()};
 				waiting_queue_.emplace_not_ts(&thr_.emplace(id,std::move(item)).first->second);
 			}

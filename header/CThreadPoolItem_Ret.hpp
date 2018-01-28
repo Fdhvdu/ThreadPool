@@ -12,9 +12,9 @@ namespace nThread
 	class CThreadPoolItem_Ret:public IThreadPoolItemBase
 	{
 		CTask<Ret> exec_;
-		CWait_bounded_queue<CThreadPoolItem_Ret<Ret>*> *waiting_queue_;
+		CWait_bounded_queue<CThreadPoolItem_Ret<Ret>*> &waiting_queue_;
 	public:
-		CThreadPoolItem_Ret(CWait_bounded_queue<CThreadPoolItem_Ret<Ret>*> *waitingQue)
+		CThreadPoolItem_Ret(CWait_bounded_queue<CThreadPoolItem_Ret<Ret>*> &waitingQue)
 			:waiting_queue_{waitingQue}{}
 		CThreadPoolItem_Ret(const CThreadPoolItem_Ret &)=delete;
 		CThreadPoolItem_Ret(CThreadPoolItem_Ret &&)=default;
@@ -27,7 +27,7 @@ namespace nThread
 		}
 		inline Ret get()
 		{
-			const nTool::CScopeGuard sg{[this]{waiting_queue_->emplace_and_notify(this);}};
+			const nTool::CScopeGuard sg{[this]{waiting_queue_.emplace_and_notify(this);}};
 			return exec_.get();
 		}
 		bool is_running() const noexcept override
