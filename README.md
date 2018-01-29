@@ -95,7 +95,7 @@ See [How to compile](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
 
-	g++ -std=c++17 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp<br>
+	g++ -std=c++17 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp
 To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
 
 	g++ -std=c++17 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp

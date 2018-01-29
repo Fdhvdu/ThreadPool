@@ -22,7 +22,7 @@ Compiler: gcc version 7.2.1 20180116<br>
 boost version: 1.66.0-1
 # Result
 First, I will not compare nbsdx, philipphenkel and tghosgor. Because their works has potential bug.<br>
-You can get the following static in their directory. (out_100000)<br>
+You can get the following statistic in their directory. (out_100000)<br>
 Construct and destruct time:
 
 	progschj                 with 547785 ns
