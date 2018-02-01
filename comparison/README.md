@@ -12,7 +12,7 @@ So, the function should be short, and what we need to do is test
 [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) commit: 08905cfc36d8bae308488c56c505e9aefa2bcb78<br>
 [philipphenkel/threadpool](https://github.com/philipphenkel/threadpool) commit: bb6da2e40eacb3358e5c648f2242faf307a54268<br>
 [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) commit: 8bfcf6afbdb60b2dc7976762f45fd424de06097a<br>
-[Tyler-Hardin/thread_pool](https://github.com/Tyler-Hardin/thread_pool) commit: 0b1eff9817d89266232489cd250d24841e147dc3
+[Tyler-Hardin/thread_pool](https://github.com/Tyler-Hardin/thread_pool) commit: 0b1eff9817d89266232489cd250d24841e147dc3<br>
 [mtrebi/thread-pool](https://github.com/mtrebi/thread-pool) commit: f54808b60544555bd8e1b1b748009d55a657e8c1
 # Environment
 Motherboard: ASUS TUF X299 MARK 1<br>
