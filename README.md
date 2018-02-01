@@ -66,6 +66,7 @@ P.S. About [bilash/threadpool](https://github.com/bilash/threadpool), I don't wa
 P.S. [nbsdx/ThreadPool](https://github.com/nbsdx/ThreadPool) cannot pass testing, see [README](comparison/nbsdx/README.md#warning).<br>
 P.S. [philipphenkel/threadpool](https://github.com/philipphenkel/threadpool) cannot pass testing, see [README](comparison/philipphenkel/README.md#warning).<br>
 P.S. [tghosgor/threadpool11](https://github.com/tghosgor/threadpool11) cannot pass testing, see [README](comparison/tghosgor/README.md#warning).<br>
+P.S. [mtrebi/thread-pool](https://github.com/mtrebi/thread-pool) cannot pass testing, see [README](comparison/mtrebi/README.md#warning).<br>
 See the [directory](comparison/) for more details.
 # Compiler
 	Visual Studio 2017 15.5.5
