@@ -3,7 +3,7 @@
 #include<utility>	//forward
 #include"../../lib/header/thread/CTask.hpp"
 #include"../../lib/header/thread/CWait_bounded_queue.hpp"
-#include"../../lib/header/tool/CScopeGuard.hpp"
+#include"../../lib/header/tool/Scope_guard.hpp"
 #include"IThreadPoolItemBase.hpp"
 
 namespace nThread
@@ -27,7 +27,7 @@ namespace nThread
 		}
 		inline Ret get()
 		{
-			const nTool::CScopeGuard sg{[this]{waiting_queue_.emplace_and_notify(this);}};
+			const nTool::Scope_guard sg{[this]{waiting_queue_.emplace_and_notify(this);}};
 			return exec_.get();
 		}
 		bool is_running() const noexcept override

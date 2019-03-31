@@ -89,17 +89,17 @@ The directory should be look like
 	    ├── README.md
 	    ├── src
 	    └── tutorial
-Don't forget to compile lib/src/CScopeGuard.cpp.
+Don't forget to compile lib/src/Scope_guard.cpp.
 # Compilation errors?
 See [How to compile](https://github.com/Fdhvdu/ThreadPool/blob/master/README.md#how-to-compile) or email me
 # Tutorial
 I provide [example.cpp](tutorial/example.cpp) and [example_ret.cpp](tutorial/example_ret.cpp) to help you understand how to use this powerful thread pool<br>
 To use [example.cpp](tutorial/example.cpp):<br>
 
-	g++ -std=c++17 tutorial/example.cpp src/* ../lib/src/CScopeGuard.cpp
+	g++ -std=c++17 tutorial/example.cpp src/* ../lib/src/Scope_guard.cpp
 To use [example_ret.cpp](tutorial/example_ret.cpp):<br>
 
-	g++ -std=c++17 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/CScopeGuard.cpp
+	g++ -std=c++17 tutorial/example_ret.cpp src/IThreadPoolItemBase.cpp ../lib/src/Scope_guard.cpp
 # Future work
 add a non-block version of `CThreadPool::add`<br>
 work stealing
