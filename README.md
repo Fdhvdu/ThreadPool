@@ -1,5 +1,5 @@
 # Warnings
-Since commit `f66048ed999aa1b50dc956c4a728ff565042d761`, I move ThreadPool to C++17. (To use `std::apply`.)<br>
+Since commit `468129863ec65c0b4ede02e8581bea682351a6d2`, I move ThreadPool to C++17. (To use `std::apply`.)<br>
 In addition, **the rule of passing parameters to ThreadPool is different.**<br>
 Unlike before, which uses `std::bind`, **ThreadPool will not copy anything right now.**<br>
 All of ThreadPool does is forward (**no decay**).<br>
