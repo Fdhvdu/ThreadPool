@@ -46,12 +46,12 @@ int main()
 
 	cout<<"stage 1"<<endl;
 	for(size_t i{0};i!=tp.size();++i)
-		tp.add_and_detach(add_and_detach_func,i);
+		tp.add_and_detach(add_and_detach_func,size_t(i));
 	tp.join_all();	//this will not block, because you use add_and_detach
 	
 	cout<<"stage 2"<<endl;
 	for(size_t i{0};i!=tp.size();++i)
-		que.push(tp.add(add_func,i));	//tp will block here until add_and_detach_func complete
+		que.push(tp.add(add_func,size_t(i)));	//tp will block here until add_and_detach_func complete
 	for(size_t i{0};i!=tp.size();++i)
 	{
 		tp.join(que.front());	//tp will block here until the i of thread complete
@@ -60,18 +60,18 @@ int main()
 
 	cout<<"stage 3"<<endl;
 	for(size_t i{0};i!=tp.size();++i)
-		tp.add_and_detach(add_and_detach_func,i);
+		tp.add_and_detach(add_and_detach_func,size_t(i));
 	tp.wait_until_all_usable();	//this will block until all detach threads complete add_and_detach_func
 
 	cout<<"stage 4"<<endl;
 	for(size_t i{0};i!=tp.size();++i)
-		tp.add(add_func,i);	//tp will not block here, because you join all thread
+		tp.add(add_func,size_t(i));	//tp will not block here, because you join all thread
 	tp.join_all();	//tp will block here until add_func complete, it is same as
 					//for(size_t i(0);i!=tp.size();++i)
 	
 	cout<<"stage 5"<<endl;
 	for(size_t i{0};i!=tp.size();++i)
-		tp.add(add_func,i);
+		tp.add(add_func,size_t(i));
 
 	//you don't need to call join_all to guarantee all threads are joining
 	//the destructor of CThreadPool will deal with this

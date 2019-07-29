@@ -34,7 +34,7 @@ int main()
 	nThread::CThreadPool_Ret<size_t> tp{4};	//merely size_t, not size_t()
 	queue<nThread::CThreadPool_Ret<size_t>::thread_id> que;
 	for(size_t i{0};i!=tp.size();++i)
-		que.emplace(tp.add(add_func,i));
+		que.emplace(tp.add(add_func,size_t(i)));
 	tp.wait(que.front());	//tp will block here until thread[que.front()] complete
 	cout<<tp.get(que.front())<<" complete"<<endl;	//get the return value from lambda
 	//tp.get(que.front());	//do not call same id twice
